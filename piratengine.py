@@ -54,7 +54,7 @@ class piratengine():
             return True;
 
     def loadDb(self):
-        path=input('Enter your database path\n');
+        path=input('Enter your database path ( .../Engine Library/Database2/ ) \n');
         trackDataBase=p.loadDatabase(path);
         return trackDataBase;
 
