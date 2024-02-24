@@ -11,8 +11,9 @@ We then would like to add the ability to import/edit playlists (from text/m3u/js
 ## Features
  - [x] Database2/m.db  read track, playlist info, ...
  - [ ] Database2/m.db  track edit
+ - [ ] Database2/m.db  track add
  - [x] Database2/m.db  playlist create
- - [ ] Database2/m.db  playlist edit
+ - [ ] Database2/m.db  playlist add track
 
 ## Requirements
  - python 3.12.1
