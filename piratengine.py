@@ -22,6 +22,7 @@ class piratengine():
         self.log('4 - create playlist');
         self.log('5 - add track to playlist (via trackId)');
         self.log('6 - add tracks to playlist (via text file)');
+        self.log('7 - export playlist to text file')
         self.log('0 - exit');     
 
         try:
@@ -90,7 +91,14 @@ class piratengine():
                     else:
                         self.log('File not found : ' + playlistFile)
 
-                    
+                    return True;
+
+                case 7:# write playlist to txt file
+                    if self.db is None:
+                        self.db=self.loadDb();
+                        self.db.printPlaylists();
+
+                    self.loadPlaylist(self.db,True);
                     return True;
 
                 case _:
@@ -105,10 +113,10 @@ class piratengine():
         trackDataBase=p.loadDatabase(path);
         return trackDataBase;
 
-    def loadPlaylist(self,db):
+    def loadPlaylist(self,db,writeToFile=False):
         playlist=input('Enter your playlist name\n')
         playlistArray=db.printPlaylist(playlist);
-        if playlistArray != []:
+        if playlistArray != [] and writeToFile:
             f = open(playlist+'.txt', "w")
             for item in playlistArray:
                 f.write(item+'\n');
