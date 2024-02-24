@@ -24,9 +24,13 @@ We then would like to add the ability to import/edit playlists (from text/m3u/js
 ## Installation
  - `git clone` the repo
  - `cd piratengine`
- - (optional) you can create a python virtual environnement to avoid streambot python libraries to interfere with the ones already present on your system
- - (optional) to do so, run `python -m venv venv`
- - (optional) then `source venv/bin/activate` (some IDEs can do this automatically) 
+<details>
+  <summary> (optional) you can create a python virtual environnement to avoid streambot python libraries to interfere with the ones already present on your system </summary>
+  
+ - run `python -m venv venv`
+ - then `source venv/bin/activate` (some IDEs can do this automatically) 
+ </details>
+ 
  - `pip install -r install/requirements.txt`
 
 ## Running
