@@ -20,12 +20,12 @@ class database():
     def log(self,text,source='ENDB',severity='INFO',sameline=False):
         log(text,source=source,severity=severity,sameline=sameline);
         
-    def readAll(self):
+    def readAll(self,silent=False):
         tables=self.tables;
         self.log('Reading database tables ...');
         tableCounter=0;
         for table in tables:
-            self.log('  table : '  + table);
+            if not silent: self.log('  table : '  + table);
             setattr(self,table,self.readTable(table))
             tableCounter+=1;
             #for entry in getattr(self,table).data : self.log(entry);
@@ -57,7 +57,7 @@ class database():
             isExplicitlyExported=0;
             data=tuple([title,parentListId,isPersisted,nextListId,lastEditTime,isExplicitlyExported]);
             self.insertVariableIntoTable('Playlist',data)            
-            self.readAll();
+            self.readAll(True);
             
             return id;
 
@@ -114,23 +114,23 @@ class database():
                 self.log('Adding ' + str(entryId) + ' to playlist ' + playlistName )
                 listId=playlist['id'];
                 databaseUuid=information.data[0]['uuid'];
-                self.log('Database uuid : ' + str(databaseUuid))
+                #self.log('Database uuid : ' + str(databaseUuid))
                 nextEntityId=0;
                 membershipReference=0;
                 trackId=self.findTrack(trackId=entryId);
                 if trackId >= 0:
                     data=tuple([listId,trackId,databaseUuid,nextEntityId,membershipReference]);
                     self.insertVariableIntoTable('PlaylistEntity',data);
-                    self.readAll();
+                    self.readAll(True);
                     entityList=self.getPlaylistEntities(playlistName);
                     if len(entityList) >1:
                         idToUpdate=entityList[len(entityList)-2]['id'];
-                        self.log('id to be updated : ' + str(idToUpdate))
+                        #self.log('id to be updated : ' + str(idToUpdate))
                         
                         for item in getattr(self,'sqlite_sequence',None).data:
                             if item['name'] == 'PlaylistEntity':
                                 valueToUpdate=item['seq'];
-                                self.log('value to be put : ' + str(valueToUpdate))
+                                #self.log('value to be put : ' + str(valueToUpdate))
                         rqst = "UPDATE PlaylistEntity SET nextEntityId = ? WHERE id = ?";
                         self.cursor.execute(rqst, (valueToUpdate,idToUpdate));
                         self.connection.commit();
