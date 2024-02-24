@@ -9,9 +9,10 @@ The first objective is to have simple tools to backup database, and enable to ex
 We then would like to add the ability to import/edit playlists (from text/m3u/json formats) to/from database.
 
 ## Features
- - [x] Database2/m.db file read track, playlist info, ...
- - [ ] Database2/m.db file track edit
- - [ ] Database2/m.db file playlist edit
+ - [x] Database2/m.db  read track, playlist info, ...
+ - [ ] Database2/m.db  track edit
+ - [x] Database2/m.db  playlist create
+ - [ ] Database2/m.db  playlist edit
 
 ## Requirements
  - python 3.12.1

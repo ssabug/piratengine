@@ -17,6 +17,7 @@ class piratengine():
         self.log('1 - load database');
         self.log('2 - print available playlists');
         self.log('3 - print playlist content');
+        self.log('4 - create playlist');
         self.log('0 - exit');     
 
         try:
@@ -39,12 +40,20 @@ class piratengine():
                     self.db.printPlaylists();
                     return True;
 
-                case 3:# PRINT PLAYLIST
+                case 3:# print playlist
                     if self.db is None:
                         self.db=self.loadDb();
                         self.db.printPlaylists();
 
                     self.loadPlaylist(self.db);
+                    return True;
+
+                case 4:# create playlist
+                    if self.db is None:
+                        self.db=self.loadDb();
+                        #self.db.printPlaylists();
+                    playlist=input('Enter your new playlist name\n')
+                    self.db.createPlaylist(playlist);
                     return True;
                 case _:
                     self.log('Invalid input');
