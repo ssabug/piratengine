@@ -1,5 +1,8 @@
 import sqlite3
 import os
+import pathlib
+import datetime
+
 from modules.utils import *
 
 class table():
@@ -51,7 +54,7 @@ class database():
             id=len(playlists.data)+1;
             title=playlistName;
             parentListId=0;
-            isPersisted=0;
+            isPersisted=1;
             nextListId=0;
             lastEditTime=str(datetime.datetime.now())[:-7];
             isExplicitlyExported=0;
@@ -63,13 +66,68 @@ class database():
 
         return -1;
 
-    def addTrack(self,path):
-        self.log('Adding ' + track + ' to database ' );
-        filename=os.path.basename(filepath);
+    def addTrack(self,path,relativePath):
+        self.log('Adding ' + path + ' to Track database ' );#47 fields to be present
+        self.log('Relative path : ' + relativePath );
+
+        for item in getattr(self,'sqlite_sequence',None).data:
+            if item['name'] == 'Track':
+                currentTrackId=item['seq'];
+
+        playOrder=None;
+        length=getAudioLength(path) # No NULL values already defined
+        bpm=None;
+        year=None;
+        #path=relativePath;
+        filename=os.path.basename(path);
+        bitrate=getAudioBitrate(path); # can be NULL (None)
+        bpmAnalyzed=None; 
+        albumArtId=3;
+        fileBytes=os.path.getsize(path);# No NULL values already defined
         title=filename;
-        data=tuple([path,filename])
+        artist=None;
+        album=None;
+        genre=None;
+        comment=None;
+        label=None;
+        composer=None;
+        remixer=None;
+        key=1;
+        rating=0;
+        albumArt='image://planck/0';
+        timeLastPlayed=None;
+        isPlayed=0;
+        fileType=pathlib.Path(path).suffix[1:];    
+        isAnalyzed=0;
+        dateCreated=dateToTimestamp(datetime.datetime.now());
+        dateAdded=dateToTimestamp(datetime.datetime.now());
+        isAvailable=1;
+        isMetadataOfPackedTrackChanged=0;
+        isPerformanceDataOfPackedTrackChanged=0;
+        playedIndicator=None;
+        isMetadataImported=0;
+        pdbImportKey=0;
+        streamingSource=None;
+        uri=None;
+        isBeatGridLocked=0;
+        originDatabaseUuid=self.Information.data[0]['uuid'];
+        originTrackId=int(currentTrackId)+1;
+        trackData=None;
+        overviewWaveformData=None;
+        beatData=None;
+        quickCues=None;
+        loops=None;
+        thirdPartySourceId=None;
+        streamingFlags=0;
+        explicitLyrics=0;
+        activeOnLoadLoops=None;
+
+        data=tuple([playOrder,length,bpm,year,relativePath,filename,bitrate,bpmAnalyzed,albumArtId,fileBytes,title,artist,album,genre,comment,label,composer,remixer,key,rating,albumArt,
+                    timeLastPlayed,isPlayed,fileType,isAnalyzed,dateCreated,dateAdded,isAvailable,isMetadataOfPackedTrackChanged,isPerformanceDataOfPackedTrackChanged,
+                    playedIndicator,isMetadataImported,pdbImportKey,streamingSource,uri,isBeatGridLocked,originDatabaseUuid,
+                    originTrackId,trackData,overviewWaveformData,beatData,quickCues,loops,thirdPartySourceId,streamingFlags,explicitLyrics,activeOnLoadLoops])
         self.log('filename:' + filename);
-        self.insertVariableIntoTable('Track',data)
+        self.insertVariableIntoTable('Track',data);
 
     def getPlaylistEntities(self,playlistName):
         playlist=self.findPlaylist(playlistName);
@@ -97,12 +155,52 @@ class database():
     
     def findTrack(self,path='',trackId=-1):
         tracks=getattr(self,'Track',None);
-        for track in tracks.data:
-            if track['path'] == path and path != '':
-                return track['id'];
-            elif track['id'] == trackId and trackId >=0:
-                return track['id'];
+        if tracks is None:
+            self.log('No track table found');
+        else:
+            for track in tracks.data:
+                if path != '':
+                    if track['path'] == path :
+                        return track['id'];
+                elif trackId >=0:
+                    if track['id'] == trackId:
+                        return track['id'];
         return -1;
+
+    def addFolderToDatabase(self,path):
+        extensions=['.mp3','.wav','.flac','.ogg'];
+        for e in extensions:
+            if e.upper() != e:
+                extensions.append(e.upper());
+            
+        self.log('Scanning files in directory : ' + path)
+        self.log('Extensions : ' + str(extensions))
+
+        rootFolder=pathlib.PurePath(path).name;
+
+        item=path.replace(path[:path.index(rootFolder)+len(rootFolder)],'..')
+        self.log(item)
+        folderList,fileList=run_fast_scandir(path,extensions);
+
+        writeCounter=0;presentCounter=0;
+
+        for item in fileList:
+            subitems=[]
+            item=item.replace(item[:item.index(rootFolder)+len(rootFolder)],'..')
+            trackId=self.findTrack(path=item);
+            if trackId < 0:
+                self.log('Adding track ' + item);
+                #self.addTrack(item);
+                writeCounter+=1;
+            else:
+                presentCounter+=1;
+
+        self.log('Number of added tracks : ' + str(writeCounter));
+        self.log('Number of already present tracks : ' + str(presentCounter));
+        totalTrackCount=getattr(self,'Track',[]);
+        if hasattr(totalTrackCount,'data'):
+            totalTrackCount=totalTrackCount.data;
+        self.log('Number of tracks in database : ' + str(len(totalTrackCount)));    
 
     def addPlaylistEntry(self,playlistName,entryId):
         playlist=self.findPlaylist(playlistName);

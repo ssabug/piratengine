@@ -4,12 +4,13 @@
 
 This repository aims to provide 'low' level open source tools for **Denon DJ** hardware, in particular those using **Engine DJ OS**.
 
-The first objective is to have simple tools to backup database, and enable to export track and playlist data.
+The first objective is to have simple tools to interact with m.db database, and enable to export/import track and playlist data.
 
-We then would like to add the ability to import/edit playlists (from text/m3u/json formats) to/from database.
+Maybe in the future some ethernet related stuff about the players will be investigated.
 
 ## Features
 ### Database2/m.db
+ - [ ] make a backup of the currently edited database
  - [x] read track, playlist info, ...
  - [ ] track edit
  - [ ] track add
@@ -17,9 +18,12 @@ We then would like to add the ability to import/edit playlists (from text/m3u/js
  - [x] playlist to txt file
  - [x] playlist add track
  - [x] playlist add track from txt file
+ - [x] scan files on engine dj music files storage
+ - [x] update Track table from file scan
 
 ## Requirements
- - python 3.12.1
+ - python 3
+ - pip
 
 ## Installation
  - `git clone` the repo
@@ -36,6 +40,14 @@ We then would like to add the ability to import/edit playlists (from text/m3u/js
 ## Running
  - (optional) if you created a virtual environnement, run `source venv/bin/activate` (some IDEs can do this automatically)
  - `python piratengine.py` 
+
+## Utilities
+
+Some useful ressources:
+
+ - [SQL3 database editor](https://sqlitebrowser.org/dl/) to manually read/edit databases
+ - [Denon stuff](https://support.denondj.com/en/support/solutions/articles/69000834165-engine-dj-v3-0-support-for-third-party-database-tools)
+ - [Wireshark](https://www.wireshark.org/download.html) for network packet capture & analysis
 
 ## Compatibility
 Linux, Mac, Windows (as in python)

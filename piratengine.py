@@ -22,7 +22,9 @@ class piratengine():
         self.log('4 - create playlist');
         self.log('5 - add track to playlist (via trackId)');
         self.log('6 - add tracks to playlist (via text file)');
-        self.log('7 - export playlist to text file')
+        self.log('7 - export playlist to text file');
+        self.log('8 - scan folder and add them to tracks');
+        self.log('9 - add individual file to tracks');
         self.log('0 - exit');     
 
         try:
@@ -48,8 +50,7 @@ class piratengine():
                 case 3:# print playlist
                     if self.db is None:
                         self.db=self.loadDb();
-                        self.db.printPlaylists();
-
+                    self.db.printPlaylists();
                     self.loadPlaylist(self.db);
                     return True;
 
@@ -64,7 +65,7 @@ class piratengine():
                 case 5:# add track to playlist
                     if self.db is None:
                         self.db=self.loadDb();
-                        self.db.printPlaylists();
+                    self.db.printPlaylists();
                     playlist = input('Enter playlist name\n');
                     trackId=int(input('Enter your new playlist item trackId\n'))
                     self.db.addPlaylistEntry(playlist,trackId);
@@ -73,7 +74,7 @@ class piratengine():
                 case 6:# add tracks to playlist from text file
                     if self.db is None:
                         self.db=self.loadDb();
-                        self.db.printPlaylists();
+                    self.db.printPlaylists();
                     playlist = input('Enter playlist name\n');
                     
                     playlistFile=input('Enter the path to the tracks txt file\n');
@@ -96,9 +97,33 @@ class piratengine():
                 case 7:# write playlist to txt file
                     if self.db is None:
                         self.db=self.loadDb();
-                        self.db.printPlaylists();
+                    self.db.printPlaylists();
 
                     self.loadPlaylist(self.db,True);
+                    return True;
+
+                case 8: #scan folder
+                    if self.db is None:
+                        self.db=self.loadDb();
+                    path=input('Enter folder path\n');
+                    if os.path.exists(path):
+                        self.db.addFolderToDatabase(path);
+                    else:
+                        self.log('Folder does not exist :' + path)
+                    return True;
+
+                case 9: #add track
+                    if self.db is None:
+                        self.db=self.loadDb();
+                    path=input('Enter full absolute path of file to be added \n');
+                    rootFolder=input('Enter name of root folder of the library\n')
+                    if os.path.exists(path):
+                        relativePath=path.replace(path[:path.index(rootFolder)+len(rootFolder)],'..')
+                        self.db.addTrack(path,relativePath);
+                    else:
+                        self.log('Folder does not exist :' + path)
+                    
+                    #self.db.addTrack(path);
                     return True;
 
                 case _:
