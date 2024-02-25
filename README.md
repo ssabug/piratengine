@@ -55,3 +55,7 @@ Linux, Mac, Windows (as in python)
 Tested systems:
 Fedora Linux
 
+## Licensing
+WTFPL. But the authors keeps the right to trashtalk on anyone re-using this in a unlegitimate way.
+
+**This stuff is provided as is with no warranty at all, take your own precautions before using it (database backup ...)**.
