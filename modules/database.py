@@ -178,7 +178,7 @@ class database():
 
         rootFolder=pathlib.PurePath(path).name;
 
-        item=path.replace(path[:path.index(rootFolder)+len(rootFolder)],'..')
+        #item=path.replace(path[:path.index(rootFolder)+len(rootFolder)],'..')
         self.log(item)
         folderList,fileList=run_fast_scandir(path,extensions);
 
