@@ -1,4 +1,3 @@
 pysqlite3
 mutagen
 pathlib
-PyStageLinQ
