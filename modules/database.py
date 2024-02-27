@@ -35,6 +35,10 @@ class database():
 
         self.log('Read ' + str(tableCounter) + ' tables');
 
+        if getattr(self,'Information',None) != None:
+            self.log('database schema version : ' + str(self.Information.data[0]['schemaVersionMajor']) + '.' + str(self.Information.data[0]['schemaVersionMinor']) + '.' + str(self.Information.data[0]['schemaVersionPatch']))
+        
+
     def createPlaylist(self,playlistName):
         playlists=getattr(self,'Playlist',None);
         playlistEntity=getattr(self,'PlaylistEntity',None);
@@ -121,11 +125,16 @@ class database():
         streamingFlags=0;
         explicitLyrics=0;
         activeOnLoadLoops=None;
-
+        
         data=tuple([playOrder,length,bpm,year,relativePath,filename,bitrate,bpmAnalyzed,albumArtId,fileBytes,title,artist,album,genre,comment,label,composer,remixer,key,rating,albumArt,
                     timeLastPlayed,isPlayed,fileType,isAnalyzed,dateCreated,dateAdded,isAvailable,isMetadataOfPackedTrackChanged,isPerformanceDataOfPackedTrackChanged,
                     playedIndicator,isMetadataImported,pdbImportKey,streamingSource,uri,isBeatGridLocked,originDatabaseUuid,
                     originTrackId,trackData,overviewWaveformData,beatData,quickCues,loops,thirdPartySourceId,streamingFlags,explicitLyrics,activeOnLoadLoops])
+
+        if self.Information.data[0]['schemaVersionMajor'] >= 3:
+            lastEditTime=dateToTimestamp(datetime.datetime.now());
+            data+=(lastEditTime,);
+
         self.log('filename:' + filename);
         self.insertVariableIntoTable('Track',data);
 
@@ -177,6 +186,7 @@ class database():
         self.log('Extensions : ' + str(extensions))
 
         rootFolder=pathlib.PurePath(path).name;
+        self.log('Root folder : ' + str(rootFolder))
 
         #item=path.replace(path[:path.index(rootFolder)+len(rootFolder)],'..')
         self.log(item)
@@ -190,7 +200,7 @@ class database():
             trackId=self.findTrack(path=item);
             if trackId < 0:
                 self.log('Adding track ' + item);
-                #self.addTrack(item);
+                self.addTrack(item);
                 writeCounter+=1;
             else:
                 presentCounter+=1;

@@ -20,6 +20,3 @@ We can connect via http to computer ip address on port 50010, and got the follow
 ���������?яя��?яя��� �ю�����������?��
 
 While running Engine DJ on a computer and sharing a playlist, we have TCP stream between the player requesting the playlist content and the computer.
-
-This kind of output is seen :
-[output_1](output1.txt)

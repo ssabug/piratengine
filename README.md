@@ -15,13 +15,14 @@ Maybe in the future some ethernet related stuff about the players will be invest
  - [ ] track edit
  - [x] track add
  - [ ] track IDV3 fill
- - [ ] test script-imported tracks
+ - [x] test script-imported tracks
  - [x] playlist create
  - [x] playlist to txt file
  - [x] playlist add track
  - [x] playlist add track from txt file
  - [x] scan files on engine dj music files storage
  - [x] update Track table from file scan
+ - [ ] support different database versions ( in 3.3.0 track table has 1 more parameter )
 
 ## Requirements
  - python 3
