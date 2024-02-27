@@ -13,7 +13,9 @@ Maybe in the future some ethernet related stuff about the players will be invest
  - [ ] make a backup of the currently edited database
  - [x] read track, playlist info, ...
  - [ ] track edit
- - [ ] track add
+ - [x] track add
+ - [ ] track IDV3 fill
+ - [ ] test script-imported tracks
  - [x] playlist create
  - [x] playlist to txt file
  - [x] playlist add track
@@ -48,7 +50,10 @@ Some useful ressources:
  - [SQL3 database editor](https://sqlitebrowser.org/dl/) to manually read/edit databases
  - [Denon stuff](https://support.denondj.com/en/support/solutions/articles/69000834165-engine-dj-v3-0-support-for-third-party-database-tools)
  - [Wireshark](https://www.wireshark.org/download.html) for network packet capture & analysis
-
+ - [StageLinq python Implementation](https://github.com/Jaxc/PyStageLinQ) 
+ - [StageLinq nodeJs Implementation](https://github.com/MarByteBeep/StageLinq)
+ - [StageLinq Beatinfo](https://github.com/dzelionis/denon-stageLinQ-BeatInfo)
+ 
 ## Compatibility
 Linux, Mac, Windows (as in python)
 

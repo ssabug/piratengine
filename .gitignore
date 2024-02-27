@@ -4,3 +4,4 @@ modules/__pycache__/
 venv/
 utils/git_update.sh
 log.txt
+pcap/
