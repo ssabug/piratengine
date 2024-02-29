@@ -3,11 +3,13 @@ import os
 from modules.playlist import *
 from modules.database import *
 from modules.utils import *
+from modules.gui import *
 
 class piratengine():
     def __init__(self):
         self.log('###### WELCOME TO PIRATENGINE');
         self.db=None;
+        self.gui=None;
         
         
     def log(self,text,source='PRTE',severity='INFO',sameline=False):
@@ -133,13 +135,18 @@ class piratengine():
             handleErrors(error);
             return True;
 
-    def loadDb(self):
+    def loadDb(self,path):
+        trackDataBase=p.loadDatabase(path);
+        return trackDataBase;
+
+    def loadDbUI(self):
         path=input('Enter your database path ( .../Engine Library/Database2/ ) \n');
         trackDataBase=p.loadDatabase(path);
         return trackDataBase;
 
-    def loadPlaylist(self,db,writeToFile=False):
-        playlist=input('Enter your playlist name\n')
+    def loadPlaylist(self,db,writeToFile=False,playlist=''):
+        if playlist == '':
+            playlist=input('Enter your playlist name\n')
         playlistArray=db.printPlaylist(playlist);
         if playlistArray != [] and writeToFile:
             f = open(playlist+'.txt', "w")
@@ -148,10 +155,15 @@ class piratengine():
             f.close()
 
     def loadDatabase(self,path):
-        return database(path+'m.db');
+        return database(os.path.join(path,'m.db'));
+
+    def initGui(self):
+        self.gui=GUI(self);
 
 p=piratengine();
 
-while p.menu():
-    a=True
+p.initGui();
+
+#while p.menu():
+#    a=True
 

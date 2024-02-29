@@ -189,18 +189,21 @@ class database():
         self.log('Root folder : ' + str(rootFolder))
 
         #item=path.replace(path[:path.index(rootFolder)+len(rootFolder)],'..')
-        self.log(item)
+        #self.log(item)
         folderList,fileList=run_fast_scandir(path,extensions);
 
         writeCounter=0;presentCounter=0;
+
+        unscannedTracks=[];
 
         for item in fileList:
             subitems=[]
             item=item.replace(item[:item.index(rootFolder)+len(rootFolder)],'..')
             trackId=self.findTrack(path=item);
             if trackId < 0:
-                self.log('Adding track ' + item);
-                self.addTrack(item);
+                self.log('Unscanned track found : ' + item);
+                unscannedTracks.append(item);
+                #self.addTrack(item);
                 writeCounter+=1;
             else:
                 presentCounter+=1;
@@ -210,7 +213,9 @@ class database():
         totalTrackCount=getattr(self,'Track',[]);
         if hasattr(totalTrackCount,'data'):
             totalTrackCount=totalTrackCount.data;
-        self.log('Number of tracks in database : ' + str(len(totalTrackCount)));    
+        self.log('Number of tracks in database : ' + str(len(totalTrackCount)));  
+
+        return unscannedTracks  
 
     def addPlaylistEntry(self,playlistName,entryId):
         playlist=self.findPlaylist(playlistName);

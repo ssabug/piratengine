@@ -1,13 +1,45 @@
 import datetime
 import os
 import traceback
-from math import floor
+import json
 import mutagen
+from math import floor
 
-debug=True;
-fileLogging=True;
-logFile='log.txt';
 
+configFilePath='data/config.json';
+
+def getConfigParameter(section,parameter): 
+    f=open(configFilePath);
+    data = json.load(f);
+    f.close();
+    return data[section][parameter];
+
+def setConfigParameter(section,parameter,value):
+    f=open(configFilePath);
+    data = json.load(f);
+    f.close();
+
+    oldValue=getConfigParameter(section,parameter);
+
+    if isinstance(data[section][parameter],list):
+        oldValue.append(value);
+        newValue=oldValue;
+    else:
+        newValue=value;
+
+    data[section][parameter]=newValue;
+
+    jsonOutput = json.dumps(data);
+ 
+    f=open(configFilePath, "w");
+    f.write(jsonOutput);
+
+
+    
+
+debug=getConfigParameter('general','debug');
+fileLogging=getConfigParameter('general','fileLogging');
+logFile=getConfigParameter('general','logFile');
 
 def log(msg,source='NONE',severity='INFO',sameline=False):  
     
