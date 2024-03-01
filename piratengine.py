@@ -1,4 +1,5 @@
 import os
+import pathlib
 
 from modules.playlist import *
 from modules.database import *
@@ -118,10 +119,10 @@ class piratengine():
                     if self.db is None:
                         self.db=self.loadDb();
                     path=input('Enter full absolute path of file to be added \n');
-                    rootFolder=input('Enter name of root folder of the library\n')
+                    
                     if os.path.exists(path):
-                        relativePath=path.replace(path[:path.index(rootFolder)+len(rootFolder)],'..')
-                        self.db.addTrack(path,relativePath);
+                        
+                        self.db.addTrack(path);
                     else:
                         self.log('Folder does not exist :' + path)
                     
@@ -135,13 +136,14 @@ class piratengine():
             handleErrors(error);
             return True;
 
-    def loadDb(self,path):
-        trackDataBase=p.loadDatabase(path);
-        return trackDataBase;
-
     def loadDbUI(self):
         path=input('Enter your database path ( .../Engine Library/Database2/ ) \n');
-        trackDataBase=p.loadDatabase(path);
+        trackDataBase=self.loadDb(path);
+        return trackDataBase;
+
+    
+    def loadDb(self,path):
+        trackDataBase=database(os.path.join(path,'m.db'));
         return trackDataBase;
 
     def loadPlaylist(self,db,writeToFile=False,playlist=''):
@@ -153,10 +155,42 @@ class piratengine():
             for item in playlistArray:
                 f.write(item+'\n');
             f.close()
-
-    def loadDatabase(self,path):
-        return database(os.path.join(path,'m.db'));
-
+                               
+    def exportPlaylist(self,db,playlistName,outfilePath):
+        playlistArray=db.printPlaylist(playlistName);
+                               
+        extension = pathlib.Path(outfilePath).suffix[1:];
+                               
+        f = open(outfilePath, "w");
+                               
+        for i,item in enumerate(playlistArray):
+                               
+            if extension == 'txt':
+                f.write(item+'\n');
+            
+            elif extension == 'json':
+                if i == 0 :
+                    jsonDict={"playlist" : {'title' : playlistName, 'tracks':[]}}
+                jsonDict['playlist']['tracks'].append(item);
+                                   
+            elif extension == 'm3u':
+                if i != 0 :
+                    f.write('\n');
+                f.write('#EXTINF:-1 ' + os.path.basename(item) +'\n');
+                f.write(item+'\n');
+                               
+        if extension == 'json':           
+            f.write(json.dumps(jsonDict));
+                               
+        f.close();
+    
+    def trackInPlaylist(self,track,playlist):
+        if self.db != None:
+            for track in trackDataBase:
+                if track['path'] == trackPath:
+                    return True;
+        return False
+            
     def initGui(self):
         self.gui=GUI(self);
 

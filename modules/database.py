@@ -25,7 +25,7 @@ class database():
         
     def readAll(self,silent=False):
         tables=self.tables;
-        self.log('Reading database tables ...');
+        if not silent:self.log('Reading database tables ...');
         tableCounter=0;
         for table in tables:
             if not silent: self.log('  table : '  + table);
@@ -33,9 +33,9 @@ class database():
             tableCounter+=1;
             #for entry in getattr(self,table).data : self.log(entry);
 
-        self.log('Read ' + str(tableCounter) + ' tables');
+        if not silent:self.log('Read ' + str(tableCounter) + ' tables');
 
-        if getattr(self,'Information',None) != None:
+        if getattr(self,'Information',None) != None and not silent: 
             self.log('database schema version : ' + str(self.Information.data[0]['schemaVersionMajor']) + '.' + str(self.Information.data[0]['schemaVersionMinor']) + '.' + str(self.Information.data[0]['schemaVersionPatch']))
         
 
@@ -70,8 +70,9 @@ class database():
 
         return -1;
 
-    def addTrack(self,path,relativePath):
+    def addTrack(self,path):
         self.log('Adding ' + path + ' to Track database ' );#47 fields to be present
+        relativePath=path.replace(str(pathlib.Path(path).parents[2]),'..')
         self.log('Relative path : ' + relativePath );
 
         for item in getattr(self,'sqlite_sequence',None).data:
@@ -136,7 +137,11 @@ class database():
             data+=(lastEditTime,);
 
         self.log('filename:' + filename);
-        self.insertVariableIntoTable('Track',data);
+
+        if self.findTrack(path=relativePath) < 0:
+            self.insertVariableIntoTable('Track',data);
+            return True;
+        return False;
 
     def getPlaylistEntities(self,playlistName):
         playlist=self.findPlaylist(playlistName);
@@ -271,7 +276,7 @@ class database():
 
         return out
 
-    def printPlaylist(self,playlistName):
+    def printPlaylist(self,playlistName,silent=True):
         self.log('Reading database playlist : ' + playlistName)
         playlists=getattr(self,'Playlist',None);
         out=[]
@@ -298,7 +303,8 @@ class database():
                                 #self.log(entity);
                                 try:
                                     searchTrack=next((x for x in self.Track.data if x['id']==entity['trackId']));
-                                    self.log(searchTrack['path'])
+                                    if not silent:
+                                        self.log(searchTrack['path'])
                                     out.append(searchTrack['path']);
                                 except Exception as error:
                                     handleErrors(error);

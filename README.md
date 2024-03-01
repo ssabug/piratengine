@@ -13,7 +13,7 @@ Maybe in the future some ethernet related stuff about the players will be invest
  - [ ] make a backup of the currently edited database
  - [x] read track, playlist info, ...
  - [ ] track edit
- - [x] track add
+ - [x] track add (command line only - gui version to be fixed)
  - [ ] track IDV3 fill
  - [x] test script-imported tracks
  - [x] playlist create

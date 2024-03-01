@@ -1,4 +1,5 @@
 import os
+import pathlib
 from tr import tr
 from modules.utils import *
 # -*- coding: utf-8 -*-
@@ -232,6 +233,8 @@ class Ui_MainWindow(object):
         self.CreatePlaylistButton.clicked.connect(self.CreatePlaylistButton_click);
         self.AddTrackToPlaylistButton.clicked.connect(self.AddTrackToPlaylistButton_click);
         self.DBPathTextEdit.setHtml(getConfigParameter("gui","lastSelectedDBPath"));
+        self.ExportPlaylistButton.clicked.connect(self.ExportPlaylistButton_click);
+        self.ImportFilesButton.clicked.connect(self.ImportFilesButton_click);
     
     def DBLoadButton_click(self):
         self.log('Load Database clicked');
@@ -291,7 +294,7 @@ class Ui_MainWindow(object):
         self.TrackTable.setColumnCount(len(displayedKeys));
         self.TrackTable.setHorizontalHeaderLabels(displayedKeys);
         self.TrackTable.setRowCount(len(self.piratengine.db.Track.data));
-
+        
         self.TrackTable.setColumnWidth(0,self.TrackTable.width()/len(displayedKeys))
         self.TrackTable.setColumnWidth(1,self.TrackTable.width()/len(displayedKeys))
 
@@ -342,11 +345,39 @@ class Ui_MainWindow(object):
             for i,f in enumerate(files):
                 self.FilesTable.setItem(i,0,QTableWidgetItem(f));
 
+    def ImportFilesButton_click(self):
+        selected=self.FilesTable.selectedIndexes();
+
+        if len(selected) == 0 :
+            dlg = QMessageBox(self);
+            dlg.setWindowTitle("Error");
+            dlg.setText("Select file(s) in the 'Files' table");
+            button = dlg.exec();
+
+        else:
+            
+            for line in selected:
+
+                newTrackPath=self.FilesTable.itemAt(line.row(),0).text();
+
+                if '../' in newTrackPath[:4]:
+                    newTrackPath=newTrackPath.replace('../',str(pathlib.Path(self.piratengine.db.path).parents[2])+'/')
+                
+                result=False#result=self.piratengine.db.addTrack(newTrackPath);
+                
+                if result :
+                    self.log('Added to track database : '  + newTrackPath);
+
+            
+            self.piratengine.db.readAll(True);
+
+            self.loadTracks();
+
     def CreatePlaylistButton_click(self):
         text, ok = QInputDialog.getText(self, 'Playlist name', 'Enter new playlist name:');
         if text != '':
             self.log('New playlist : ' + text );
-            self.db.createPlaylist(text);
+            self.piratengine.db.createPlaylist(text);
             self.loadPlaylists();
 
     def AddTrackToPlaylistButton_click(self):
@@ -368,7 +399,7 @@ class Ui_MainWindow(object):
             #playlist=self.PlaylistTable.itemAt(selected[0].row(),0).text();
             #self.PlaylistTable.verticalHeaderItem()
 
-            playlist=self.PlaylistTable.itemAt(selected[0].row(),0).text();
+            #playlist=self.PlaylistTable.itemAt(selected[0].row(),0).text();
             selectedTracks=self.TrackTable.selectedIndexes()
 
             for track in selectedTracks:
@@ -379,11 +410,41 @@ class Ui_MainWindow(object):
                 #trackId=self.piratengine.db.Track.data[track.row()]['id'];
 
                 if trackId >=0:
-                    #self.db.addPlaylistEntry(playlist,trackId);
-                    self.log('adding ' + trackPath)
+                    self.piratengine.db.addPlaylistEntry(playlist,trackId);
+                    self.log('added ' + trackPath)
                 else:
                     self.log('Track not found : ' + trackPath);
 
-            self.loadTracks();
+            self.loadPlaylistContents();
+            
+    def ExportPlaylistButton_click(self):
+        
+        selected=self.PlaylistTable.selectedIndexes();
 
+        if len(selected) == 0 :
+            dlg = QMessageBox(self);
+            dlg.setWindowTitle("Error");
+            dlg.setText("Select one playlist in the table");
+            button = dlg.exec();
+
+        else:
+            for i,sel in enumerate(selected):
+                playlist=self.piratengine.db.Playlist.data[sel.row()]['title']
+                self.log('Playlist ' + playlist )
+
+                if len(selected)>1:
+                    if i == 0:
+                        dialog=QFileDialog.getSaveFileName(self, "Save playlist", os.path.join(os.path.expanduser('~'),playlist),"Text (*.txt);;JSON (*.json);;M3U (*.m3u)");
+                    else :
+                        dialog=(os.path.join(os.path.dirname(outfilePath),playlist),'*.'+extension+' ');
+                else:
+                    dialog=QFileDialog.getSaveFileName(self, "Save playlist", os.path.join(os.path.expanduser('~'),playlist),"Text (*.txt);;JSON (*.json);;M3U (*.m3u)");
+                
+                if dialog[0] != '':
+                    extension=dialog[1][dialog[1].index('*.')+2:-1];
+                    outfilePath=dialog[0]+'.'+extension;
+                    self.log('Exported file : ' + outfilePath)
+                    self.piratengine.exportPlaylist(self.piratengine.db,playlist,outfilePath);
+                
+            
         
