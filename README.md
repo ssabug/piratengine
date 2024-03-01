@@ -10,6 +10,7 @@ Maybe in the future some ethernet related stuff about the players will be invest
 
 ## Features
 ### Database2/m.db
+ - [x] QT GUI (still in progress...)
  - [ ] make a backup of the currently edited database
  - [x] read track, playlist info, ...
  - [ ] track edit
