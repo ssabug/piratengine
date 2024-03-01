@@ -10,7 +10,7 @@ Maybe in the future some ethernet related stuff about the players will be invest
 
 ## Features
 ### Database2/m.db
- - [x] QT GUI (still in progress...)
+ - [x] Qt GUI (still in progress...)
  - [ ] make a backup of the currently edited database
  - [x] read track, playlist info, ...
  - [ ] track edit
@@ -20,14 +20,15 @@ Maybe in the future some ethernet related stuff about the players will be invest
  - [x] playlist create
  - [x] playlist to txt file
  - [x] playlist add track
- - [x] playlist add track from txt file
+ - [x] playlist add track from txt file (command line only - gui version to be fixed)
  - [x] scan files on engine dj music files storage
  - [x] update Track table from file scan
- - [ ] support different database versions ( in 3.3.0 track table has 1 more parameter )
+ - [x] support different database versions ( in 3.3.0 track table has 1 more parameter ) (to be tested  fully assessed )
 
 ## Requirements
  - python 3
  - pip
+ - Qt6
 
 ## Installation
  - `git clone` the repo
