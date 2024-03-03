@@ -28,7 +28,7 @@ Maybe in the future some ethernet related stuff about the players will be invest
 ## Requirements
  - python 3
  - pip
- - Qt6
+ - Qt 6
 
 ## Installation
  - `git clone` the repo

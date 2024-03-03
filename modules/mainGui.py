@@ -319,13 +319,15 @@ class Ui_MainWindow(object):
         self.TrackTable.setColumnWidth(1,self.TrackTable.width()/len(displayedKeys))
 
         for row,track in enumerate(self.piratengine.db.Track.data):
-            
+            writeColumn=0;
             for column,key in enumerate(track):
-                    
                 if key in displayedKeys:
-                    self.TrackTable.setItem(row,column,QTableWidgetItem(str(track[key])))
+                    self.TrackTable.setItem(row,writeColumn,QTableWidgetItem(str(track[key])))
+                    writeColumn+=1;
 
                     #self.log(key + ' : ' + str(track[key]))
+
+        
 
     def loadPlaylists(self):
 
@@ -355,8 +357,10 @@ class Ui_MainWindow(object):
 
     def ScanFolderButton_click(self):
         path = str(QFileDialog.getExistingDirectory(self, "Select folder to be scanned"));
+        
         if os.path.exists(path):
             files=self.piratengine.db.addFolderToDatabase(path);
+            setattr(self,'scannedFilesList',files);
             self.FilesTable.setRowCount(len(files));
             self.FilesTable.setColumnCount(1);
             self.FilesTable.setHorizontalHeaderLabels(['filename']);
@@ -367,7 +371,7 @@ class Ui_MainWindow(object):
 
     def ImportFilesButton_click(self):
         selected=self.FilesTable.selectedIndexes();
-
+        
         if len(selected) == 0 :
             dlg = QMessageBox(self);
             dlg.setWindowTitle("Error");
@@ -377,19 +381,19 @@ class Ui_MainWindow(object):
         else:
             
             for line in selected:
-
                 newTrackPath=self.FilesTable.itemAt(line.row(),0).text();
+                scannedFileList=getattr(self,'scannedFilesList',None);
+                if scannedFileList != None :
+                    newTrackPath=scannedFileList[line.row()];
+                    
+                    if '../' in newTrackPath[:4]:
+                        newTrackPath=newTrackPath.replace('../',str(pathlib.Path(self.piratengine.db.path).parents[2])+'/')
 
-                if '../' in newTrackPath[:4]:
-                    newTrackPath=newTrackPath.replace('../',str(pathlib.Path(self.piratengine.db.path).parents[2])+'/')
-                
-                result=False#result=self.piratengine.db.addTrack(newTrackPath);
-                
-                if result :
-                    self.log('Added to track database : '  + newTrackPath);
-
-            
-            self.piratengine.db.readAll(True);
+                    result=self.piratengine.db.addTrack(newTrackPath);
+                    if result:
+                        self.log('track added : ' + newTrackPath) ;
+                        self.piratengine.db.readAll(True);
+                    else : self.log('track not added');
 
             self.loadTracks();
 
@@ -423,7 +427,7 @@ class Ui_MainWindow(object):
             selectedTracks=self.TrackTable.selectedIndexes()
 
             for track in selectedTracks:
-                trackPath=self.piratengine.db.Track.data[track.row()-3]['path']
+                trackPath=self.piratengine.db.Track.data[track.row()]['path']
                 #trackPath=self.TrackTable.itemAt(track.row(),pathColumnIndex).text();          
 
                 trackId=self.piratengine.db.findTrack(path=trackPath);
