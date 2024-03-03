@@ -5,7 +5,6 @@ import json
 import mutagen
 from math import floor
 
-
 configFilePath='data/config.json';
 
 def getConfigParameter(section,parameter): 
