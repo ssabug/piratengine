@@ -20,11 +20,12 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QIcon, QImage, QKeySequence, QLinearGradient,
     QPainter, QPalette, QPixmap, QRadialGradient,
     QTransform)
-from PySide6.QtWidgets import (QApplication, QGridLayout, QHBoxLayout, QHeaderView,
-    QLabel, QMainWindow, QMenu, QMenuBar,
-    QPushButton, QSizePolicy, QStatusBar, QTableWidget,
-    QTableWidgetItem, QTextEdit, QVBoxLayout, QWidget,QFileDialog,QMessageBox,QInputDialog,QTabWidget,QSpacerItem)
-
+from PySide6.QtWidgets import (QApplication, QComboBox, QGridLayout, QHBoxLayout,
+    QHeaderView, QLabel, QMainWindow, QMenu,
+    QMenuBar, QPushButton, QSizePolicy, QSpacerItem,
+    QStatusBar, QTabWidget, QTableWidget, QTableWidgetItem,
+    QWidget,QFileDialog,QMessageBox,QInputDialog,QTabWidget,QSpacerItem,
+    QTextEdit, QVBoxLayout, QWidget)
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -190,6 +191,32 @@ class Ui_MainWindow(object):
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QWidget()
         self.tab_2.setObjectName(u"tab_2")
+        self.gridLayoutWidget_2 = QWidget(self.tab_2)
+        self.gridLayoutWidget_2.setObjectName(u"gridLayoutWidget_2")
+        self.gridLayoutWidget_2.setGeometry(QRect(10, 10, 991, 631))
+        self.gridLayout_2 = QGridLayout(self.gridLayoutWidget_2)
+        self.gridLayout_2.setObjectName(u"gridLayout_2")
+        self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
+        self.verticalLayout_4 = QVBoxLayout()
+        self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.stagelinqStartButton = QPushButton(self.gridLayoutWidget_2)
+        self.stagelinqStartButton.setObjectName(u"stagelinqStartButton")
+
+        self.verticalLayout_4.addWidget(self.stagelinqStartButton)
+
+        self.stagelinqDeviceCombo = QComboBox(self.gridLayoutWidget_2)
+        self.stagelinqDeviceCombo.setObjectName(u"stagelinqDeviceCombo")
+
+        self.verticalLayout_4.addWidget(self.stagelinqDeviceCombo)
+
+        self.stagelinqTable = QTableWidget(self.gridLayoutWidget_2)
+        self.stagelinqTable.setObjectName(u"stagelinqTable")
+
+        self.verticalLayout_4.addWidget(self.stagelinqTable)
+
+
+        self.gridLayout_2.addLayout(self.verticalLayout_4, 0, 0, 1, 1)
+
         self.tabWidget.addTab(self.tab_2, "")
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
@@ -208,7 +235,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -239,6 +266,7 @@ class Ui_MainWindow(object):
         self.ImportFilesButton.setText(QCoreApplication.translate("MainWindow", u"Import file(s) to Track database", None))
         self.PlaylistContentTableLabel.setText(QCoreApplication.translate("MainWindow", u"Playlist Content", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Database", None))
+        self.stagelinqStartButton.setText(QCoreApplication.translate("MainWindow", u"Start StageLinQ monitor", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"StagelinQ", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
     # retranslateUi
@@ -257,6 +285,7 @@ class Ui_MainWindow(object):
         self.ImportFilesButton.clicked.connect(self.ImportFilesButton_click);
         self.DBChooseDirButton.clicked.connect(self.DBChooseDirButton_click);
         self.ImportToPlaylistButton.clicked.connect(self.ImportToPlaylistButton_click);
+        self.stagelinqStartButton.clicked.connect(self.stagelinqStartButton_click);
 
     def nonBlockingPopup(self,title,text):
         msgBox=QMessageBox(self);
@@ -539,3 +568,19 @@ class Ui_MainWindow(object):
                 self.loadPlaylists();
                 self.loadPlaylistContents();
 
+    def stagelinqStartButton_click(self):
+        self.piratengine.startStagelinq();
+
+    def stagelinqUpdateData(self):
+        data=self.piratengine.stagelinq.data;
+        keys=['key','value'];
+        self.stagelinqTable.setColumnCount(len(keys));
+        self.stagelinqTable.setHorizontalHeaderLabels(keys);
+        self.stagelinqTable.setRowCount(len(data));
+        self.stagelinqTable.setColumnWidth(0,self.stagelinqTable.width()/len(displayedKeys))
+        self.stagelinqTable.setColumnWidth(1,self.stagelinqTable.width()/len(displayedKeys))
+                   
+        for row,key in enumerate(data):
+            self.stagelinqTable.setItem(row,displayedKeys.index(key),QTableWidgetItem(str(key)))
+            self.stagelinqTable.setItem(row,displayedKeys.index(key),QTableWidgetItem(str(data[key])))
+            

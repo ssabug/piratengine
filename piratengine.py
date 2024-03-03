@@ -1,8 +1,8 @@
 import os
 import pathlib
 
-from modules.playlist import *
 from modules.database import *
+from modules.stagelinq import *
 from modules.utils import *
 from modules.gui import *
 
@@ -11,8 +11,8 @@ class piratengine():
         self.log('###### WELCOME TO PIRATENGINE');
         self.db=None;
         self.gui=None;
-        
-        
+        self.stagelinq=None;
+               
     def log(self,text,source='PRTE',severity='INFO',sameline=False):
         log(text,source=source,severity=severity,sameline=sameline);
 
@@ -221,6 +221,13 @@ class piratengine():
                     return True;
         return False
 
+    def startStagelinq(self):
+        if self.stagelinq != None:
+           del self.stagelinq;
+        self.stagelinq=stagelinq(self);
+
+    def stagelinqNewData(self):
+        self.gui.window.stagelinqUpdateData();
 
     def initGui(self):
         self.gui=GUI(self);

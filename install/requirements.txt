@@ -3,3 +3,4 @@ mutagen
 pathlib
 PySide6
 python-tr
+PyStageLinQ
