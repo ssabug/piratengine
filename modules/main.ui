@@ -183,7 +183,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
          <item>
           <widget class="QPushButton" name="ImportToPlaylistButton">
            <property name="text">
-            <string>Import to playlist</string>
+            <string>Import file to playlist</string>
            </property>
           </widget>
          </item>

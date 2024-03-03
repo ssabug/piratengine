@@ -23,13 +23,14 @@ from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
 from PySide6.QtWidgets import (QApplication, QGridLayout, QHBoxLayout, QHeaderView,
     QLabel, QMainWindow, QMenu, QMenuBar,
     QPushButton, QSizePolicy, QStatusBar, QTableWidget,
-    QTableWidgetItem, QTextEdit, QVBoxLayout, QWidget,QFileDialog,QMessageBox,QInputDialog,QTabWidget)
+    QTableWidgetItem, QTextEdit, QVBoxLayout, QWidget,QFileDialog,QMessageBox,QInputDialog,QTabWidget,QSpacerItem)
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1416, 939)
+        MainWindow.resize(1434, 953)
         MainWindow.setMinimumSize(QSize(0, 0))
         self.actionLoad_database = QAction(MainWindow)
         self.actionLoad_database.setObjectName(u"actionLoad_database")
@@ -39,73 +40,55 @@ class Ui_MainWindow(object):
         self.centralwidget.setObjectName(u"centralwidget")
         self.tabWidget = QTabWidget(self.centralwidget)
         self.tabWidget.setObjectName(u"tabWidget")
-        self.tabWidget.setGeometry(QRect(10, 10, 1391, 881))
+        self.tabWidget.setGeometry(QRect(10, 10, 1411, 901))
         self.tab = QWidget()
         self.tab.setObjectName(u"tab")
-        self.verticalLayoutWidget_3 = QWidget(self.tab)
-        self.verticalLayoutWidget_3.setObjectName(u"verticalLayoutWidget_3")
-        self.verticalLayoutWidget_3.setGeometry(QRect(740, 10, 271, 241))
-        self.verticalLayout_3 = QVBoxLayout(self.verticalLayoutWidget_3)
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.verticalLayout_3.setContentsMargins(0, 0, 0, 0)
-        self.CreatePlaylistButton = QPushButton(self.verticalLayoutWidget_3)
-        self.CreatePlaylistButton.setObjectName(u"CreatePlaylistButton")
+        self.gridLayoutWidget = QWidget(self.tab)
+        self.gridLayoutWidget.setObjectName(u"gridLayoutWidget")
+        self.gridLayoutWidget.setGeometry(QRect(10, 10, 1381, 851))
+        self.gridLayout = QGridLayout(self.gridLayoutWidget)
+        self.gridLayout.setObjectName(u"gridLayout")
+        self.gridLayout.setContentsMargins(0, 0, 0, 0)
+        self.FilesTable = QTableWidget(self.gridLayoutWidget)
+        self.FilesTable.setObjectName(u"FilesTable")
 
-        self.verticalLayout_3.addWidget(self.CreatePlaylistButton)
+        self.gridLayout.addWidget(self.FilesTable, 5, 0, 1, 1)
 
-        self.AddTrackToPlaylistButton = QPushButton(self.verticalLayoutWidget_3)
-        self.AddTrackToPlaylistButton.setObjectName(u"AddTrackToPlaylistButton")
+        self.TrackTableLabel = QLabel(self.gridLayoutWidget)
+        self.TrackTableLabel.setObjectName(u"TrackTableLabel")
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
+        sizePolicy.setHorizontalStretch(0)
+        sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.TrackTableLabel.sizePolicy().hasHeightForWidth())
+        self.TrackTableLabel.setSizePolicy(sizePolicy)
+        self.TrackTableLabel.setMinimumSize(QSize(714, 0))
 
-        self.verticalLayout_3.addWidget(self.AddTrackToPlaylistButton)
+        self.gridLayout.addWidget(self.TrackTableLabel, 2, 0, 1, 1)
 
-        self.ImportToPlaylistButton = QPushButton(self.verticalLayoutWidget_3)
-        self.ImportToPlaylistButton.setObjectName(u"ImportToPlaylistButton")
-
-        self.verticalLayout_3.addWidget(self.ImportToPlaylistButton)
-
-        self.ExportPlaylistButton = QPushButton(self.verticalLayoutWidget_3)
-        self.ExportPlaylistButton.setObjectName(u"ExportPlaylistButton")
-
-        self.verticalLayout_3.addWidget(self.ExportPlaylistButton)
-
-        self.ScanFolderButton = QPushButton(self.verticalLayoutWidget_3)
-        self.ScanFolderButton.setObjectName(u"ScanFolderButton")
-
-        self.verticalLayout_3.addWidget(self.ScanFolderButton)
-
-        self.ImportFilesButton = QPushButton(self.verticalLayoutWidget_3)
-        self.ImportFilesButton.setObjectName(u"ImportFilesButton")
-
-        self.verticalLayout_3.addWidget(self.ImportFilesButton)
-
-        self.verticalLayoutWidget_2 = QWidget(self.tab)
-        self.verticalLayoutWidget_2.setObjectName(u"verticalLayoutWidget_2")
-        self.verticalLayoutWidget_2.setGeometry(QRect(0, 10, 721, 231))
-        self.verticalLayout_2 = QVBoxLayout(self.verticalLayoutWidget_2)
+        self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
-        self.verticalLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout = QVBoxLayout()
         self.verticalLayout.setObjectName(u"verticalLayout")
         self.horizontalLayout = QHBoxLayout()
         self.horizontalLayout.setObjectName(u"horizontalLayout")
-        self.DBPathTextEdit = QTextEdit(self.verticalLayoutWidget_2)
+        self.DBPathTextEdit = QTextEdit(self.gridLayoutWidget)
         self.DBPathTextEdit.setObjectName(u"DBPathTextEdit")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
-        sizePolicy.setHorizontalStretch(0)
-        sizePolicy.setVerticalStretch(0)
-        sizePolicy.setHeightForWidth(self.DBPathTextEdit.sizePolicy().hasHeightForWidth())
-        self.DBPathTextEdit.setSizePolicy(sizePolicy)
+        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Fixed)
+        sizePolicy1.setHorizontalStretch(0)
+        sizePolicy1.setVerticalStretch(0)
+        sizePolicy1.setHeightForWidth(self.DBPathTextEdit.sizePolicy().hasHeightForWidth())
+        self.DBPathTextEdit.setSizePolicy(sizePolicy1)
         self.DBPathTextEdit.setMinimumSize(QSize(0, 10))
         self.DBPathTextEdit.setBaseSize(QSize(0, 0))
 
         self.horizontalLayout.addWidget(self.DBPathTextEdit)
 
-        self.DBLoadButton = QPushButton(self.verticalLayoutWidget_2)
+        self.DBLoadButton = QPushButton(self.gridLayoutWidget)
         self.DBLoadButton.setObjectName(u"DBLoadButton")
 
         self.horizontalLayout.addWidget(self.DBLoadButton)
 
-        self.DBChooseDirButton = QPushButton(self.verticalLayoutWidget_2)
+        self.DBChooseDirButton = QPushButton(self.gridLayoutWidget)
         self.DBChooseDirButton.setObjectName(u"DBChooseDirButton")
 
         self.horizontalLayout.addWidget(self.DBChooseDirButton)
@@ -115,7 +98,7 @@ class Ui_MainWindow(object):
 
         self.horizontalLayout_2 = QHBoxLayout()
         self.horizontalLayout_2.setObjectName(u"horizontalLayout_2")
-        self.DBTable = QTableWidget(self.verticalLayoutWidget_2)
+        self.DBTable = QTableWidget(self.gridLayoutWidget)
         self.DBTable.setObjectName(u"DBTable")
 
         self.horizontalLayout_2.addWidget(self.DBTable)
@@ -126,59 +109,83 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_2.addLayout(self.verticalLayout)
 
-        self.gridLayoutWidget = QWidget(self.tab)
-        self.gridLayoutWidget.setObjectName(u"gridLayoutWidget")
-        self.gridLayoutWidget.setGeometry(QRect(-1, 299, 1371, 571))
-        self.gridLayout = QGridLayout(self.gridLayoutWidget)
-        self.gridLayout.setObjectName(u"gridLayout")
-        self.gridLayout.setContentsMargins(0, 0, 0, 0)
-        self.TrackTableLabel = QLabel(self.gridLayoutWidget)
-        self.TrackTableLabel.setObjectName(u"TrackTableLabel")
-        sizePolicy1 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
-        sizePolicy1.setHorizontalStretch(0)
-        sizePolicy1.setVerticalStretch(0)
-        sizePolicy1.setHeightForWidth(self.TrackTableLabel.sizePolicy().hasHeightForWidth())
-        self.TrackTableLabel.setSizePolicy(sizePolicy1)
-        self.TrackTableLabel.setMinimumSize(QSize(714, 0))
 
-        self.gridLayout.addWidget(self.TrackTableLabel, 0, 0, 1, 1)
+        self.gridLayout.addLayout(self.verticalLayout_2, 0, 0, 1, 1)
+
+        self.FilesTableLabel = QLabel(self.gridLayoutWidget)
+        self.FilesTableLabel.setObjectName(u"FilesTableLabel")
+
+        self.gridLayout.addWidget(self.FilesTableLabel, 4, 0, 1, 1)
+
+        self.PlaylistTableLabel = QLabel(self.gridLayoutWidget)
+        self.PlaylistTableLabel.setObjectName(u"PlaylistTableLabel")
+
+        self.gridLayout.addWidget(self.PlaylistTableLabel, 2, 1, 1, 1)
 
         self.TrackTable = QTableWidget(self.gridLayoutWidget)
         self.TrackTable.setObjectName(u"TrackTable")
         self.TrackTable.setMinimumSize(QSize(800, 0))
 
-        self.gridLayout.addWidget(self.TrackTable, 1, 0, 1, 1)
-
-        self.PlaylistTable = QTableWidget(self.gridLayoutWidget)
-        self.PlaylistTable.setObjectName(u"PlaylistTable")
-
-        self.gridLayout.addWidget(self.PlaylistTable, 1, 1, 1, 1)
-
-        self.PlaylistTableLabel = QLabel(self.gridLayoutWidget)
-        self.PlaylistTableLabel.setObjectName(u"PlaylistTableLabel")
-
-        self.gridLayout.addWidget(self.PlaylistTableLabel, 0, 1, 1, 1)
-
-        self.FilesTableLabel = QLabel(self.gridLayoutWidget)
-        self.FilesTableLabel.setObjectName(u"FilesTableLabel")
-
-        self.gridLayout.addWidget(self.FilesTableLabel, 2, 0, 1, 1)
-
-        self.FilesTable = QTableWidget(self.gridLayoutWidget)
-        self.FilesTable.setObjectName(u"FilesTable")
-
-        self.gridLayout.addWidget(self.FilesTable, 3, 0, 1, 1)
-
-        self.PlaylistContentTableLabel = QLabel(self.gridLayoutWidget)
-        self.PlaylistContentTableLabel.setObjectName(u"PlaylistContentTableLabel")
-
-        self.gridLayout.addWidget(self.PlaylistContentTableLabel, 2, 1, 1, 1)
+        self.gridLayout.addWidget(self.TrackTable, 3, 0, 1, 1)
 
         self.PlaylistContentTable = QTableWidget(self.gridLayoutWidget)
         self.PlaylistContentTable.setObjectName(u"PlaylistContentTable")
         self.PlaylistContentTable.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
 
-        self.gridLayout.addWidget(self.PlaylistContentTable, 3, 1, 1, 1)
+        self.gridLayout.addWidget(self.PlaylistContentTable, 5, 1, 1, 1)
+
+        self.verticalLayout_3 = QVBoxLayout()
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.CreatePlaylistButton = QPushButton(self.gridLayoutWidget)
+        self.CreatePlaylistButton.setObjectName(u"CreatePlaylistButton")
+
+        self.verticalLayout_3.addWidget(self.CreatePlaylistButton)
+
+        self.AddTrackToPlaylistButton = QPushButton(self.gridLayoutWidget)
+        self.AddTrackToPlaylistButton.setObjectName(u"AddTrackToPlaylistButton")
+
+        self.verticalLayout_3.addWidget(self.AddTrackToPlaylistButton)
+
+        self.ImportToPlaylistButton = QPushButton(self.gridLayoutWidget)
+        self.ImportToPlaylistButton.setObjectName(u"ImportToPlaylistButton")
+
+        self.verticalLayout_3.addWidget(self.ImportToPlaylistButton)
+
+        self.ExportPlaylistButton = QPushButton(self.gridLayoutWidget)
+        self.ExportPlaylistButton.setObjectName(u"ExportPlaylistButton")
+
+        self.verticalLayout_3.addWidget(self.ExportPlaylistButton)
+
+        self.ScanFolderButton = QPushButton(self.gridLayoutWidget)
+        self.ScanFolderButton.setObjectName(u"ScanFolderButton")
+
+        self.verticalLayout_3.addWidget(self.ScanFolderButton)
+
+        self.ImportFilesButton = QPushButton(self.gridLayoutWidget)
+        self.ImportFilesButton.setObjectName(u"ImportFilesButton")
+
+        self.verticalLayout_3.addWidget(self.ImportFilesButton)
+
+
+        self.gridLayout.addLayout(self.verticalLayout_3, 0, 1, 1, 1)
+
+        self.PlaylistTable = QTableWidget(self.gridLayoutWidget)
+        self.PlaylistTable.setObjectName(u"PlaylistTable")
+
+        self.gridLayout.addWidget(self.PlaylistTable, 3, 1, 1, 1)
+
+        self.PlaylistContentTableLabel = QLabel(self.gridLayoutWidget)
+        self.PlaylistContentTableLabel.setObjectName(u"PlaylistContentTableLabel")
+
+        self.gridLayout.addWidget(self.PlaylistContentTableLabel, 4, 1, 1, 1)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout.addItem(self.horizontalSpacer, 1, 0, 1, 1)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout.addItem(self.horizontalSpacer_2, 1, 1, 1, 1)
 
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QWidget()
@@ -187,7 +194,7 @@ class Ui_MainWindow(object):
         MainWindow.setCentralWidget(self.centralwidget)
         self.menubar = QMenuBar(MainWindow)
         self.menubar.setObjectName(u"menubar")
-        self.menubar.setGeometry(QRect(0, 0, 1416, 22))
+        self.menubar.setGeometry(QRect(0, 0, 1434, 22))
         self.menuFile = QMenu(self.menubar)
         self.menuFile.setObjectName(u"menuFile")
         MainWindow.setMenuBar(self.menubar)
@@ -211,12 +218,7 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"piratengine", None))
         self.actionLoad_database.setText(QCoreApplication.translate("MainWindow", u"Load database", None))
         self.actionExit.setText(QCoreApplication.translate("MainWindow", u"Exit", None))
-        self.CreatePlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Create playlist", None))
-        self.AddTrackToPlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Add track(s) to playlist", None))
-        self.ImportToPlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Import to playlist", None))
-        self.ExportPlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Export playlist(s)", None))
-        self.ScanFolderButton.setText(QCoreApplication.translate("MainWindow", u"Scan folder for music files", None))
-        self.ImportFilesButton.setText(QCoreApplication.translate("MainWindow", u"Import file(s) to Track database", None))
+        self.TrackTableLabel.setText(QCoreApplication.translate("MainWindow", u"Tracks", None))
         self.DBPathTextEdit.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -227,9 +229,14 @@ class Ui_MainWindow(object):
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", None))
         self.DBLoadButton.setText(QCoreApplication.translate("MainWindow", u"Load db", None))
         self.DBChooseDirButton.setText(QCoreApplication.translate("MainWindow", u"Choose dir", None))
-        self.TrackTableLabel.setText(QCoreApplication.translate("MainWindow", u"Tracks", None))
-        self.PlaylistTableLabel.setText(QCoreApplication.translate("MainWindow", u"Playlists", None))
         self.FilesTableLabel.setText(QCoreApplication.translate("MainWindow", u"Files", None))
+        self.PlaylistTableLabel.setText(QCoreApplication.translate("MainWindow", u"Playlists", None))
+        self.CreatePlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Create playlist", None))
+        self.AddTrackToPlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Add track(s) to playlist", None))
+        self.ImportToPlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Import to playlist", None))
+        self.ExportPlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Export playlist(s)", None))
+        self.ScanFolderButton.setText(QCoreApplication.translate("MainWindow", u"Scan folder for music files", None))
+        self.ImportFilesButton.setText(QCoreApplication.translate("MainWindow", u"Import file(s) to Track database", None))
         self.PlaylistContentTableLabel.setText(QCoreApplication.translate("MainWindow", u"Playlist Content", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Database", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"StagelinQ", None))
@@ -248,27 +255,54 @@ class Ui_MainWindow(object):
         self.DBPathTextEdit.setHtml(getConfigParameter("gui","lastSelectedDBPath"));
         self.ExportPlaylistButton.clicked.connect(self.ExportPlaylistButton_click);
         self.ImportFilesButton.clicked.connect(self.ImportFilesButton_click);
+        self.DBChooseDirButton.clicked.connect(self.DBChooseDirButton_click);
+
+    def nonBlockingPopup(self,title,text):
+        msgBox=QMessageBox(self);
+        msgBox.setWindowTitle(title);
+        msgBox.setText(text);
+        msgBox.setStandardButtons(QMessageBox.StandardButtons());
+        msgBox.setWindowModality(Qt.NonModal)
+        msgBox.show();
+        msgBox.update();
     
+        return msgBox;
+
+    def nonBlockingPopupUpdate(self,msgBox,title='',text=''):
+        if title != '' :
+            msgBox.setWindowTitle(title);
+        if text != '':
+            msgBox.setText(text);   
+        msgBox.update();
+        msgBox.show();
+
+    def nonBlockingPopupClose(self,popup):
+        popup.accept();
+        popup.close();
+
+    def DBChooseDirPopup(self):
+        databasePath = str(QFileDialog.getExistingDirectory(self, "Select Database2 folder"));
+        self.DBPathTextEdit.setHtml(databasePath);
+        self.log(databasePath);
+        return databasePath
+
+    def DBChooseDirButton_click(self):
+        self.log('Choose Database path clicked');
+        databasePath=self.DBChooseDirPopup();
+
+        self.DBLoadButton_click();
+
+
     def DBLoadButton_click(self):
         self.log('Load Database clicked');
-        self.DBLoadButton.text='Loading...';
-        self.DBLoadButton.update();
         databasePath=self.DBPathTextEdit.toPlainText();
 
-        msgBox=QMessageBox(self);
-        msgBox.setWindowTitle("Please wait")
-        msgBox.setText("Database is loading...");
-        #msgBox.setStandardButtons(0);
-        #QTimer::singleShot(5000, &msgBox, SLOT(close()));
-        msgBox.exec();
-        
         if databasePath == '' :
-            databasePath = str(QFileDialog.getExistingDirectory(self, "Select Database2 folder"));
-            self.DBPathTextEdit.setHtml(databasePath);
-            self.log(databasePath);
+            databasePath=self.DBChooseDirPopup();
         
         if os.path.exists(databasePath):
             
+            popup=self.nonBlockingPopup("Please wait","Database is loading...");
 
             self.piratengine.db=self.piratengine.loadDb(databasePath);
             setConfigParameter('gui','lastSelectedDBPath',databasePath);
@@ -278,11 +312,13 @@ class Ui_MainWindow(object):
 
             self.DBLoadButton.text='Load db'
 
+            self.nonBlockingPopupUpdate(popup,'Loading tracks...');
             self.loadTracks();
 
+            self.nonBlockingPopupUpdate(popup,'Loading playlists...');
             self.loadPlaylists();
 
-            msgBox.close();
+            self.nonBlockingPopupClose(popup);
         else:
             dlg = QMessageBox(self)
             dlg.setWindowTitle("Error")
@@ -323,13 +359,15 @@ class Ui_MainWindow(object):
         self.TrackTable.setColumnWidth(1,self.TrackTable.width()/len(displayedKeys))
 
         for row,track in enumerate(self.piratengine.db.Track.data):
-            
+            writeColumn=0;
             for column,key in enumerate(track):
-                    
                 if key in displayedKeys:
-                    self.TrackTable.setItem(row,column,QTableWidgetItem(str(track[key])))
+                    self.TrackTable.setItem(row,writeColumn,QTableWidgetItem(str(track[key])))
+                    writeColumn+=1;
 
                     #self.log(key + ' : ' + str(track[key]))
+
+        
 
     def loadPlaylists(self):
 
@@ -359,19 +397,27 @@ class Ui_MainWindow(object):
 
     def ScanFolderButton_click(self):
         path = str(QFileDialog.getExistingDirectory(self, "Select folder to be scanned"));
+        
         if os.path.exists(path):
+            popup=self.nonBlockingPopup("Please wait","Scanning folder");
             files=self.piratengine.db.addFolderToDatabase(path);
-            self.FilesTable.setRowCount(len(files));
+            setattr(self,'scannedFilesList',files);
+            fileCount=len(files)
+            self.FilesTable.setRowCount(fileCount);
+            
             self.FilesTable.setColumnCount(1);
             self.FilesTable.setHorizontalHeaderLabels(['filename']);
             self.FilesTable.setColumnWidth(0,self.FilesTable.width());
 
             for i,f in enumerate(files):
                 self.FilesTable.setItem(i,0,QTableWidgetItem(f));
+                self.nonBlockingPopupUpdate(popup,str(i) + '/' + str(fileCount) )
+
+            self.nonBlockingPopupClose(popup);
 
     def ImportFilesButton_click(self):
         selected=self.FilesTable.selectedIndexes();
-
+        
         if len(selected) == 0 :
             dlg = QMessageBox(self);
             dlg.setWindowTitle("Error");
@@ -381,19 +427,19 @@ class Ui_MainWindow(object):
         else:
             
             for line in selected:
-
                 newTrackPath=self.FilesTable.itemAt(line.row(),0).text();
+                scannedFileList=getattr(self,'scannedFilesList',None);
+                if scannedFileList != None :
+                    newTrackPath=scannedFileList[line.row()];
+                    
+                    if '../' in newTrackPath[:4]:
+                        newTrackPath=newTrackPath.replace('../',str(pathlib.Path(self.piratengine.db.path).parents[2])+'/')
 
-                if '../' in newTrackPath[:4]:
-                    newTrackPath=newTrackPath.replace('../',str(pathlib.Path(self.piratengine.db.path).parents[2])+'/')
-                
-                result=False#result=self.piratengine.db.addTrack(newTrackPath);
-                
-                if result :
-                    self.log('Added to track database : '  + newTrackPath);
-
-            
-            self.piratengine.db.readAll(True);
+                    result=self.piratengine.db.addTrack(newTrackPath);
+                    if result:
+                        self.log('track added : ' + newTrackPath) ;
+                        self.piratengine.db.readAll(True);
+                    else : self.log('track not added');
 
             self.loadTracks();
 
@@ -427,7 +473,7 @@ class Ui_MainWindow(object):
             selectedTracks=self.TrackTable.selectedIndexes()
 
             for track in selectedTracks:
-                trackPath=self.piratengine.db.Track.data[track.row()-3]['path']
+                trackPath=self.piratengine.db.Track.data[track.row()]['path']
                 #trackPath=self.TrackTable.itemAt(track.row(),pathColumnIndex).text();          
 
                 trackId=self.piratengine.db.findTrack(path=trackPath);

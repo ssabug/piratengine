@@ -2,6 +2,7 @@ import sqlite3
 import os
 import pathlib
 import datetime
+import shutil
 
 from modules.utils import *
 
@@ -20,8 +21,25 @@ class database():
         self.tables=['Playlist','PlaylistEntity','Track','AlbumArt','ChangeLog','Information','Pack','PerformanceData','PlayListAllChildren','PlaylistAllParent','PlaylistPath','sqlite_sequence'];
         self.readAll();
 
+        if getConfigParameter('general','backupDbOnLoad'):
+            self.backup();
+
     def log(self,text,source='ENDB',severity='INFO',sameline=False):
         log(text,source=source,severity=severity,sameline=sameline);
+
+    def backup(self):
+        if os.path.exists(self.path):
+            dateStr=str(datetime.datetime.now())[:-7];
+            dateStr=dateStr.replace(':','');
+            dateStr=dateStr.replace('-','');
+            dateStr=dateStr.replace(' ','_');
+
+            destPath=os.path.join('data',os.path.basename(self.path)+'_'+ dateStr + '.backup')
+
+            self.log('Making DB backup copy to ' + destPath)
+            shutil.copyfile(self.path,destPath);
+        else:
+            self.log('Database path not found : ' + self.path);
         
     def readAll(self,silent=False):
         tables=self.tables;
@@ -155,6 +173,19 @@ class database():
                 if entity['listId'] == playlist['id']:
                     entityList.append(entity);
         return entityList;
+
+    def getPlaylistTrackIds(self,playlistName):
+        playlist=self.findPlaylist(playlistName);
+        playlistEntities=getattr(self,'PlaylistEntity',None);
+        trackIdList=[];
+        if playlistEntities is None:
+            self.log('No playlistEntity table found');
+        else:
+            
+            for entity in self.PlaylistEntity.data:
+                if entity['listId'] == playlist['id']:
+                    trackIdList.append(entity['trackId']);
+        return trackIdList;
                     
 
     def findPlaylist(self,playlistName):
@@ -180,6 +211,17 @@ class database():
                     if track['id'] == trackId:
                         return track['id'];
         return -1;
+
+    def findTrackPath(self,trackId):
+        tracks=getattr(self,'Track',None);
+        if tracks is None:
+            self.log('No track table found');
+        else:
+            for track in tracks.data:
+                if trackId >=0:
+                    if track['id'] == trackId:
+                        return track['path'];
+        return '';
 
     def addFolderToDatabase(self,path):
         extensions=['.mp3','.wav','.flac','.ogg'];
@@ -222,6 +264,41 @@ class database():
 
         return unscannedTracks  
 
+    def addTrackToPlaylist(self,playlist,trackPath='',trackId=''):
+        if trackPath != '' and trackId == '':
+            trackId=self.findTrack(path=trackPath);
+
+        if trackPath == '' and trackId >=0:
+            trackPath = self.findTrackPath(trackId)
+        
+        if trackId < 0:
+            self.log("track Id not found in Track table, adding track do database : ");
+            self.log(trackPath);
+            
+            if '../' in trackPath[:4]:
+                    trackPath=trackPath.replace('../',str(pathlib.Path(self.path).parents[2])+'/')
+
+            result=self.addTrack(newTrackPath);
+
+            if result:
+                self.log('track added to playlist: ' + newTrackPath) ;
+                lastEditTime=str(datetime.datetime.now())[:-7];
+                rqst = "UPDATE Playlist SET lastEditTime = ? WHERE title = ?";
+                self.cursor.execute(rqst, (lastEditTime,playlist));
+                self.connection.commit();
+                self.readAll(True);
+
+            else : self.log('track not added');
+
+            trackId=self.findTrack(path=trackPath);
+
+        if trackId >= 0:
+            result=self.addPlaylistEntry(playlist,trackId);
+            self.readAll(True);
+            return result;  
+        else:
+            return "Track " + trackPath + " NOT added to playlist " + playlist;
+
     def addPlaylistEntry(self,playlistName,entryId):
         playlist=self.findPlaylist(playlistName);
 
@@ -236,7 +313,10 @@ class database():
                 nextEntityId=0;
                 membershipReference=0;
                 trackId=self.findTrack(trackId=entryId);
-                if trackId >= 0:
+
+                playlistTrackIds=self.getPlaylistTrackIds(playlistName);
+
+                if trackId >= 0 and trackId not in playlistTrackIds:
                     data=tuple([listId,trackId,databaseUuid,nextEntityId,membershipReference]);
                     self.insertVariableIntoTable('PlaylistEntity',data);
                     self.readAll(True);
@@ -252,13 +332,11 @@ class database():
                         rqst = "UPDATE PlaylistEntity SET nextEntityId = ? WHERE id = ?";
                         self.cursor.execute(rqst, (valueToUpdate,idToUpdate));
                         self.connection.commit();
-                else:
-                    self.log('Trackid not found ' + str(entryId))     
-                #find your track here
-                
-                
-                
-                #update previous nextEntityId
+                        return 'Trackid added to playlist : ' + str(entryId);
+                elif trackId < 0:
+                    return 'Trackid not found : ' + str(entryId);
+                elif trackId in playlistTrackIds :
+                    return 'Trackid already in playlist : ' + str(entryId);
 
     def printPlaylists(self):
         self.log('Reading database available playlists ...');

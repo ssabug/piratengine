@@ -233,7 +233,7 @@ class Ui_MainWindow(object):
         self.PlaylistTableLabel.setText(QCoreApplication.translate("MainWindow", u"Playlists", None))
         self.CreatePlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Create playlist", None))
         self.AddTrackToPlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Add track(s) to playlist", None))
-        self.ImportToPlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Import to playlist", None))
+        self.ImportToPlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Import file to playlist", None))
         self.ExportPlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Export playlist(s)", None))
         self.ScanFolderButton.setText(QCoreApplication.translate("MainWindow", u"Scan folder for music files", None))
         self.ImportFilesButton.setText(QCoreApplication.translate("MainWindow", u"Import file(s) to Track database", None))
@@ -256,6 +256,7 @@ class Ui_MainWindow(object):
         self.ExportPlaylistButton.clicked.connect(self.ExportPlaylistButton_click);
         self.ImportFilesButton.clicked.connect(self.ImportFilesButton_click);
         self.DBChooseDirButton.clicked.connect(self.DBChooseDirButton_click);
+        self.ImportToPlaylistButton.clicked.connect(self.ImportToPlaylistButton_click);
 
     def nonBlockingPopup(self,title,text):
         msgBox=QMessageBox(self);
@@ -515,3 +516,26 @@ class Ui_MainWindow(object):
                     outfilePath=dialog[0]+'.'+extension;
                     self.log('Exported file : ' + outfilePath)
                     self.piratengine.exportPlaylist(self.piratengine.db,playlist,outfilePath);
+
+    def ImportToPlaylistButton_click(self):
+
+        selected=self.PlaylistTable.selectedIndexes();
+
+        if len(selected) != 1:
+            dlg = QMessageBox(self);
+            dlg.setWindowTitle("Error");
+            dlg.setText("Select one playlist in the table");
+            button = dlg.exec();
+
+        else:
+            playlist=self.piratengine.db.Playlist.data[selected[0].row()]['title'];
+            dialog=QFileDialog.getOpenFileName(self, "Import playlist", os.path.expanduser('~'),"Text (*.txt);;JSON (*.json);;M3U (*.m3u)");
+            path=dialog[0];
+            if path != '':
+                popup=self.nonBlockingPopup("Loading "+ path +" ...","Playlist is updated...");
+                self.piratengine.importPlaylist(path,playlist);
+                self.nonBlockingPopupUpdate(popup,title='Loading tracks..');
+                self.nonBlockingPopupClose(popup);
+                self.loadPlaylists();
+                self.loadPlaylistContents();
+

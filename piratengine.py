@@ -171,7 +171,7 @@ class piratengine():
             elif extension == 'json':
                 if i == 0 :
                     jsonDict={"playlist" : {'title' : playlistName, 'tracks':[]}}
-                jsonDict['playlist']['tracks'].append(item);
+                jsonDict['playlist']['tracks'].append({"path":item});
                                    
             elif extension == 'm3u':
                 if i != 0 :
@@ -183,6 +183,36 @@ class piratengine():
             f.write(json.dumps(jsonDict));
                                
         f.close();
+
+    def importPlaylist(self,path,playlist):
+        self.log('Importing playlist file ' + path);
+
+        if os.path.exists(path):
+            extension = pathlib.Path(path).suffix[1:];
+                               
+            f = open(path, "r");
+
+            if extension == 'txt':
+                for line in f:
+                    self.log(self.db.addTrackToPlaylist(playlist,trackPath=line[:-1]));
+
+            elif extension == 'json':
+                playlistDict=json.load(f);
+                for track in playlistDict['playlist']['tracks']:
+                    self.log(self.db.addTrackToPlaylist(playlist,trackPath=track['path']));
+
+            elif extension == 'm3u':
+                for line in str(f.read()).split('#EXTINF'):
+                    for l in line.split('\n'):
+                        if ":" not in l and l != '':
+                            self.log(self.db.addTrackToPlaylist(playlist,trackPath=l));
+            
+            f.close();
+
+            self.log('Importing file to playlist ended :' + path)
+        else:
+            self.log('File does not exist :' + path)
+        
     
     def trackInPlaylist(self,track,playlist):
         if self.db != None:
@@ -190,7 +220,8 @@ class piratengine():
                 if track['path'] == trackPath:
                     return True;
         return False
-            
+
+
     def initGui(self):
         self.gui=GUI(self);
 
