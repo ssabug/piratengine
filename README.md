@@ -11,7 +11,7 @@ Maybe in the future some ethernet related stuff about the players will be invest
 ## Features
 ### Database2/m.db
  - [x] Qt GUI (still in progress...)
- - [ ] make a backup of the currently edited database
+ - [x] make a backup of the currently edited database
  - [x] read track, playlist info, ...
  - [ ] track edit
  - [x] track add (command line only - gui version to be fixed)
