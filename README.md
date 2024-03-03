@@ -14,13 +14,13 @@ Maybe in the future some ethernet related stuff about the players will be invest
  - [x] make a backup of the currently edited database
  - [x] read track, playlist info, ...
  - [ ] track edit
- - [x] track add (command line only - gui version to be fixed)
+ - [x] track add
  - [ ] track IDV3 fill
  - [x] test script-imported tracks
  - [x] playlist create
  - [x] playlist to txt file
  - [x] playlist add track
- - [x] playlist add track from txt file (command line only - gui version to be fixed)
+ - [x] playlist add track from txt file
  - [x] scan files on engine dj music files storage
  - [x] update Track table from file scan
  - [x] support different database versions ( in 3.3.0 track table has 1 more parameter ) (to be tested  fully assessed )
