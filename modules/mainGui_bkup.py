@@ -255,12 +255,21 @@ class Ui_MainWindow(object):
         self.DBLoadButton.update();
         databasePath=self.DBPathTextEdit.toPlainText();
 
+        msgBox=QMessageBox(self);
+        msgBox.setWindowTitle("Please wait")
+        msgBox.setText("Database is loading...");
+        #msgBox.setStandardButtons(0);
+        #QTimer::singleShot(5000, &msgBox, SLOT(close()));
+        msgBox.exec();
+        
         if databasePath == '' :
             databasePath = str(QFileDialog.getExistingDirectory(self, "Select Database2 folder"));
             self.DBPathTextEdit.setHtml(databasePath);
             self.log(databasePath);
         
         if os.path.exists(databasePath):
+            
+
             self.piratengine.db=self.piratengine.loadDb(databasePath);
             setConfigParameter('gui','lastSelectedDBPath',databasePath);
             self.loadInformation();
@@ -272,6 +281,8 @@ class Ui_MainWindow(object):
             self.loadTracks();
 
             self.loadPlaylists();
+
+            msgBox.close();
         else:
             dlg = QMessageBox(self)
             dlg.setWindowTitle("Error")

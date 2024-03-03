@@ -255,19 +255,55 @@ class Ui_MainWindow(object):
         self.DBPathTextEdit.setHtml(getConfigParameter("gui","lastSelectedDBPath"));
         self.ExportPlaylistButton.clicked.connect(self.ExportPlaylistButton_click);
         self.ImportFilesButton.clicked.connect(self.ImportFilesButton_click);
+        self.DBChooseDirButton.clicked.connect(self.DBChooseDirButton_click);
+
+    def nonBlockingPopup(self,title,text):
+        msgBox=QMessageBox(self);
+        msgBox.setWindowTitle(title);
+        msgBox.setText(text);
+        msgBox.setStandardButtons(QMessageBox.StandardButtons());
+        msgBox.setWindowModality(Qt.NonModal)
+        msgBox.show();
+        msgBox.update();
     
+        return msgBox;
+
+    def nonBlockingPopupUpdate(self,msgBox,title='',text=''):
+        if title != '' :
+            msgBox.setWindowTitle(title);
+        if text != '':
+            msgBox.setText(text);   
+        msgBox.update();
+        #msgBox.show();
+
+    def nonBlockingPopupClose(self,popup):
+        popup.accept();
+        popup.close();
+
+    def DBChooseDirPopup(self):
+        databasePath = str(QFileDialog.getExistingDirectory(self, "Select Database2 folder"));
+        self.DBPathTextEdit.setHtml(databasePath);
+        self.log(databasePath);
+        return databasePath
+
+    def DBChooseDirButton_click(self):
+        self.log('Choose Database path clicked');
+        databasePath=self.DBChooseDirPopup();
+
+        self.DBLoadButton_click();
+
+
     def DBLoadButton_click(self):
         self.log('Load Database clicked');
-        self.DBLoadButton.text='Loading...';
-        self.DBLoadButton.update();
         databasePath=self.DBPathTextEdit.toPlainText();
 
         if databasePath == '' :
-            databasePath = str(QFileDialog.getExistingDirectory(self, "Select Database2 folder"));
-            self.DBPathTextEdit.setHtml(databasePath);
-            self.log(databasePath);
+            databasePath=self.DBChooseDirPopup();
         
         if os.path.exists(databasePath):
+            
+            popup=self.nonBlockingPopup("Please wait","Database is loading...");
+
             self.piratengine.db=self.piratengine.loadDb(databasePath);
             setConfigParameter('gui','lastSelectedDBPath',databasePath);
             self.loadInformation();
@@ -276,9 +312,13 @@ class Ui_MainWindow(object):
 
             self.DBLoadButton.text='Load db'
 
+            self.nonBlockingPopupUpdate(popup,'Loading tracks...');
             self.loadTracks();
 
+            self.nonBlockingPopupUpdate(popup,'Loading playlists...');
             self.loadPlaylists();
+
+            self.nonBlockingPopupClose(popup);
         else:
             dlg = QMessageBox(self)
             dlg.setWindowTitle("Error")
@@ -359,15 +399,21 @@ class Ui_MainWindow(object):
         path = str(QFileDialog.getExistingDirectory(self, "Select folder to be scanned"));
         
         if os.path.exists(path):
+            popup=self.nonBlockingPopup("Please wait","Scanning folder");
             files=self.piratengine.db.addFolderToDatabase(path);
             setattr(self,'scannedFilesList',files);
-            self.FilesTable.setRowCount(len(files));
+            fileCount=len(files)
+            self.FilesTable.setRowCount(fileCount);
+            
             self.FilesTable.setColumnCount(1);
             self.FilesTable.setHorizontalHeaderLabels(['filename']);
             self.FilesTable.setColumnWidth(0,self.FilesTable.width());
 
             for i,f in enumerate(files):
                 self.FilesTable.setItem(i,0,QTableWidgetItem(f));
+                self.nonBlockingPopupUpdate(popup,str(i) + '/' + str(fileCount) )
+
+            self.nonBlockingPopupClose(popup);
 
     def ImportFilesButton_click(self):
         selected=self.FilesTable.selectedIndexes();

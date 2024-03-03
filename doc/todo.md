@@ -3,7 +3,9 @@
 - [ ] implement import txt/json/m3u file to playlist
 - [x] fix FilesTable not returning correct selected row indexes (**workaround using a cached array**)
 - [x] Fix 3 first empty columns in track table
-- [ ] add "loading..." popup while doing stuff
+- [ ] avoid multiple selections on same table lines to be considered
+- [x] add "loading..." popup while doing stuff
+- [ ] improve "Please wait" widget display refresh
 - [ ] modify mainGui structure to load additionnal code from another file
 - [ ] clean GUI code structure
 - [ ] add filter to tables
