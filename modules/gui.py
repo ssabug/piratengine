@@ -32,6 +32,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):
             self.setupUi(self);
             self.initCallbacks();
             self.piratengine=piratengine;
+            self.piratengine.gui=self;
             '''
             for name, obj in inspect.getmembers(MainWindowCustomCode):
                 

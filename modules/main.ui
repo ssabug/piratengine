@@ -273,6 +273,13 @@ li.checked::marker { content: &quot;\2612&quot;; }
           </widget>
          </item>
          <item>
+          <widget class="QPushButton" name="stagelinqRefreshDataButton">
+           <property name="text">
+            <string>Refresh StageLinQ data</string>
+           </property>
+          </widget>
+         </item>
+         <item>
           <widget class="QComboBox" name="stagelinqDeviceCombo"/>
          </item>
          <item>

@@ -227,7 +227,7 @@ class piratengine():
         self.stagelinq=stagelinq(self);
 
     def stagelinqNewData(self):
-        self.gui.window.stagelinqUpdateData();
+        self.gui.stagelinqUpdateData();
 
     def initGui(self):
         self.gui=GUI(self);

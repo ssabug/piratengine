@@ -204,6 +204,11 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addWidget(self.stagelinqStartButton)
 
+        self.stagelinqRefreshDataButton = QPushButton(self.gridLayoutWidget_2)
+        self.stagelinqRefreshDataButton.setObjectName(u"stagelinqRefreshDataButton")
+
+        self.verticalLayout_4.addWidget(self.stagelinqRefreshDataButton)
+
         self.stagelinqDeviceCombo = QComboBox(self.gridLayoutWidget_2)
         self.stagelinqDeviceCombo.setObjectName(u"stagelinqDeviceCombo")
 
@@ -267,10 +272,10 @@ class Ui_MainWindow(object):
         self.PlaylistContentTableLabel.setText(QCoreApplication.translate("MainWindow", u"Playlist Content", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Database", None))
         self.stagelinqStartButton.setText(QCoreApplication.translate("MainWindow", u"Start StageLinQ monitor", None))
+        self.stagelinqRefreshDataButton.setText(QCoreApplication.translate("MainWindow", u"Refresh StageLinQ data", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"StagelinQ", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
     # retranslateUi
-
     def log(self,text,source='GUIM',severity='INFO',sameline=False):
             log(text,source=source,severity=severity,sameline=sameline);
 
@@ -286,6 +291,7 @@ class Ui_MainWindow(object):
         self.DBChooseDirButton.clicked.connect(self.DBChooseDirButton_click);
         self.ImportToPlaylistButton.clicked.connect(self.ImportToPlaylistButton_click);
         self.stagelinqStartButton.clicked.connect(self.stagelinqStartButton_click);
+        self.stagelinqRefreshDataButton.clicked.connect(self.stagelinqUpdateData())
 
     def nonBlockingPopup(self,title,text):
         msgBox=QMessageBox(self);
@@ -572,15 +578,16 @@ class Ui_MainWindow(object):
         self.piratengine.startStagelinq();
 
     def stagelinqUpdateData(self):
-        data=self.piratengine.stagelinq.data;
-        keys=['key','value'];
-        self.stagelinqTable.setColumnCount(len(keys));
-        self.stagelinqTable.setHorizontalHeaderLabels(keys);
-        self.stagelinqTable.setRowCount(len(data));
-        self.stagelinqTable.setColumnWidth(0,self.stagelinqTable.width()/len(displayedKeys))
-        self.stagelinqTable.setColumnWidth(1,self.stagelinqTable.width()/len(displayedKeys))
-                   
-        for row,key in enumerate(data):
-            self.stagelinqTable.setItem(row,displayedKeys.index(key),QTableWidgetItem(str(key)))
-            self.stagelinqTable.setItem(row,displayedKeys.index(key),QTableWidgetItem(str(data[key])))
+        if hasattr(self,'piratengine'):
+            data=self.piratengine.stagelinq.data;
+            keys=['key','value'];
+            self.stagelinqTable.setColumnCount(len(keys));
+            self.stagelinqTable.setHorizontalHeaderLabels(keys);
+            self.stagelinqTable.setRowCount(len(data));
+            self.stagelinqTable.setColumnWidth(0,self.stagelinqTable.width()/len(keys))
+            self.stagelinqTable.setColumnWidth(1,self.stagelinqTable.width()/len(keys))
+                    
+            for row,key in enumerate(data):
+                self.stagelinqTable.setItem(row,0,QTableWidgetItem(str(key)))
+                self.stagelinqTable.setItem(row,1,QTableWidgetItem(str(data[key])))
             
