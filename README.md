@@ -30,7 +30,7 @@ Some features about StageLinQ will also be explored.
  - [x] basic implementation of [PyStageLinQ](https://github.com/Jaxc/PyStageLinQ)
  - [x] grab stagelinq data 
  - [ ] use fileTransfer service
- - [ ] act as an instance of EngineDJ Windows software
+ - [ ] act as an instance of EngineDJ software
 
 ## Requirements
  - python 3
