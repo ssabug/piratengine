@@ -274,7 +274,7 @@ class Ui_MainWindow(object):
         if text != '':
             msgBox.setText(text);   
         msgBox.update();
-        #msgBox.show();
+        msgBox.show();
 
     def nonBlockingPopupClose(self,popup):
         popup.accept();
