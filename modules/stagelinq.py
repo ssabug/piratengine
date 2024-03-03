@@ -47,15 +47,21 @@ class stagelinq():
             #if searchedText in message.ParameterName:
             #    print(searchedText + " : " + message.ParameterValue['string'])
             if self.receiveFilter == '' or (self.receiveFilter != '' and self.receiveFilter in message.ParameterName):
-
+                #device=data[0].ParameterValue
+                
+                #if '/media/' in str(device):
+                #device=str(device['string'])
+                #self.log(device)
+                #prefix=device[:-1]+'/'
+                #message.ParameterName=prefix+message.ParameterName;
                 if message.ParameterName in self.data.keys():
                     self.data[message.ParameterName] = message.ParameterValue;
                     action = 'updated'
                 else:
                     self.data |= {message.ParameterName : message.ParameterValue}
                     action='added'
-
-                #self.log(action + ' ' + message.ParameterName  + ' to ' + str(self.data[message.ParameterName]));
+                #for i,d in enumerate(data):
+                #    self.log('  data : ' + str(data[0]));
                 #self.piratengine.stagelinqNewData();
             #pprint(self.data)
 

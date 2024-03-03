@@ -28,7 +28,6 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QGridLayout, QHBoxLayout
     QLineEdit,
     QTextEdit, QVBoxLayout, QWidget)
 
-
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
@@ -211,10 +210,20 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addWidget(self.stagelinqRefreshDataButton)
 
+        self.horizontalLayout_5 = QHBoxLayout()
+        self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
+        self.stagelinqDataFilterLabel = QLabel(self.gridLayoutWidget_2)
+        self.stagelinqDataFilterLabel.setObjectName(u"stagelinqDataFilterLabel")
+
+        self.horizontalLayout_5.addWidget(self.stagelinqDataFilterLabel)
+
         self.stagelinqDataFilter = QLineEdit(self.gridLayoutWidget_2)
         self.stagelinqDataFilter.setObjectName(u"stagelinqDataFilter")
 
-        self.verticalLayout_4.addWidget(self.stagelinqDataFilter)
+        self.horizontalLayout_5.addWidget(self.stagelinqDataFilter)
+
+
+        self.verticalLayout_4.addLayout(self.horizontalLayout_5)
 
         self.stagelinqTable = QTableWidget(self.gridLayoutWidget_2)
         self.stagelinqTable.setObjectName(u"stagelinqTable")
@@ -275,6 +284,11 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Database", None))
         self.stagelinqStartButton.setText(QCoreApplication.translate("MainWindow", u"Start StageLinQ monitor", None))
         self.stagelinqRefreshDataButton.setText(QCoreApplication.translate("MainWindow", u"Refresh StageLinQ data", None))
+        self.stagelinqDataFilterLabel.setText(QCoreApplication.translate("MainWindow", u"Filter", None))
+#if QT_CONFIG(tooltip)
+        self.stagelinqDataFilter.setToolTip("")
+#endif // QT_CONFIG(tooltip)
+        self.stagelinqDataFilter.setText("")
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"StagelinQ", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
     # retranslateUi
@@ -295,6 +309,15 @@ class Ui_MainWindow(object):
         self.ImportToPlaylistButton.clicked.connect(self.ImportToPlaylistButton_click);
         self.stagelinqStartButton.clicked.connect(self.stagelinqStartButton_click);
         self.stagelinqRefreshDataButton.clicked.connect(self.stagelinqUpdateData);
+        self.stagelinqDataFilter.textChanged.connect(self.stagelinqUpdateData);
+
+
+        keys=['key','value'];
+        self.stagelinqTable.setColumnCount(len(keys));
+        self.stagelinqTable.setHorizontalHeaderLabels(keys);
+        
+        self.stagelinqTable.setColumnWidth(0,1000/len(keys))#self.stagelinqTable.width()
+        self.stagelinqTable.setColumnWidth(1,1000/len(keys))#self.stagelinqTable.width()
 
     def nonBlockingPopup(self,title,text):
         msgBox=QMessageBox(self);
@@ -581,25 +604,19 @@ class Ui_MainWindow(object):
         self.piratengine.startStagelinq();
 
     def stagelinqUpdateData(self):
-        self.log('Refresh stagelinq data');
+        #self.log('Refresh stagelinq data');
 
         filter=self.stagelinqDataFilter.text();
-        self.log('filter = ' + filter)
+        #self.log('filter = ' + filter)
 
         if hasattr(self,'piratengine'):
             data=self.piratengine.stagelinq.data;
-            keys=['key','value'];
-            self.stagelinqTable.setColumnCount(len(keys));
-            self.stagelinqTable.setHorizontalHeaderLabels(keys);
-            
-            self.stagelinqTable.setColumnWidth(0,self.stagelinqTable.width()/len(keys))
-            self.stagelinqTable.setColumnWidth(1,self.stagelinqTable.width()/len(keys))
                     
             writeRow=0;
 
             for row,key in enumerate(data):
 
-                if ( filter in key and filter != "" ) or filter == '' :
+                if ( filter.lower() in key.lower() and filter != "" ) or filter == '' :
                     self.stagelinqTable.setRowCount(writeRow+1);
                     dataKeys=data[key].keys();
 
@@ -609,6 +626,8 @@ class Ui_MainWindow(object):
                         value=data[key]['state'];
                     elif 'value' in dataKeys:
                         value=data[key]['value'];
+                    else:
+                        value=str(data[key]);
 
                     self.stagelinqTable.setItem(writeRow,0,QTableWidgetItem(str(key)));
                     self.stagelinqTable.setItem(writeRow,1,QTableWidgetItem(str(value)));

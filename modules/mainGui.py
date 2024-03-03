@@ -316,8 +316,8 @@ class Ui_MainWindow(object):
         self.stagelinqTable.setColumnCount(len(keys));
         self.stagelinqTable.setHorizontalHeaderLabels(keys);
         
-        self.stagelinqTable.setColumnWidth(0,1400/len(keys))#self.stagelinqTable.width()
-        self.stagelinqTable.setColumnWidth(1,1400/len(keys))#self.stagelinqTable.width()
+        self.stagelinqTable.setColumnWidth(0,1000/len(keys))#self.stagelinqTable.width()
+        self.stagelinqTable.setColumnWidth(1,1000/len(keys))#self.stagelinqTable.width()
 
     def nonBlockingPopup(self,title,text):
         msgBox=QMessageBox(self);
