@@ -11,7 +11,7 @@ class stagelinq():
         self.data={};
         self.piratengine=piratengine;
 
-        self.receiveFilter="/Engine/Deck1"
+        self.receiveFilter=""
 
         self.session=PyStageLinQ.PyStageLinQ(self.new_device_found_callback, name="piratengine StagelinQ")
         self.thread = threading.Thread(target=self.session.start, args=());
@@ -21,18 +21,18 @@ class stagelinq():
         log(text,source=source,severity=severity,sameline=sameline);
 
     def new_device_found_callback(self,ip, discovery_frame, service_list):
-        # Print device info and supplied services
-        print(
-            f"Found new Device on ip {ip}: Device name: {discovery_frame.device_name}, ConnectionType: {discovery_frame.connection_type}, SwName: {discovery_frame.sw_name}, "
-            f"SwVersion: {discovery_frame.sw_version}, port: {discovery_frame.Port}")
+        msg1="Found new Device on ip " +str(ip) + ": Device name: " + str(discovery_frame.device_name) + ", ConnectionType: " + str(discovery_frame.connection_type) + ", SwName: " +str(discovery_frame.sw_name); 
+        msg2="SwVersion: "+ str(discovery_frame.sw_version) + ", port: "+ str(discovery_frame.Port);
+        self.log(str(msg1));
+        self.log(str(msg2));
 
         if len(service_list) > 0:
-            print("Services found in device:")
+            self.log("Services found in device:")
         else:
-            print("No services found")
+            self.log("No services found")
 
         for service in service_list:
-            print(f"\t{service.service} on port {service.port}")
+            self.log("\t"+ str(service.service) + " on port " + str(service.port))
 
 
         # Request StateMap service
@@ -55,9 +55,9 @@ class stagelinq():
                     self.data |= {message.ParameterName : message.ParameterValue}
                     action='added'
 
-                self.log(action + ' ' + message.ParameterName  + ' to ' + str(self.data[message.ParameterName]));
+                #self.log(action + ' ' + message.ParameterName  + ' to ' + str(self.data[message.ParameterName]));
                 #self.piratengine.stagelinqNewData();
-            pprint(self.data)
+            #pprint(self.data)
 
             
 

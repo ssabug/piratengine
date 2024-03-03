@@ -232,9 +232,27 @@ class piratengine():
     def initGui(self):
         self.gui=GUI(self);
 
+    def close(self):
+        self.log('Exiting program ... ');
+        if self.stagelinq != None:
+            self.log('Stopping StageLinQ')
+            #self.stagelinq.thread.close();
+            self.stagelinq.thread.join(1);
+
+        self.log('Program terminated');
+        exit()
+
+useGui=True
+
 p=piratengine();
 
-p.initGui();
+if useGui:
+    p.initGui();
+else:
+    while p.menu():
+        a=True
+        
+p.close();
 
 #while p.menu():
 #    a=True

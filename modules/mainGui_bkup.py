@@ -25,7 +25,9 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QGridLayout, QHBoxLayout
     QMenuBar, QPushButton, QSizePolicy, QSpacerItem,
     QStatusBar, QTabWidget, QTableWidget, QTableWidgetItem,
     QWidget,QFileDialog,QMessageBox,QInputDialog,QTabWidget,QSpacerItem,
+    QLineEdit,
     QTextEdit, QVBoxLayout, QWidget)
+
 
 class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
@@ -204,10 +206,15 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addWidget(self.stagelinqStartButton)
 
-        self.stagelinqDeviceCombo = QComboBox(self.gridLayoutWidget_2)
-        self.stagelinqDeviceCombo.setObjectName(u"stagelinqDeviceCombo")
+        self.stagelinqRefreshDataButton = QPushButton(self.gridLayoutWidget_2)
+        self.stagelinqRefreshDataButton.setObjectName(u"stagelinqRefreshDataButton")
 
-        self.verticalLayout_4.addWidget(self.stagelinqDeviceCombo)
+        self.verticalLayout_4.addWidget(self.stagelinqRefreshDataButton)
+
+        self.stagelinqDataFilter = QLineEdit(self.gridLayoutWidget_2)
+        self.stagelinqDataFilter.setObjectName(u"stagelinqDataFilter")
+
+        self.verticalLayout_4.addWidget(self.stagelinqDataFilter)
 
         self.stagelinqTable = QTableWidget(self.gridLayoutWidget_2)
         self.stagelinqTable.setObjectName(u"stagelinqTable")
@@ -267,6 +274,7 @@ class Ui_MainWindow(object):
         self.PlaylistContentTableLabel.setText(QCoreApplication.translate("MainWindow", u"Playlist Content", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Database", None))
         self.stagelinqStartButton.setText(QCoreApplication.translate("MainWindow", u"Start StageLinQ monitor", None))
+        self.stagelinqRefreshDataButton.setText(QCoreApplication.translate("MainWindow", u"Refresh StageLinQ data", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"StagelinQ", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
     # retranslateUi
@@ -286,7 +294,7 @@ class Ui_MainWindow(object):
         self.DBChooseDirButton.clicked.connect(self.DBChooseDirButton_click);
         self.ImportToPlaylistButton.clicked.connect(self.ImportToPlaylistButton_click);
         self.stagelinqStartButton.clicked.connect(self.stagelinqStartButton_click);
-        self.stageLinqRefreshDataButton.clicked.connect(self.stagelinqUpdateData())
+        self.stagelinqRefreshDataButton.clicked.connect(self.stagelinqUpdateData);
 
     def nonBlockingPopup(self,title,text):
         msgBox=QMessageBox(self);
@@ -573,15 +581,37 @@ class Ui_MainWindow(object):
         self.piratengine.startStagelinq();
 
     def stagelinqUpdateData(self):
-        data=self.piratengine.stagelinq.data;
-        keys=['key','value'];
-        self.stagelinqTable.setColumnCount(len(keys));
-        self.stagelinqTable.setHorizontalHeaderLabels(keys);
-        self.stagelinqTable.setRowCount(len(data));
-        self.stagelinqTable.setColumnWidth(0,self.stagelinqTable.width()/len(keys))
-        self.stagelinqTable.setColumnWidth(1,self.stagelinqTable.width()/len(keys))
-                   
-        for row,key in enumerate(data):
-            self.stagelinqTable.setItem(row,0,QTableWidgetItem(str(key)))
-            self.stagelinqTable.setItem(row,1,QTableWidgetItem(str(data[key])))
+        self.log('Refresh stagelinq data');
+
+        filter=self.stagelinqDataFilter.text();
+        self.log('filter = ' + filter)
+
+        if hasattr(self,'piratengine'):
+            data=self.piratengine.stagelinq.data;
+            keys=['key','value'];
+            self.stagelinqTable.setColumnCount(len(keys));
+            self.stagelinqTable.setHorizontalHeaderLabels(keys);
+            
+            self.stagelinqTable.setColumnWidth(0,self.stagelinqTable.width()/len(keys))
+            self.stagelinqTable.setColumnWidth(1,self.stagelinqTable.width()/len(keys))
+                    
+            writeRow=0;
+
+            for row,key in enumerate(data):
+
+                if ( filter in key and filter != "" ) or filter == '' :
+                    self.stagelinqTable.setRowCount(writeRow+1);
+                    dataKeys=data[key].keys();
+
+                    if 'string' in dataKeys:
+                        value=data[key]['string'];
+                    elif 'state' in dataKeys:
+                        value=data[key]['state'];
+                    elif 'value' in dataKeys:
+                        value=data[key]['value'];
+
+                    self.stagelinqTable.setItem(writeRow,0,QTableWidgetItem(str(key)));
+                    self.stagelinqTable.setItem(writeRow,1,QTableWidgetItem(str(value)));
+
+                    writeRow+=1
             

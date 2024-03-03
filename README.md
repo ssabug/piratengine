@@ -4,11 +4,12 @@
 
 This repository aims to provide 'low' level open source tools for **Denon DJ** hardware, in particular those using **Engine DJ OS**.
 
-The first objective is to have simple tools to interact with m.db database, and enable to export/import track and playlist data.
+The first objective is to have simple tools to interact with m.db database.
 
-Maybe in the future some ethernet related stuff about the players will be investigated.
+Some features about StageLinQ will also be explored.
 
 ## Features
+
 ### Database2/m.db
  - [x] Qt GUI (still in progress...)
  - [x] make a backup of the currently edited database
@@ -24,6 +25,12 @@ Maybe in the future some ethernet related stuff about the players will be invest
  - [x] scan files on engine dj music files storage
  - [x] update Track table from file scan
  - [x] support different database versions ( in 3.3.0 track table has 1 more parameter ) (to be tested  fully assessed )
+
+ ### StageLinQ
+ - [x] basic implementation of [PyStageLinQ](https://github.com/Jaxc/PyStageLinQ)
+ - [x] grab stagelinq data 
+ - [ ] use fileTransfer service
+ - [ ] act as an instance of EngineDJ Windows software
 
 ## Requirements
  - python 3
@@ -41,6 +48,8 @@ Maybe in the future some ethernet related stuff about the players will be invest
  </details>
  
  - `pip install -r install/requirements.txt`
+ - in your installed library **PyStageLinQ.py** file, change the variable this way : `ANNOUNCE_IP = "224.0.0.251" `
+`
 
 ## Running
  - (optional) if you created a virtual environnement, run `source venv/bin/activate` (some IDEs can do this automatically)

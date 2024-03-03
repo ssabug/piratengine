@@ -280,7 +280,25 @@ li.checked::marker { content: &quot;\2612&quot;; }
           </widget>
          </item>
          <item>
-          <widget class="QComboBox" name="stagelinqDeviceCombo"/>
+          <layout class="QHBoxLayout" name="horizontalLayout_5">
+           <item>
+            <widget class="QLabel" name="stagelinqDataFilterLabel">
+             <property name="text">
+              <string>Filter</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="stagelinqDataFilter">
+             <property name="toolTip">
+              <string extracomment="Filter on stagelinq data"/>
+             </property>
+             <property name="text">
+              <string extracomment="filter on stagelinq data"/>
+             </property>
+            </widget>
+           </item>
+          </layout>
          </item>
          <item>
           <widget class="QTableWidget" name="stagelinqTable"/>
