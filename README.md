@@ -14,10 +14,13 @@ Some features about StageLinQ will also be explored.
  - [x] Qt GUI (still in progress...)
  - [x] make a backup of the currently edited database
  - [x] read track, playlist info, ...
+ - [ ] test database modified with all GUI features (v2 & v3)
  - [ ] track edit
  - [x] track add
  - [ ] track IDV3 fill
- - [x] test script-imported tracks
+ - [ ] delete playlist/track/playlist track
+ - [ ] change track position in playlist
+ - [ ] change playlist index
  - [x] playlist create
  - [x] playlist to txt file
  - [x] playlist add track

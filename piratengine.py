@@ -149,7 +149,7 @@ class piratengine():
     def loadPlaylist(self,db,writeToFile=False,playlist=''):
         if playlist == '':
             playlist=input('Enter your playlist name\n')
-        playlistArray=db.printPlaylist(playlist);
+        playlistArray,trackObjectArray=db.printPlaylist(playlist);
         if playlistArray != [] and writeToFile:
             f = open(playlist+'.txt', "w")
             for item in playlistArray:
@@ -157,26 +157,36 @@ class piratengine():
             f.close()
                                
     def exportPlaylist(self,db,playlistName,outfilePath):
-        playlistArray=db.printPlaylist(playlistName);
+        playlistArray,trackObjectArray=db.printPlaylist(playlistName);
+        excludedKeys=['trackData','overviewWaveFormData','beatData','quickCues','loops']
                                
         extension = pathlib.Path(outfilePath).suffix[1:];
                                
         f = open(outfilePath, "w");
                                
-        for i,item in enumerate(playlistArray):
-                               
+        for i,item in enumerate(trackObjectArray):
+            path=item['path']                  
             if extension == 'txt':
-                f.write(item+'\n');
+                f.write(path+'\n');
             
             elif extension == 'json':
                 if i == 0 :
                     jsonDict={"playlist" : {'title' : playlistName, 'tracks':[]}}
-                jsonDict['playlist']['tracks'].append({"path":item});
+                
+                trackObject={}
+                for key in item:
+                    if key not in excludedKeys:
+                        value=item[key]
+                        if not (isinstance(value,int) or isinstance(value,bool) or isinstance(value,float) ) :
+                            value=str(value);
+                        trackObject |= { key : value}
+            
+                jsonDict['playlist']['tracks'].append(trackObject);
                                    
             elif extension == 'm3u':
                 if i != 0 :
                     f.write('\n');
-                f.write('#EXTINF:-1 ' + os.path.basename(item) +'\n');
+                f.write('#EXTINF:-1 ' + os.path.basename(path) +'\n');
                 f.write(item+'\n');
                                
         if extension == 'json':           
@@ -223,7 +233,9 @@ class piratengine():
 
     def startStagelinq(self):
         if self.stagelinq != None:
-           del self.stagelinq;
+            del self.stagelinq;
+        
+        self.log('Starting stagelinq');
         self.stagelinq=stagelinq(self);
 
     def stagelinqNewData(self):
@@ -237,7 +249,8 @@ class piratengine():
         if self.stagelinq != None:
             self.log('Stopping StageLinQ')
             #self.stagelinq.thread.close();
-            self.stagelinq.thread.join(1);
+            #self.stagelinq.thread.join(1);
+            del self.stagelinq;
 
         self.log('Program terminated');
         exit()

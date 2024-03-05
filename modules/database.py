@@ -38,8 +38,11 @@ class database():
 
             self.log('Making DB backup copy to ' + destPath)
             shutil.copyfile(self.path,destPath);
+            return destPath;
         else:
-            self.log('Database path not found : ' + self.path);
+            msg='Database path not found : ' + self.path;
+            self.log(msg);
+            return msg
         
     def readAll(self,silent=False):
         tables=self.tables;
@@ -357,7 +360,8 @@ class database():
     def printPlaylist(self,playlistName,silent=True):
         self.log('Reading database playlist : ' + playlistName)
         playlists=getattr(self,'Playlist',None);
-        out=[]
+        stringOut=[];
+        objOut=[];
         if playlists is None:
             self.log('No playlist table found');
         else:
@@ -383,10 +387,11 @@ class database():
                                     searchTrack=next((x for x in self.Track.data if x['id']==entity['trackId']));
                                     if not silent:
                                         self.log(searchTrack['path'])
-                                    out.append(searchTrack['path']);
+                                    stringOut.append(searchTrack['path']);
+                                    objOut.append(searchTrack)
                                 except Exception as error:
                                     handleErrors(error);
-        return out;
+        return stringOut,objOut;
 
     def readTable(self,tableName):
         cursor=self.cursor;

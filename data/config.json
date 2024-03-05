@@ -1,1 +1,1 @@
-{"general": {"debug": true, "fileLogging": true, "logFile": "data/log.txt", "backupDbOnLoad": true}, "gui": {"lastSelectedDBPath": "/home/pwner/zikmu/EngineLibraryDebug/Database2"}}
+{"general": {"debug": true, "fileLogging": true, "logFile": "data/log.txt", "backupDbOnLoad": false}, "gui": {"lastSelectedDBPath": "/home/pwner/zikmu/EngineLibraryDebug/Database2"}}

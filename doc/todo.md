@@ -6,17 +6,16 @@
 - [x] check if track not already in database before adding to  track /playlist 
 - [x] add "loading..." popup while doing stuff
 - [x] update lastEditTime playlist table each time operation done on playlist [TO_BE_TESTED]
-- [ ] stagelinq : data from one player overwrites some previously done by another
+- [ ] stagelinq : data from one player overwrites some previously sent by another
 - [ ] stagelinq : crashes program if one player is disconnected
-- [ ] stagelinq : clean way of start/stop  service (close connections,...)
-- [ ] main : close stageLinq thread on exit
+- [ ] stagelinq : clean way of start/stop service (close connections,...)
 - [ ] main : implement proper CLI & clean main class
-- [ ] main : improve exported json content
-- [ ] gui : automatic refresh of stagelinq data => segmentation fault
+- [x] main : improve exported json content
+- [x] gui : automatic refresh of stagelinq data => segmentation fault => USE QTIMER
 - [ ] gui : create icon & add it to Qt task icon
 - [ ] gui : avoid multiple selections on same table lines to be considered
 - [ ] gui : improve "Please wait" widget display refresh
-- [ ] gui : modify mainGui structure to load additionnal code from another file
+- [x] gui : modify mainGui structure to load additionnal code from another file
 - [ ] gui : clean GUI code structure
 - [ ] gui : add filter to tables
 - [ ] gui : run long task as threads / async 

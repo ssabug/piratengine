@@ -13,7 +13,7 @@ from modules.utils import *
 ################################################################################
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,
+    QMetaObject, QObject, QPoint, QRect,QTimer,
     QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QCursor, QFont, QFontDatabase, QGradient,
@@ -205,11 +205,6 @@ class Ui_MainWindow(object):
 
         self.verticalLayout_4.addWidget(self.stagelinqStartButton)
 
-        self.stagelinqRefreshDataButton = QPushButton(self.gridLayoutWidget_2)
-        self.stagelinqRefreshDataButton.setObjectName(u"stagelinqRefreshDataButton")
-
-        self.verticalLayout_4.addWidget(self.stagelinqRefreshDataButton)
-
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
         self.stagelinqDataFilterLabel = QLabel(self.gridLayoutWidget_2)
@@ -283,7 +278,6 @@ class Ui_MainWindow(object):
         self.PlaylistContentTableLabel.setText(QCoreApplication.translate("MainWindow", u"Playlist Content", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Database", None))
         self.stagelinqStartButton.setText(QCoreApplication.translate("MainWindow", u"Start StageLinQ monitor", None))
-        self.stagelinqRefreshDataButton.setText(QCoreApplication.translate("MainWindow", u"Refresh StageLinQ data", None))
         self.stagelinqDataFilterLabel.setText(QCoreApplication.translate("MainWindow", u"Filter", None))
 #if QT_CONFIG(tooltip)
         self.stagelinqDataFilter.setToolTip("")
@@ -292,7 +286,7 @@ class Ui_MainWindow(object):
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), QCoreApplication.translate("MainWindow", u"StagelinQ", None))
         self.menuFile.setTitle(QCoreApplication.translate("MainWindow", u"File", None))
     # retranslateUi
-
+    '''
     def log(self,text,source='GUIM',severity='INFO',sameline=False):
             log(text,source=source,severity=severity,sameline=sameline);
 
@@ -308,7 +302,6 @@ class Ui_MainWindow(object):
         self.DBChooseDirButton.clicked.connect(self.DBChooseDirButton_click);
         self.ImportToPlaylistButton.clicked.connect(self.ImportToPlaylistButton_click);
         self.stagelinqStartButton.clicked.connect(self.stagelinqStartButton_click);
-        self.stagelinqRefreshDataButton.clicked.connect(self.stagelinqUpdateData);
         self.stagelinqDataFilter.textChanged.connect(self.stagelinqUpdateData);
 
 
@@ -450,7 +443,7 @@ class Ui_MainWindow(object):
 
                     #self.log(key + ' : ' + str(track[key]))
     def loadPlaylistContents(self):
-        tracks=self.piratengine.db.printPlaylist(self.piratengine.db.Playlist.data[self.PlaylistTable.selectedIndexes()[0].row()]['title']);
+        tracks,trackObjectArray=self.piratengine.db.printPlaylist(self.piratengine.db.Playlist.data[self.PlaylistTable.selectedIndexes()[0].row()]['title']);
         self.PlaylistContentTable.setRowCount(len(tracks));
         self.PlaylistContentTable.setColumnCount(2);
         self.PlaylistContentTable.setColumnWidth(0,self.PlaylistContentTable.width()*2)
@@ -601,7 +594,17 @@ class Ui_MainWindow(object):
                 self.loadPlaylistContents();
 
     def stagelinqStartButton_click(self):
-        self.piratengine.startStagelinq();
+        try:
+            self.piratengine.startStagelinq();
+            setattr(self,'timer',QTimer(self));
+            self.timer.timeout.connect(self.stagelinqUpdateData)
+            self.timer.start(2000);
+            self.stagelinqStartButton.text='Stop StageLinQ Monitor'
+        except Exception as error:
+            dlg = QMessageBox(self)
+            dlg.setWindowTitle("Error")
+            dlg.setText(str(type(error).__name__) + " " + str(error))
+            button = dlg.exec();
 
     def stagelinqUpdateData(self):
         #self.log('Refresh stagelinq data');
@@ -633,4 +636,4 @@ class Ui_MainWindow(object):
                     self.stagelinqTable.setItem(writeRow,1,QTableWidgetItem(str(value)));
 
                     writeRow+=1
-            
+    '''
