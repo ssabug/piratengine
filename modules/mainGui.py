@@ -26,7 +26,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1434, 953)
+        MainWindow.resize(1434, 944)
         MainWindow.setMinimumSize(QSize(0, 0))
         self.actionLoad_database = QAction(MainWindow)
         self.actionLoad_database.setObjectName(u"actionLoad_database")
@@ -50,16 +50,128 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addWidget(self.FilesTable, 5, 0, 1, 1)
 
-        self.TrackTableLabel = QLabel(self.gridLayoutWidget)
-        self.TrackTableLabel.setObjectName(u"TrackTableLabel")
-        sizePolicy = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
+        self.verticalLayout_3 = QVBoxLayout()
+        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
+        self.BackupDBButton = QPushButton(self.gridLayoutWidget)
+        self.BackupDBButton.setObjectName(u"BackupDBButton")
+
+        self.verticalLayout_3.addWidget(self.BackupDBButton)
+
+        self.CreatePlaylistButton = QPushButton(self.gridLayoutWidget)
+        self.CreatePlaylistButton.setObjectName(u"CreatePlaylistButton")
+
+        self.verticalLayout_3.addWidget(self.CreatePlaylistButton)
+
+        self.AddTrackToPlaylistButton = QPushButton(self.gridLayoutWidget)
+        self.AddTrackToPlaylistButton.setObjectName(u"AddTrackToPlaylistButton")
+
+        self.verticalLayout_3.addWidget(self.AddTrackToPlaylistButton)
+
+        self.ImportToPlaylistButton = QPushButton(self.gridLayoutWidget)
+        self.ImportToPlaylistButton.setObjectName(u"ImportToPlaylistButton")
+
+        self.verticalLayout_3.addWidget(self.ImportToPlaylistButton)
+
+        self.ExportPlaylistButton = QPushButton(self.gridLayoutWidget)
+        self.ExportPlaylistButton.setObjectName(u"ExportPlaylistButton")
+
+        self.verticalLayout_3.addWidget(self.ExportPlaylistButton)
+
+        self.ScanFolderButton = QPushButton(self.gridLayoutWidget)
+        self.ScanFolderButton.setObjectName(u"ScanFolderButton")
+
+        self.verticalLayout_3.addWidget(self.ScanFolderButton)
+
+        self.ImportFilesButton = QPushButton(self.gridLayoutWidget)
+        self.ImportFilesButton.setObjectName(u"ImportFilesButton")
+
+        self.verticalLayout_3.addWidget(self.ImportFilesButton)
+
+
+        self.gridLayout.addLayout(self.verticalLayout_3, 0, 1, 1, 1)
+
+        self.TrackTable = QTableWidget(self.gridLayoutWidget)
+        self.TrackTable.setObjectName(u"TrackTable")
+        self.TrackTable.setMinimumSize(QSize(800, 0))
+
+        self.gridLayout.addWidget(self.TrackTable, 3, 0, 1, 1)
+
+        self.PlaylistContentTable = QTableWidget(self.gridLayoutWidget)
+        self.PlaylistContentTable.setObjectName(u"PlaylistContentTable")
+        self.PlaylistContentTable.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+
+        self.gridLayout.addWidget(self.PlaylistContentTable, 5, 1, 1, 1)
+
+        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout.addItem(self.horizontalSpacer_2, 1, 1, 1, 1)
+
+        self.PlaylistTable = QTableWidget(self.gridLayoutWidget)
+        self.PlaylistTable.setObjectName(u"PlaylistTable")
+
+        self.gridLayout.addWidget(self.PlaylistTable, 3, 1, 1, 1)
+
+        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.gridLayout.addItem(self.horizontalSpacer, 1, 0, 1, 1)
+
+        self.horizontalLayout_6 = QHBoxLayout()
+        self.horizontalLayout_6.setObjectName(u"horizontalLayout_6")
+        self.FilesTableLabel = QLabel(self.gridLayoutWidget)
+        self.FilesTableLabel.setObjectName(u"FilesTableLabel")
+        sizePolicy = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Preferred)
         sizePolicy.setHorizontalStretch(0)
         sizePolicy.setVerticalStretch(0)
+        sizePolicy.setHeightForWidth(self.FilesTableLabel.sizePolicy().hasHeightForWidth())
+        self.FilesTableLabel.setSizePolicy(sizePolicy)
+        self.FilesTableLabel.setMinimumSize(QSize(185, 0))
+
+        self.horizontalLayout_6.addWidget(self.FilesTableLabel)
+
+        self.horizontalSpacer_5 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_6.addItem(self.horizontalSpacer_5)
+
+        self.FilesFilterLabel = QLabel(self.gridLayoutWidget)
+        self.FilesFilterLabel.setObjectName(u"FilesFilterLabel")
+
+        self.horizontalLayout_6.addWidget(self.FilesFilterLabel)
+
+        self.FilesFilter = QLineEdit(self.gridLayoutWidget)
+        self.FilesFilter.setObjectName(u"FilesFilter")
+
+        self.horizontalLayout_6.addWidget(self.FilesFilter)
+
+
+        self.gridLayout.addLayout(self.horizontalLayout_6, 4, 0, 1, 1)
+
+        self.horizontalLayout_3 = QHBoxLayout()
+        self.horizontalLayout_3.setObjectName(u"horizontalLayout_3")
+        self.TrackTableLabel = QLabel(self.gridLayoutWidget)
+        self.TrackTableLabel.setObjectName(u"TrackTableLabel")
         sizePolicy.setHeightForWidth(self.TrackTableLabel.sizePolicy().hasHeightForWidth())
         self.TrackTableLabel.setSizePolicy(sizePolicy)
-        self.TrackTableLabel.setMinimumSize(QSize(714, 0))
+        self.TrackTableLabel.setMinimumSize(QSize(140, 0))
+        self.TrackTableLabel.setMaximumSize(QSize(16777142, 16777215))
 
-        self.gridLayout.addWidget(self.TrackTableLabel, 2, 0, 1, 1)
+        self.horizontalLayout_3.addWidget(self.TrackTableLabel)
+
+        self.horizontalSpacer_3 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+
+        self.horizontalLayout_3.addItem(self.horizontalSpacer_3)
+
+        self.TrackFilterLabel = QLabel(self.gridLayoutWidget)
+        self.TrackFilterLabel.setObjectName(u"TrackFilterLabel")
+
+        self.horizontalLayout_3.addWidget(self.TrackFilterLabel)
+
+        self.TrackFilter = QLineEdit(self.gridLayoutWidget)
+        self.TrackFilter.setObjectName(u"TrackFilter")
+
+        self.horizontalLayout_3.addWidget(self.TrackFilter)
+
+
+        self.gridLayout.addLayout(self.horizontalLayout_3, 2, 0, 1, 1)
 
         self.verticalLayout_2 = QVBoxLayout()
         self.verticalLayout_2.setObjectName(u"verticalLayout_2")
@@ -108,85 +220,61 @@ class Ui_MainWindow(object):
 
         self.gridLayout.addLayout(self.verticalLayout_2, 0, 0, 1, 1)
 
-        self.FilesTableLabel = QLabel(self.gridLayoutWidget)
-        self.FilesTableLabel.setObjectName(u"FilesTableLabel")
-
-        self.gridLayout.addWidget(self.FilesTableLabel, 4, 0, 1, 1)
-
+        self.horizontalLayout_4 = QHBoxLayout()
+        self.horizontalLayout_4.setObjectName(u"horizontalLayout_4")
         self.PlaylistTableLabel = QLabel(self.gridLayoutWidget)
         self.PlaylistTableLabel.setObjectName(u"PlaylistTableLabel")
+        sizePolicy.setHeightForWidth(self.PlaylistTableLabel.sizePolicy().hasHeightForWidth())
+        self.PlaylistTableLabel.setSizePolicy(sizePolicy)
+        self.PlaylistTableLabel.setMinimumSize(QSize(86, 0))
 
-        self.gridLayout.addWidget(self.PlaylistTableLabel, 2, 1, 1, 1)
+        self.horizontalLayout_4.addWidget(self.PlaylistTableLabel)
 
-        self.TrackTable = QTableWidget(self.gridLayoutWidget)
-        self.TrackTable.setObjectName(u"TrackTable")
-        self.TrackTable.setMinimumSize(QSize(800, 0))
+        self.horizontalSpacer_4 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.gridLayout.addWidget(self.TrackTable, 3, 0, 1, 1)
+        self.horizontalLayout_4.addItem(self.horizontalSpacer_4)
 
-        self.PlaylistContentTable = QTableWidget(self.gridLayoutWidget)
-        self.PlaylistContentTable.setObjectName(u"PlaylistContentTable")
-        self.PlaylistContentTable.setHorizontalScrollBarPolicy(Qt.ScrollBarAlwaysOn)
+        self.PlaylistFilterLabel = QLabel(self.gridLayoutWidget)
+        self.PlaylistFilterLabel.setObjectName(u"PlaylistFilterLabel")
 
-        self.gridLayout.addWidget(self.PlaylistContentTable, 5, 1, 1, 1)
+        self.horizontalLayout_4.addWidget(self.PlaylistFilterLabel)
 
-        self.verticalLayout_3 = QVBoxLayout()
-        self.verticalLayout_3.setObjectName(u"verticalLayout_3")
-        self.BackupDBButton = QPushButton(self.gridLayoutWidget)
-        self.BackupDBButton.setObjectName(u"BackupDBButton")
+        self.PlaylistFilter = QLineEdit(self.gridLayoutWidget)
+        self.PlaylistFilter.setObjectName(u"PlaylistFilter")
 
-        self.verticalLayout_3.addWidget(self.BackupDBButton)
-
-        self.CreatePlaylistButton = QPushButton(self.gridLayoutWidget)
-        self.CreatePlaylistButton.setObjectName(u"CreatePlaylistButton")
-
-        self.verticalLayout_3.addWidget(self.CreatePlaylistButton)
-
-        self.AddTrackToPlaylistButton = QPushButton(self.gridLayoutWidget)
-        self.AddTrackToPlaylistButton.setObjectName(u"AddTrackToPlaylistButton")
-
-        self.verticalLayout_3.addWidget(self.AddTrackToPlaylistButton)
-
-        self.ImportToPlaylistButton = QPushButton(self.gridLayoutWidget)
-        self.ImportToPlaylistButton.setObjectName(u"ImportToPlaylistButton")
-
-        self.verticalLayout_3.addWidget(self.ImportToPlaylistButton)
-
-        self.ExportPlaylistButton = QPushButton(self.gridLayoutWidget)
-        self.ExportPlaylistButton.setObjectName(u"ExportPlaylistButton")
-
-        self.verticalLayout_3.addWidget(self.ExportPlaylistButton)
-
-        self.ScanFolderButton = QPushButton(self.gridLayoutWidget)
-        self.ScanFolderButton.setObjectName(u"ScanFolderButton")
-
-        self.verticalLayout_3.addWidget(self.ScanFolderButton)
-
-        self.ImportFilesButton = QPushButton(self.gridLayoutWidget)
-        self.ImportFilesButton.setObjectName(u"ImportFilesButton")
-
-        self.verticalLayout_3.addWidget(self.ImportFilesButton)
+        self.horizontalLayout_4.addWidget(self.PlaylistFilter)
 
 
-        self.gridLayout.addLayout(self.verticalLayout_3, 0, 1, 1, 1)
+        self.gridLayout.addLayout(self.horizontalLayout_4, 2, 1, 1, 1)
 
-        self.PlaylistTable = QTableWidget(self.gridLayoutWidget)
-        self.PlaylistTable.setObjectName(u"PlaylistTable")
-
-        self.gridLayout.addWidget(self.PlaylistTable, 3, 1, 1, 1)
-
+        self.horizontalLayout_7 = QHBoxLayout()
+        self.horizontalLayout_7.setObjectName(u"horizontalLayout_7")
+        self.horizontalLayout_8 = QHBoxLayout()
+        self.horizontalLayout_8.setObjectName(u"horizontalLayout_8")
         self.PlaylistContentTableLabel = QLabel(self.gridLayoutWidget)
         self.PlaylistContentTableLabel.setObjectName(u"PlaylistContentTableLabel")
 
-        self.gridLayout.addWidget(self.PlaylistContentTableLabel, 4, 1, 1, 1)
+        self.horizontalLayout_8.addWidget(self.PlaylistContentTableLabel)
 
-        self.horizontalSpacer = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.horizontalSpacer_6 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
 
-        self.gridLayout.addItem(self.horizontalSpacer, 1, 0, 1, 1)
+        self.horizontalLayout_8.addItem(self.horizontalSpacer_6)
 
-        self.horizontalSpacer_2 = QSpacerItem(40, 20, QSizePolicy.Policy.Expanding, QSizePolicy.Policy.Minimum)
+        self.PlaylistContentFilterLable = QLabel(self.gridLayoutWidget)
+        self.PlaylistContentFilterLable.setObjectName(u"PlaylistContentFilterLable")
 
-        self.gridLayout.addItem(self.horizontalSpacer_2, 1, 1, 1, 1)
+        self.horizontalLayout_8.addWidget(self.PlaylistContentFilterLable)
+
+        self.PlaylistContentFilter = QLineEdit(self.gridLayoutWidget)
+        self.PlaylistContentFilter.setObjectName(u"PlaylistContentFilter")
+
+        self.horizontalLayout_8.addWidget(self.PlaylistContentFilter)
+
+
+        self.horizontalLayout_7.addLayout(self.horizontalLayout_8)
+
+
+        self.gridLayout.addLayout(self.horizontalLayout_7, 4, 1, 1, 1)
 
         self.tabWidget.addTab(self.tab, "")
         self.tab_2 = QWidget()
@@ -255,7 +343,17 @@ class Ui_MainWindow(object):
         MainWindow.setWindowTitle(QCoreApplication.translate("MainWindow", u"piratengine", None))
         self.actionLoad_database.setText(QCoreApplication.translate("MainWindow", u"Load database", None))
         self.actionExit.setText(QCoreApplication.translate("MainWindow", u"Exit", None))
+        self.BackupDBButton.setText(QCoreApplication.translate("MainWindow", u"Backup database", None))
+        self.CreatePlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Create playlist", None))
+        self.AddTrackToPlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Add track(s) to playlist", None))
+        self.ImportToPlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Import file to playlist (txt,json,m3u)", None))
+        self.ExportPlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Export playlist(s) (txt,json,m3u)", None))
+        self.ScanFolderButton.setText(QCoreApplication.translate("MainWindow", u"Scan folder for music files", None))
+        self.ImportFilesButton.setText(QCoreApplication.translate("MainWindow", u"Import file(s) to Track database", None))
+        self.FilesTableLabel.setText(QCoreApplication.translate("MainWindow", u"Files", None))
+        self.FilesFilterLabel.setText(QCoreApplication.translate("MainWindow", u"Filter", None))
         self.TrackTableLabel.setText(QCoreApplication.translate("MainWindow", u"Tracks", None))
+        self.TrackFilterLabel.setText(QCoreApplication.translate("MainWindow", u"Filter", None))
         self.DBPathTextEdit.setHtml(QCoreApplication.translate("MainWindow", u"<!DOCTYPE HTML PUBLIC \"-//W3C//DTD HTML 4.0//EN\" \"http://www.w3.org/TR/REC-html40/strict.dtd\">\n"
 "<html><head><meta name=\"qrichtext\" content=\"1\" /><meta charset=\"utf-8\" /><style type=\"text/css\">\n"
 "p, li { white-space: pre-wrap; }\n"
@@ -266,16 +364,10 @@ class Ui_MainWindow(object):
 "<p style=\"-qt-paragraph-type:empty; margin-top:0px; margin-bottom:0px; margin-left:0px; margin-right:0px; -qt-block-indent:0; text-indent:0px;\"><br /></p></body></html>", None))
         self.DBLoadButton.setText(QCoreApplication.translate("MainWindow", u"Load db", None))
         self.DBChooseDirButton.setText(QCoreApplication.translate("MainWindow", u"Choose dir", None))
-        self.FilesTableLabel.setText(QCoreApplication.translate("MainWindow", u"Files", None))
         self.PlaylistTableLabel.setText(QCoreApplication.translate("MainWindow", u"Playlists", None))
-        self.BackupDBButton.setText(QCoreApplication.translate("MainWindow", u"Backup database", None))
-        self.CreatePlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Create playlist", None))
-        self.AddTrackToPlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Add track(s) to playlist", None))
-        self.ImportToPlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Import file to playlist (txt,json,m3u)", None))
-        self.ExportPlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Export playlist(s) (txt,json,m3u)", None))
-        self.ScanFolderButton.setText(QCoreApplication.translate("MainWindow", u"Scan folder for music files", None))
-        self.ImportFilesButton.setText(QCoreApplication.translate("MainWindow", u"Import file(s) to Track database", None))
+        self.PlaylistFilterLabel.setText(QCoreApplication.translate("MainWindow", u"Filter", None))
         self.PlaylistContentTableLabel.setText(QCoreApplication.translate("MainWindow", u"Playlist Content", None))
+        self.PlaylistContentFilterLable.setText(QCoreApplication.translate("MainWindow", u"Filter", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Database", None))
         self.stagelinqStartButton.setText(QCoreApplication.translate("MainWindow", u"Start StageLinQ monitor", None))
         self.stagelinqDataFilterLabel.setText(QCoreApplication.translate("MainWindow", u"Filter", None))

@@ -17,7 +17,7 @@
 - [ ] gui : improve "Please wait" widget display refresh
 - [x] gui : modify mainGui structure to load additionnal code from another file
 - [ ] gui : clean GUI code structure
-- [ ] gui : add filter to tables
+- [x] gui : add filter to tables
 - [ ] gui : run long task as threads / async 
 - [ ] gui : add menu to select columns to display
 - [ ] gui : add choice to use GUI or not

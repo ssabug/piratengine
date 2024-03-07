@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1434</width>
-    <height>953</height>
+    <height>944</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -49,24 +49,202 @@
        <item row="5" column="0">
         <widget class="QTableWidget" name="FilesTable"/>
        </item>
-       <item row="2" column="0">
-        <widget class="QLabel" name="TrackTableLabel">
-         <property name="sizePolicy">
-          <sizepolicy hsizetype="Fixed" vsizetype="Preferred">
-           <horstretch>0</horstretch>
-           <verstretch>0</verstretch>
-          </sizepolicy>
-         </property>
+       <item row="0" column="1">
+        <layout class="QVBoxLayout" name="verticalLayout_3">
+         <item>
+          <widget class="QPushButton" name="BackupDBButton">
+           <property name="text">
+            <string>Backup database</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="CreatePlaylistButton">
+           <property name="text">
+            <string>Create playlist</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="AddTrackToPlaylistButton">
+           <property name="text">
+            <string>Add track(s) to playlist</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="ImportToPlaylistButton">
+           <property name="text">
+            <string>Import file to playlist (txt,json,m3u)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="ExportPlaylistButton">
+           <property name="text">
+            <string>Export playlist(s) (txt,json,m3u)</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="ScanFolderButton">
+           <property name="text">
+            <string>Scan folder for music files</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QPushButton" name="ImportFilesButton">
+           <property name="text">
+            <string>Import file(s) to Track database</string>
+           </property>
+          </widget>
+         </item>
+        </layout>
+       </item>
+       <item row="3" column="0">
+        <widget class="QTableWidget" name="TrackTable">
          <property name="minimumSize">
           <size>
-           <width>714</width>
+           <width>800</width>
            <height>0</height>
           </size>
          </property>
-         <property name="text">
-          <string>Tracks</string>
+        </widget>
+       </item>
+       <item row="5" column="1">
+        <widget class="QTableWidget" name="PlaylistContentTable">
+         <property name="horizontalScrollBarPolicy">
+          <enum>Qt::ScrollBarAlwaysOn</enum>
          </property>
         </widget>
+       </item>
+       <item row="1" column="1">
+        <spacer name="horizontalSpacer_2">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="3" column="1">
+        <widget class="QTableWidget" name="PlaylistTable"/>
+       </item>
+       <item row="1" column="0">
+        <spacer name="horizontalSpacer">
+         <property name="orientation">
+          <enum>Qt::Horizontal</enum>
+         </property>
+         <property name="sizeHint" stdset="0">
+          <size>
+           <width>40</width>
+           <height>20</height>
+          </size>
+         </property>
+        </spacer>
+       </item>
+       <item row="4" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_6">
+         <item>
+          <widget class="QLabel" name="FilesTableLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>185</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Files</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_5">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="FilesFilterLabel">
+           <property name="text">
+            <string>Filter</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="FilesFilter"/>
+         </item>
+        </layout>
+       </item>
+       <item row="2" column="0">
+        <layout class="QHBoxLayout" name="horizontalLayout_3">
+         <item>
+          <widget class="QLabel" name="TrackTableLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>140</width>
+             <height>0</height>
+            </size>
+           </property>
+           <property name="maximumSize">
+            <size>
+             <width>16777142</width>
+             <height>16777215</height>
+            </size>
+           </property>
+           <property name="text">
+            <string>Tracks</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <spacer name="horizontalSpacer_3">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="TrackFilterLabel">
+           <property name="text">
+            <string>Filter</string>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="QLineEdit" name="TrackFilter"/>
+         </item>
+        </layout>
        </item>
        <item row="0" column="0">
         <layout class="QVBoxLayout" name="verticalLayout_2">
@@ -133,125 +311,89 @@ li.checked::marker { content: &quot;\2612&quot;; }
          </item>
         </layout>
        </item>
-       <item row="4" column="0">
-        <widget class="QLabel" name="FilesTableLabel">
-         <property name="text">
-          <string>Files</string>
-         </property>
-        </widget>
-       </item>
        <item row="2" column="1">
-        <widget class="QLabel" name="PlaylistTableLabel">
-         <property name="text">
-          <string>Playlists</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QTableWidget" name="TrackTable">
-         <property name="minimumSize">
-          <size>
-           <width>800</width>
-           <height>0</height>
-          </size>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="1">
-        <widget class="QTableWidget" name="PlaylistContentTable">
-         <property name="horizontalScrollBarPolicy">
-          <enum>Qt::ScrollBarAlwaysOn</enum>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="1">
-        <layout class="QVBoxLayout" name="verticalLayout_3">
+        <layout class="QHBoxLayout" name="horizontalLayout_4">
          <item>
-          <widget class="QPushButton" name="BackupDBButton">
+          <widget class="QLabel" name="PlaylistTableLabel">
+           <property name="sizePolicy">
+            <sizepolicy hsizetype="Minimum" vsizetype="Preferred">
+             <horstretch>0</horstretch>
+             <verstretch>0</verstretch>
+            </sizepolicy>
+           </property>
+           <property name="minimumSize">
+            <size>
+             <width>86</width>
+             <height>0</height>
+            </size>
+           </property>
            <property name="text">
-            <string>Backup database</string>
+            <string>Playlists</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="CreatePlaylistButton">
+          <spacer name="horizontalSpacer_4">
+           <property name="orientation">
+            <enum>Qt::Horizontal</enum>
+           </property>
+           <property name="sizeHint" stdset="0">
+            <size>
+             <width>40</width>
+             <height>20</height>
+            </size>
+           </property>
+          </spacer>
+         </item>
+         <item>
+          <widget class="QLabel" name="PlaylistFilterLabel">
            <property name="text">
-            <string>Create playlist</string>
+            <string>Filter</string>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="AddTrackToPlaylistButton">
-           <property name="text">
-            <string>Add track(s) to playlist</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="ImportToPlaylistButton">
-           <property name="text">
-            <string>Import file to playlist (txt,json,m3u)</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="ExportPlaylistButton">
-           <property name="text">
-            <string>Export playlist(s) (txt,json,m3u)</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="ScanFolderButton">
-           <property name="text">
-            <string>Scan folder for music files</string>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="ImportFilesButton">
-           <property name="text">
-            <string>Import file(s) to Track database</string>
-           </property>
-          </widget>
+          <widget class="QLineEdit" name="PlaylistFilter"/>
          </item>
         </layout>
        </item>
-       <item row="3" column="1">
-        <widget class="QTableWidget" name="PlaylistTable"/>
-       </item>
        <item row="4" column="1">
-        <widget class="QLabel" name="PlaylistContentTableLabel">
-         <property name="text">
-          <string>Playlist Content</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <spacer name="horizontalSpacer">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
-       </item>
-       <item row="1" column="1">
-        <spacer name="horizontalSpacer_2">
-         <property name="orientation">
-          <enum>Qt::Horizontal</enum>
-         </property>
-         <property name="sizeHint" stdset="0">
-          <size>
-           <width>40</width>
-           <height>20</height>
-          </size>
-         </property>
-        </spacer>
+        <layout class="QHBoxLayout" name="horizontalLayout_7">
+         <item>
+          <layout class="QHBoxLayout" name="horizontalLayout_8">
+           <item>
+            <widget class="QLabel" name="PlaylistContentTableLabel">
+             <property name="text">
+              <string>Playlist Content</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <spacer name="horizontalSpacer_6">
+             <property name="orientation">
+              <enum>Qt::Horizontal</enum>
+             </property>
+             <property name="sizeHint" stdset="0">
+              <size>
+               <width>40</width>
+               <height>20</height>
+              </size>
+             </property>
+            </spacer>
+           </item>
+           <item>
+            <widget class="QLabel" name="PlaylistContentFilterLable">
+             <property name="text">
+              <string>Filter</string>
+             </property>
+            </widget>
+           </item>
+           <item>
+            <widget class="QLineEdit" name="PlaylistContentFilter"/>
+           </item>
+          </layout>
+         </item>
+        </layout>
        </item>
       </layout>
      </widget>

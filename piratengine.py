@@ -38,28 +38,28 @@ class piratengine():
 
                 case 1:# LOAD DB
                     try:
-                        self.db=self.loadDb();
+                        self.db=self.loadDbUI();
                     except:
                         self.db=None;
                     return True;
 
                 case 2:# PRINT PLAYLISTS
                     if self.db is None:
-                        self.db=self.loadDb();
+                        self.db=self.loadDbUI();
                     
                     self.db.printPlaylists();
                     return True;
 
                 case 3:# print playlist
                     if self.db is None:
-                        self.db=self.loadDb();
+                        self.db=self.loadDbUI();
                     self.db.printPlaylists();
                     self.loadPlaylist(self.db);
                     return True;
 
                 case 4:# create playlist
                     if self.db is None:
-                        self.db=self.loadDb();
+                        self.db=self.loadDbUI();
                         #self.db.printPlaylists();
                     playlist=input('Enter your new playlist name\n')
                     self.db.createPlaylist(playlist);
@@ -67,7 +67,7 @@ class piratengine():
 
                 case 5:# add track to playlist
                     if self.db is None:
-                        self.db=self.loadDb();
+                        self.db=self.loadDbUI();
                     self.db.printPlaylists();
                     playlist = input('Enter playlist name\n');
                     trackId=int(input('Enter your new playlist item trackId\n'))
@@ -76,7 +76,7 @@ class piratengine():
 
                 case 6:# add tracks to playlist from text file
                     if self.db is None:
-                        self.db=self.loadDb();
+                        self.db=self.loadDbUI();
                     self.db.printPlaylists();
                     playlist = input('Enter playlist name\n');
                     
@@ -99,7 +99,7 @@ class piratengine():
 
                 case 7:# write playlist to txt file
                     if self.db is None:
-                        self.db=self.loadDb();
+                        self.db=self.loadDbUI();
                     self.db.printPlaylists();
 
                     self.loadPlaylist(self.db,True);
@@ -107,7 +107,7 @@ class piratengine():
 
                 case 8: #scan folder
                     if self.db is None:
-                        self.db=self.loadDb();
+                        self.db=self.loadDbUI();
                     path=input('Enter folder path\n');
                     if os.path.exists(path):
                         self.db.addFolderToDatabase(path);
@@ -117,7 +117,7 @@ class piratengine():
 
                 case 9: #add track
                     if self.db is None:
-                        self.db=self.loadDb();
+                        self.db=self.loadDbUI();
                     path=input('Enter full absolute path of file to be added \n');
                     
                     if os.path.exists(path):

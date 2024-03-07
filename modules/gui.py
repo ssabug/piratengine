@@ -94,7 +94,18 @@ class MainWindowCustomCode():
         self.stagelinqStartButton.clicked.connect(self.stagelinqStartButton_click);
         self.stagelinqDataFilter.textChanged.connect(self.stagelinqUpdateData);
         self.BackupDBButton.clicked.connect(self.BackupDBButton_clicked);
+        self.TrackFilter.textChanged.connect(self.TrackTableFilter_textChanged);
+        self.PlaylistFilter.textChanged.connect(self.PlaylistTableFilter_textChanged);7
+        self.FilesFilter.textChanged.connect(self.FilesFilter_textChanged);
+        self.PlaylistContentFilter.textChanged.connect(self.PlaylistContentFilter_textChanged);
 
+        self.BackupDBButton.setEnabled(False);
+        self.CreatePlaylistButton.setEnabled(False);
+        self.AddTrackToPlaylistButton.setEnabled(False);
+        self.ImportToPlaylistButton.setEnabled(False)
+        self.ExportPlaylistButton.setEnabled(False);
+        self.ImportFilesButton.setEnabled(False);
+        self.ScanFolderButton.setEnabled(False);
 
         keys=['key','value'];
         self.stagelinqTable.setColumnCount(len(keys));
@@ -166,6 +177,14 @@ class MainWindowCustomCode():
             self.loadPlaylists();
 
             self.nonBlockingPopupClose(popup);
+
+            self.BackupDBButton.setEnabled(True);
+            self.CreatePlaylistButton.setEnabled(True);
+            self.AddTrackToPlaylistButton.setEnabled(True);
+            self.ImportToPlaylistButton.setEnabled(True)
+            self.ExportPlaylistButton.setEnabled(True);
+            self.ImportFilesButton.setEnabled(True);
+            self.ScanFolderButton.setEnabled(True);
         else:
             dlg = QMessageBox(self)
             dlg.setWindowTitle("Error")
@@ -197,7 +216,7 @@ class MainWindowCustomCode():
         self.DBTable.setColumnWidth(1,self.DBTable.width()*2/3)
 
     def loadTracks(self):
-        displayedKeys=['filename', 'path'];
+        displayedKeys=['path', 'filename'];
         self.TrackTable.setColumnCount(len(displayedKeys));
         self.TrackTable.setHorizontalHeaderLabels(displayedKeys);
         self.TrackTable.setRowCount(len(self.piratengine.db.Track.data));
@@ -249,18 +268,21 @@ class MainWindowCustomCode():
             popup=self.nonBlockingPopup("Please wait","Scanning folder");
             files=self.piratengine.db.addFolderToDatabase(path);
             setattr(self,'scannedFilesList',files);
-            fileCount=len(files)
-            self.FilesTable.setRowCount(fileCount);
-            
-            self.FilesTable.setColumnCount(1);
-            self.FilesTable.setHorizontalHeaderLabels(['filename']);
-            self.FilesTable.setColumnWidth(0,self.FilesTable.width());
+            self.loadScannedFiles(files,popup)                      
 
-            for i,f in enumerate(files):
-                self.FilesTable.setItem(i,0,QTableWidgetItem(f));
-                self.nonBlockingPopupUpdate(popup,str(i) + '/' + str(fileCount) )
+    def loadScannedFiles(self,files,popup=None):
+        fileCount=len(files)
+        self.FilesTable.setRowCount(fileCount);
+        
+        self.FilesTable.setColumnCount(1);
+        self.FilesTable.setHorizontalHeaderLabels(['filename']);
+        self.FilesTable.setColumnWidth(0,self.FilesTable.width());
 
-            self.nonBlockingPopupClose(popup);
+        for i,f in enumerate(files):
+            self.FilesTable.setItem(i,0,QTableWidgetItem(f));
+            if popup != None : self.nonBlockingPopupUpdate(popup,str(i) + '/' + str(fileCount) )
+
+        if popup != None : self.nonBlockingPopupClose(popup);
 
     def ImportFilesButton_click(self):
         selected=self.FilesTable.selectedIndexes();
@@ -384,6 +406,117 @@ class MainWindowCustomCode():
                 self.nonBlockingPopupClose(popup);
                 self.loadPlaylists();
                 self.loadPlaylistContents();
+
+    def TrackTableFilter_textChanged(self):
+        displayedKeys=['filename', 'path']
+        defaultField='path';
+        if not self.filterTable(filterWidget=self.TrackFilter,tableWidget=self.TrackTable,data=self.piratengine.db.Track.data,displayedKeys=displayedKeys,defaultField=defaultField):
+            self.loadTracks();
+            status=True;
+        else:
+            status=False;
+
+        self.AddTrackToPlaylistButton.setEnabled(status);
+
+
+    def PlaylistTableFilter_textChanged(self):
+        displayedKeys=['title', 'lastEditTime'];
+        defaultField='title';
+        if not self.filterTable(filterWidget=self.PlaylistFilter,tableWidget=self.PlaylistTable,data=self.piratengine.db.Playlist.data,displayedKeys=displayedKeys,defaultField=defaultField):
+            self.loadPlaylists();
+            status=True;
+        else:
+            status=False;
+
+        self.AddTrackToPlaylistButton.setEnabled(status);
+        self.ImportToPlaylistButton.setEnabled(status);
+        self.ExportPlaylistButton.setEnabled(status);
+
+    def FilesFilter_textChanged(self):
+
+        fileScanCache=self.piratengine.db.fileScanCache;
+        
+        if fileScanCache != []:
+            if self.filterTable(filterWidget=self.FilesFilter,tableWidget=self.FilesTable,data=fileScanCache,displayedKeys=[],defaultField=''):
+                status=False;
+            else:
+                status=True;
+                scannedFilesList=getattr(self,'scannedFilesList',None);
+                if scannedFilesList !=None :
+                    self.loadScannedFiles(scannedFilesList);
+                        
+        self.ImportFilesButton.setEnabled(status);
+
+    def PlaylistContentFilter_textChanged(self):
+        data,trackObjectArray=self.piratengine.db.printPlaylist(self.piratengine.db.Playlist.data[self.PlaylistTable.selectedIndexes()[0].row()]['title']);
+        if not self.filterTable(filterWidget=self.PlaylistContentFilter,tableWidget=self.PlaylistContentTable,data=data,displayedKeys=[],defaultField=''):
+          self.loadPlaylistContents();
+
+
+    def filterTable(self,filterWidget="",tableWidget="",data=[],displayedKeys=[],defaultField=''):
+
+        filterText=filterWidget.text();
+
+        def tableFilter(item,field):
+            return usedFilter.lower() in item[field].lower() 
+
+        filterArray=filterText.split(',');
+
+        results=[]
+
+        
+        for i,filterEntry in enumerate(filterArray):
+            if displayedKeys != []: 
+                if ':' in filterEntry:
+                    usedFilter=filterEntry[filterEntry.index(':')+1:];
+                    columnName=filterEntry[:filterEntry.index(':')];
+
+                    if columnName in data[0].keys():
+                        column=list(data[0].keys()).index(columnName)
+                    else:
+                        column=defaultField;
+
+                elif i == 0:
+                    usedFilter=filterEntry
+                    column=0;
+                    columnName=defaultField;
+            else:
+                column=0;
+                columnName=column;
+                usedFilter=filterEntry;
+            
+            if len(usedFilter)>3:
+                if displayedKeys != []: 
+                    results.append(filter(lambda x: usedFilter.lower() in x[columnName].lower(), data))
+                else:
+                    #if usedFilter.lower() in .lower()
+                    results.append(filter(lambda x: usedFilter.lower() in x.lower(), data))
+        self.log('column ' + str(column) + ', columnName = ' + str(columnName))
+        self.log('usedFilter : ' + str(usedFilter))
+        tableWidget.setRowCount(0);
+        self.log('len(results) = ' + str(len(results)))
+        if len(results)>0:
+            register=[]
+            for r in results:
+                for row,t in enumerate(list(r)):
+                    tableWidget.setRowCount(row+1);
+                    if t not in register:
+                        register.append(t)
+                        #self.log(t[columnName])
+                        writeColumn=0;
+                        if isinstance(t,dict):
+                            for key in t:
+                                if key in displayedKeys:
+                                    #tableWidget.setRowCount(tableWidget.rowCount()+1);
+                                    tableWidget.setItem(row,writeColumn,QTableWidgetItem(str(t[key])));
+                                    writeColumn+=1;
+                        else:
+                            #tableWidget.setRowCount(tableWidget.rowCount()+1);
+                            tableWidget.setItem(row,writeColumn,QTableWidgetItem(str(t)));       
+            return True
+        else:
+            return False
+            #for row,track in enumerate(self.piratengine.db.Track.data):
 
     def BackupDBButton_clicked(self):
         if self.piratengine.db != None:

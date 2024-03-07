@@ -20,6 +20,7 @@ class database():
         self.cursor=self.connection.cursor();
         self.tables=['Playlist','PlaylistEntity','Track','AlbumArt','ChangeLog','Information','Pack','PerformanceData','PlayListAllChildren','PlaylistAllParent','PlaylistPath','sqlite_sequence'];
         self.readAll();
+        self.fileScanCache=[];
 
         if getConfigParameter('general','backupDbOnLoad'):
             self.backup();
@@ -264,6 +265,8 @@ class database():
         if hasattr(totalTrackCount,'data'):
             totalTrackCount=totalTrackCount.data;
         self.log('Number of tracks in database : ' + str(len(totalTrackCount)));  
+
+        self.fileScanCache=unscannedTracks;
 
         return unscannedTracks  
 
