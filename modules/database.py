@@ -154,7 +154,7 @@ class database():
                     playedIndicator,isMetadataImported,pdbImportKey,streamingSource,uri,isBeatGridLocked,originDatabaseUuid,
                     originTrackId,trackData,overviewWaveformData,beatData,quickCues,loops,thirdPartySourceId,streamingFlags,explicitLyrics,activeOnLoadLoops])
 
-        if self.Information.data[0]['schemaVersionMajor'] >= 3:
+        if self.Information.data[0]['schemaVersionMajor'] >= 2 and self.Information.data[0]['schemaVersionMinor'] > 20:
             lastEditTime=dateToTimestamp(datetime.datetime.now());
             data+=(lastEditTime,);
 

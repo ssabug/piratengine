@@ -9,7 +9,7 @@
 - [ ] stagelinq : data from one player overwrites some previously sent by another
 - [ ] stagelinq : crashes program if one player is disconnected
 - [ ] stagelinq : clean way of start/stop service (close connections,...)
-- [ ] main : implement proper CLI & clean main class
+- [ ] main : implement proper CLI & no GUI option
 - [x] main : improve exported json content
 - [x] gui : automatic refresh of stagelinq data => segmentation fault => USE QTIMER
 - [ ] gui : create icon & add it to Qt task icon
@@ -20,6 +20,5 @@
 - [x] gui : add filter to tables
 - [ ] gui : run long task as threads / async 
 - [ ] gui : add menu to select columns to display
-- [ ] gui : add choice to use GUI or not
-- [ ] gui : disable push buttons when prior conditions not met
+- [ ] gui : disable push buttons when prior conditions not met (trigger when table element selection changed)
 - [ ] database : shitty html characters in JSON exported playlists (for é,à,.. and so on)

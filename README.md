@@ -11,7 +11,7 @@ Some features about StageLinQ will also be explored.
 ## Features
 
 ### Database2/m.db
- - [x] Qt GUI (still in progress...)
+ - [x] Qt GUI
  - [x] make a backup of the currently edited database
  - [x] read track, playlist info, ...
  - [ ] test database modified with all GUI features (v2 & v3)
@@ -22,9 +22,9 @@ Some features about StageLinQ will also be explored.
  - [ ] change track position in playlist
  - [ ] change playlist index
  - [x] playlist create
- - [x] playlist to txt file
+ - [x] playlist to txt/json/m3u file
  - [x] playlist add track
- - [x] playlist add track from txt file
+ - [x] playlist add track from txt/json/m3u file
  - [x] scan files on engine dj music files storage
  - [x] update Track table from file scan
  - [x] support different database versions ( in 3.3.0 track table has 1 more parameter ) (to be tested  fully assessed )
