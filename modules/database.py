@@ -237,38 +237,44 @@ class database():
         self.log('Extensions : ' + str(extensions))
 
         rootFolder=pathlib.PurePath(path).name;
-        self.log('Root folder : ' + str(rootFolder))
+        self.log('Root folder : ' + str(rootFolder));
+        if path != str(pathlib.Path(self.path).parents[2]):
+            self.log('The folder to scan is not consistent with the database location')
+            self.log('You can only add tracks to database that are in the same device/root folder than the database');
+            return [];
+        else:
+            self.log('Current loaded database is consistent with scanned path')
 
-        #item=path.replace(path[:path.index(rootFolder)+len(rootFolder)],'..')
-        #self.log(item)
-        folderList,fileList=run_fast_scandir(path,extensions);
+            #item=path.replace(path[:path.index(rootFolder)+len(rootFolder)],'..')
+            #self.log(item)
+            folderList,fileList=run_fast_scandir(path,extensions);
 
-        writeCounter=0;presentCounter=0;
+            writeCounter=0;presentCounter=0;
 
-        unscannedTracks=[];
+            unscannedTracks=[];
 
-        for item in fileList:
-            subitems=[]
-            item=item.replace(item[:item.index(rootFolder)+len(rootFolder)],'..')
-            trackId=self.findTrack(path=item);
-            if trackId < 0:
-                self.log('Unscanned track found : ' + item);
-                unscannedTracks.append(item);
-                #self.addTrack(item);
-                writeCounter+=1;
-            else:
-                presentCounter+=1;
+            for item in fileList:
+                subitems=[]
+                item=item.replace(item[:item.index(rootFolder)+len(rootFolder)],'..')
+                trackId=self.findTrack(path=item);
+                if trackId < 0:
+                    self.log('Unscanned track found : ' + item);
+                    unscannedTracks.append(item);
+                    #self.addTrack(item);
+                    writeCounter+=1;
+                else:
+                    presentCounter+=1;
 
-        self.log('Number of added tracks : ' + str(writeCounter));
-        self.log('Number of already present tracks : ' + str(presentCounter));
-        totalTrackCount=getattr(self,'Track',[]);
-        if hasattr(totalTrackCount,'data'):
-            totalTrackCount=totalTrackCount.data;
-        self.log('Number of tracks in database : ' + str(len(totalTrackCount)));  
+            self.log('Number of added tracks : ' + str(writeCounter));
+            self.log('Number of already present tracks : ' + str(presentCounter));
+            totalTrackCount=getattr(self,'Track',[]);
+            if hasattr(totalTrackCount,'data'):
+                totalTrackCount=totalTrackCount.data;
+            self.log('Number of tracks in database : ' + str(len(totalTrackCount)));  
 
-        self.fileScanCache=unscannedTracks;
+            self.fileScanCache=unscannedTracks;
 
-        return unscannedTracks  
+            return unscannedTracks  
 
     def addTrackToPlaylist(self,playlist,trackPath='',trackId=''):
         if trackPath != '' and trackId == '':

@@ -267,8 +267,21 @@ class MainWindowCustomCode():
         if os.path.exists(path):
             popup=self.nonBlockingPopup("Please wait","Scanning folder");
             files=self.piratengine.db.addFolderToDatabase(path);
-            setattr(self,'scannedFilesList',files);
-            self.loadScannedFiles(files,popup)                      
+            if files != []:
+                setattr(self,'scannedFilesList',files);
+                self.loadScannedFiles(files,popup);
+            else:
+                self.nonBlockingPopupClose(popup);
+                dlg = QMessageBox(self);
+                dlg.setWindowTitle("Error");
+                dlg.setText("Please check terminal window/log to see error");
+                button = dlg.exec();
+
+        else:
+            dlg = QMessageBox(self);
+            dlg.setWindowTitle("Error");
+            dlg.setText("Folder does not exist : " + path);
+            button = dlg.exec();               
 
     def loadScannedFiles(self,files,popup=None):
         fileCount=len(files)
