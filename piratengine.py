@@ -1,4 +1,5 @@
 import os
+import sys
 import pathlib
 
 from modules.database import *
@@ -54,7 +55,7 @@ class piratengine():
                     if self.db is None:
                         self.db=self.loadDbUI();
                     self.db.printPlaylists();
-                    self.loadPlaylist(self.db);
+                    self.loadPlaylist(self.db,silent=False);
                     return True;
 
                 case 4:# create playlist
@@ -146,10 +147,10 @@ class piratengine():
         trackDataBase=database(os.path.join(path,'m.db'));
         return trackDataBase;
 
-    def loadPlaylist(self,db,writeToFile=False,playlist=''):
+    def loadPlaylist(self,db,writeToFile=False,playlist='',silent=True):
         if playlist == '':
             playlist=input('Enter your playlist name\n')
-        playlistArray,trackObjectArray=db.printPlaylist(playlist);
+        playlistArray,trackObjectArray=db.printPlaylist(playlist,silent);
         if playlistArray != [] and writeToFile:
             f = open(playlist+'.txt', "w")
             for item in playlistArray:
@@ -255,18 +256,41 @@ class piratengine():
         self.log('Program terminated');
         exit()
 
-useGui=True
+def printHelp():
+    print('Usage :');
+    print('python piratengine.py --option');
+    print('option :');
+    print('--nogui  : Disables Qt GUI');
+    print('--help   : Prints this text');
 
-p=piratengine();
+def main():
+    inputArgs=sys.argv
 
-if useGui:
-    p.initGui();
-else:
-    while p.menu():
-        a=True
+    if len(inputArgs)>1:
+        option=inputArgs[1];
+        print(option)
+
+        if '--nogui' in inputArgs:
+            useGui=False;
+        else:
+            useGui=True;
+
+        if option != "--nogui":
+            printHelp();
+            exit();
+
+    p=piratengine();
+
+    if useGui:
+        p.initGui();
+    else:
+        while p.menu():
+            a=True
+
+    p.close();
+
+
+main()
         
-p.close();
 
-#while p.menu():
-#    a=True
 

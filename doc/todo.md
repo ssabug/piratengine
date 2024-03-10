@@ -9,7 +9,7 @@
 - [ ] stagelinq : data from one player overwrites some previously sent by another
 - [ ] stagelinq : crashes program if one player is disconnected
 - [ ] stagelinq : clean way of start/stop service (close connections,...)
-- [ ] main : implement proper CLI & no GUI option
+- [x] main : implement proper CLI & no GUI option
 - [x] main : improve exported json content
 - [x] gui : automatic refresh of stagelinq data => segmentation fault => USE QTIMER
 - [ ] gui : create icon & add it to Qt task icon
