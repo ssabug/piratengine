@@ -242,13 +242,17 @@ class MainWindowCustomCode():
         self.DBTable.setColumnWidth(1,self.DBTable.width()*2/3)
 
     def loadTracks(self):
-        displayedKeys=['path', 'filename'];
+        #displayedKeys=['path', 'filename'];
+        displayedKeys=getConfigParameter('gui','TrackTableDisplayedKeys');
         self.TrackTable.setColumnCount(len(displayedKeys));
         self.TrackTable.setHorizontalHeaderLabels(displayedKeys);
         self.TrackTable.setRowCount(len(self.piratengine.db.Track.data));
+
+        for i,column in enumerate(self.TrackTable.columnCount()):
+            self.TrackTable.setColumnWidth(i,self.TrackTable.width()/len(displayedKeys))
         
-        self.TrackTable.setColumnWidth(0,self.TrackTable.width()/len(displayedKeys))
-        self.TrackTable.setColumnWidth(1,self.TrackTable.width()/len(displayedKeys))
+        #self.TrackTable.setColumnWidth(0,self.TrackTable.width()/len(displayedKeys))
+        #self.TrackTable.setColumnWidth(1,self.TrackTable.width()/len(displayedKeys))
 
         for row,track in enumerate(self.piratengine.db.Track.data):
             writeColumn=0;
@@ -262,8 +266,8 @@ class MainWindowCustomCode():
         
 
     def loadPlaylists(self):
-
-        displayedKeys=['title', 'lastEditTime'];
+        displayedKeys=getConfigParameter('gui','PlaylistTableDisplayedKeys');
+        #displayedKeys=['title', 'lastEditTime'];
 
         self.PlaylistTable.setColumnCount(len(displayedKeys));
         self.PlaylistTable.setHorizontalHeaderLabels(displayedKeys);
@@ -472,7 +476,8 @@ class MainWindowCustomCode():
                 self.loadPlaylistContents();
 
     def TrackTableFilter_textChanged(self):
-        displayedKeys=['filename', 'path']
+        displayedKeys=getConfigParameter('gui','TrackTableDisplayedKeys');
+        #displayedKeys=['filename', 'path']
         defaultField='path';
         if not self.filterTable(filterWidget=self.TrackFilter,tableWidget=self.TrackTable,data=self.piratengine.db.Track.data,displayedKeys=displayedKeys,defaultField=defaultField):
             self.loadTracks();
@@ -484,7 +489,7 @@ class MainWindowCustomCode():
 
 
     def PlaylistTableFilter_textChanged(self):
-        displayedKeys=['title', 'lastEditTime'];
+        displayedKeys=getConfigParameter('gui','PlaylistTableDisplayedKeys');
         defaultField='title';
         if not self.filterTable(filterWidget=self.PlaylistFilter,tableWidget=self.PlaylistTable,data=self.piratengine.db.Playlist.data,displayedKeys=displayedKeys,defaultField=defaultField):
             self.loadPlaylists();
