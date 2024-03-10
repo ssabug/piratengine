@@ -20,7 +20,7 @@
 - [x] gui : add filter to tables
 - [ ] gui : run long task as threads / async 
 - [ ] gui : add menu to select columns to display
-- [ ] gui : disable push buttons when prior conditions not met (trigger when table element selection changed)
+- [x] gui : disable push buttons when prior conditions not met (trigger when table element selection changed)
 - [x] database : fordib to add files from a different root location as loaded database
 - [ ] database : find a way to copy scan folder not database-referenced files to database root folder 
 - [ ] database : shitty html characters in JSON exported playlists (for é,à,.. and so on)
