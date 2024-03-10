@@ -265,7 +265,7 @@ class database():
                 else:
                     presentCounter+=1;
 
-            self.log('Number of added tracks : ' + str(writeCounter));
+            self.log('Number of tracks not in database : ' + str(writeCounter));
             self.log('Number of already present tracks : ' + str(presentCounter));
             totalTrackCount=getattr(self,'Track',[]);
             if hasattr(totalTrackCount,'data'):

@@ -89,7 +89,7 @@
          <item>
           <widget class="QPushButton" name="ScanFolderButton">
            <property name="text">
-            <string>Scan folder for music files</string>
+            <string>Scan database root folder for music files</string>
            </property>
           </widget>
          </item>

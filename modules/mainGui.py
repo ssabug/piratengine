@@ -348,7 +348,7 @@ class Ui_MainWindow(object):
         self.AddTrackToPlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Add track(s) to playlist", None))
         self.ImportToPlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Import file to playlist (txt,json,m3u)", None))
         self.ExportPlaylistButton.setText(QCoreApplication.translate("MainWindow", u"Export playlist(s) (txt,json,m3u)", None))
-        self.ScanFolderButton.setText(QCoreApplication.translate("MainWindow", u"Scan folder for music files", None))
+        self.ScanFolderButton.setText(QCoreApplication.translate("MainWindow", u"Scan database root folder for music files", None))
         self.ImportFilesButton.setText(QCoreApplication.translate("MainWindow", u"Import file(s) to Track database", None))
         self.FilesTableLabel.setText(QCoreApplication.translate("MainWindow", u"Files", None))
         self.FilesFilterLabel.setText(QCoreApplication.translate("MainWindow", u"Filter", None))

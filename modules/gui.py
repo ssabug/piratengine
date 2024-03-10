@@ -1,5 +1,6 @@
 import sys
 import inspect
+import pathlib
 #from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtUiTools import QUiLoader
 from PySide6 import QtWidgets
@@ -100,6 +101,7 @@ class MainWindowCustomCode():
         self.PlaylistContentFilter.textChanged.connect(self.PlaylistContentFilter_textChanged);
         self.TrackTable.itemSelectionChanged.connect(self.TrackTable_selectionChanged);
         self.FilesTable.itemSelectionChanged.connect(self.FilesTable_selectionChanged);
+        self.actionLoad_database.triggered.connect(self.DBLoadButton_click);
 
         self.BackupDBButton.setEnabled(False);
         self.CreatePlaylistButton.setEnabled(False);
@@ -119,15 +121,20 @@ class MainWindowCustomCode():
     def TrackTable_selectionChanged(self):
         selectedPlaylist=self.PlaylistTable.selectedIndexes();
         selectedTracks=self.TrackTable.selectedIndexes();
+        
+        #for e in selectedTracks:
+        #    self.log(e.siblingAtColumn(0).data())
+            #self.log(self.TrackTable.itemAt(e,0).text());
 
-        if selectedPlaylist != [] and selectedTracks != []:
+        if selectedPlaylist != [] and selectedTracks != []: #and self.PlaylistFilter.text() == '' and self.TrackFilter.text() == '':
             self.AddTrackToPlaylistButton.setEnabled(True);
         else:
             self.AddTrackToPlaylistButton.setEnabled(False);
+
     def FilesTable_selectionChanged(self):
         selectedFiles=self.FilesTable.selectedIndexes();
 
-        if len(selectedFiles) > 0:
+        if len(selectedFiles) > 0:# and self.FilesFilter.text() == '':
             self.ImportFilesButton.setEnabled(True);
         else:
             self.ImportFilesButton.setEnabled(False);
@@ -277,7 +284,12 @@ class MainWindowCustomCode():
         if len(selectedPlaylists) == 1 :
             self.ImportToPlaylistButton.setEnabled(True);
             self.ExportPlaylistButton.setEnabled(True);
-            tracks,trackObjectArray=self.piratengine.db.printPlaylist(self.piratengine.db.Playlist.data[selectedPlaylists[0].row()]['title']);
+
+            playlistHeaders=[self.PlaylistTable.horizontalHeaderItem(r).text() for r in range(self.PlaylistTable.columnCount())];
+            titleColumnIndex=playlistHeaders.index('title')
+            playlist=selectedPlaylists[titleColumnIndex].siblingAtColumn(0).data();
+
+            tracks,trackObjectArray=self.piratengine.db.printPlaylist(playlist);
             self.PlaylistContentTable.setRowCount(len(tracks));
             self.PlaylistContentTable.setColumnCount(2);
             self.PlaylistContentTable.setColumnWidth(0,self.PlaylistContentTable.width()*2)
@@ -294,8 +306,10 @@ class MainWindowCustomCode():
 
 
     def ScanFolderButton_click(self):
-        path = str(QFileDialog.getExistingDirectory(self, "Select folder to be scanned"));
-        
+        #path = str(QFileDialog.getExistingDirectory(self, "Select folder to be scanned"));
+        path=str(pathlib.Path(self.piratengine.db.path).parents[2])
+        self.log('Scanning database root path : ' + path);
+
         if os.path.exists(path):
             popup=self.nonBlockingPopup("Please wait","Scanning folder");
             files=self.piratengine.db.addFolderToDatabase(path);
@@ -313,7 +327,8 @@ class MainWindowCustomCode():
             dlg = QMessageBox(self);
             dlg.setWindowTitle("Error");
             dlg.setText("Folder does not exist : " + path);
-            button = dlg.exec();               
+            button = dlg.exec();      
+                
 
     def loadScannedFiles(self,files,popup=None):
         fileCount=len(files)
@@ -344,7 +359,8 @@ class MainWindowCustomCode():
                 newTrackPath=self.FilesTable.itemAt(line.row(),0).text();
                 scannedFileList=getattr(self,'scannedFilesList',None);
                 if scannedFileList != None :
-                    newTrackPath=scannedFileList[line.row()];
+                    #newTrackPath=scannedFileList[line.row()];
+                    newTrackPath=line.siblingAtColumn(0).data();
                     
                     if '../' in newTrackPath[:4]:
                         newTrackPath=newTrackPath.replace('../',str(pathlib.Path(self.piratengine.db.path).parents[2])+'/')
@@ -366,7 +382,7 @@ class MainWindowCustomCode():
 
     def AddTrackToPlaylistButton_click(self):
         selected=self.PlaylistTable.selectedIndexes();
-
+        
         if len(selected) == 0 or len(selected) > 1:
             dlg = QMessageBox(self);
             dlg.setWindowTitle("Error");
@@ -374,9 +390,12 @@ class MainWindowCustomCode():
             button = dlg.exec();
             
         else:
-            playlist=self.piratengine.db.Playlist.data[self.PlaylistTable.selectedIndexes()[0].row()]['title']
-            self.log('Playlist ' + playlist )
             playlistHeaders=[self.PlaylistTable.horizontalHeaderItem(r).text() for r in range(self.PlaylistTable.columnCount())];
+            titleColumnIndex=playlistHeaders.index('title')
+            playlist=selected[titleColumnIndex].siblingAtColumn(0).data();
+            #playlist=self.piratengine.db.Playlist.data[self.PlaylistTable.selectedIndexes()[0].row()]['title']
+            self.log('Playlist ' + playlist );
+            
             #playlist=self.PlaylistTable.itemAt(selected[0].row(),playlistHeaders.index('title')).text();
             trackHeaders=[self.TrackTable.horizontalHeaderItem(r).text() for r in range(self.TrackTable.columnCount())];
             pathColumnIndex=trackHeaders.index('path');
@@ -387,8 +406,8 @@ class MainWindowCustomCode():
             selectedTracks=self.TrackTable.selectedIndexes()
 
             for track in selectedTracks:
-                trackPath=self.piratengine.db.Track.data[track.row()]['path']
-                #trackPath=self.TrackTable.itemAt(track.row(),pathColumnIndex).text();          
+                trackPath=track.siblingAtColumn(pathColumnIndex).data()
+                #trackPath=self.piratengine.db.Track.data[track.row()]['path']          
 
                 trackId=self.piratengine.db.findTrack(path=trackPath);
                 #trackId=self.piratengine.db.Track.data[track.row()]['id'];
@@ -461,7 +480,7 @@ class MainWindowCustomCode():
         else:
             status=False;
 
-        self.AddTrackToPlaylistButton.setEnabled(status);
+        #self.AddTrackToPlaylistButton.setEnabled(status);
 
 
     def PlaylistTableFilter_textChanged(self):
@@ -473,9 +492,9 @@ class MainWindowCustomCode():
         else:
             status=False;
 
-        self.AddTrackToPlaylistButton.setEnabled(status);
-        self.ImportToPlaylistButton.setEnabled(status);
-        self.ExportPlaylistButton.setEnabled(status);
+        #self.AddTrackToPlaylistButton.setEnabled(status);
+        #self.ImportToPlaylistButton.setEnabled(status);
+        #self.ExportPlaylistButton.setEnabled(status);
 
     def FilesFilter_textChanged(self):
 
@@ -490,7 +509,7 @@ class MainWindowCustomCode():
                 if scannedFilesList !=None :
                     self.loadScannedFiles(scannedFilesList);
                         
-        self.ImportFilesButton.setEnabled(status);
+        #self.ImportFilesButton.setEnabled(status);
 
     def PlaylistContentFilter_textChanged(self):
         data,trackObjectArray=self.piratengine.db.printPlaylist(self.piratengine.db.Playlist.data[self.PlaylistTable.selectedIndexes()[0].row()]['title']);
@@ -536,10 +555,10 @@ class MainWindowCustomCode():
                 else:
                     #if usedFilter.lower() in .lower()
                     results.append(filter(lambda x: usedFilter.lower() in x.lower(), data))
-        self.log('column ' + str(column) + ', columnName = ' + str(columnName))
-        self.log('usedFilter : ' + str(usedFilter))
+        #self.log('column ' + str(column) + ', columnName = ' + str(columnName))
+        #self.log('usedFilter : ' + str(usedFilter))
         tableWidget.setRowCount(0);
-        self.log('len(results) = ' + str(len(results)))
+        #self.log('len(results) = ' + str(len(results)))
         if len(results)>0:
             register=[]
             for r in results:
