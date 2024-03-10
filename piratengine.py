@@ -266,13 +266,13 @@ def printHelp():
 def main():
     inputArgs=sys.argv
 
+    useGui=True;
+
     if len(inputArgs)>1:
         option=inputArgs[1];
 
         if '--nogui' in inputArgs:
             useGui=False;
-        else:
-            useGui=True;
 
         if option != "--nogui":
             printHelp();

@@ -177,7 +177,7 @@ class MainWindowCustomCode():
 
 
     def DBLoadButton_click(self):
-        print(str(type(self)))
+        #print(str(type(self)))
         self.log('Load Database clicked');
         databasePath=self.DBPathTextEdit.toPlainText();
 
@@ -248,7 +248,7 @@ class MainWindowCustomCode():
         self.TrackTable.setHorizontalHeaderLabels(displayedKeys);
         self.TrackTable.setRowCount(len(self.piratengine.db.Track.data));
 
-        for i,column in enumerate(self.TrackTable.columnCount()):
+        for i in range(self.TrackTable.columnCount()):
             self.TrackTable.setColumnWidth(i,self.TrackTable.width()/len(displayedKeys))
         
         #self.TrackTable.setColumnWidth(0,self.TrackTable.width()/len(displayedKeys))
