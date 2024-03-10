@@ -99,6 +99,7 @@ class MainWindowCustomCode():
         self.FilesFilter.textChanged.connect(self.FilesFilter_textChanged);
         self.PlaylistContentFilter.textChanged.connect(self.PlaylistContentFilter_textChanged);
         self.TrackTable.itemSelectionChanged.connect(self.TrackTable_selectionChanged);
+        self.FilesTable.itemSelectionChanged.connect(self.FilesTable_selectionChanged);
 
         self.BackupDBButton.setEnabled(False);
         self.CreatePlaylistButton.setEnabled(False);
@@ -123,6 +124,14 @@ class MainWindowCustomCode():
             self.AddTrackToPlaylistButton.setEnabled(True);
         else:
             self.AddTrackToPlaylistButton.setEnabled(False);
+    def FilesTable_selectionChanged(self):
+        selectedFiles=self.FilesTable.selectedIndexes();
+
+        if len(selectedFiles) > 0:
+            self.ImportFilesButton.setEnabled(True);
+        else:
+            self.ImportFilesButton.setEnabled(False);
+
 
     def nonBlockingPopup(self,title,text):
         msgBox=QMessageBox(self);
@@ -193,7 +202,7 @@ class MainWindowCustomCode():
             #self.AddTrackToPlaylistButton.setEnabled(True);
             #self.ImportToPlaylistButton.setEnabled(True)
             #self.ExportPlaylistButton.setEnabled(True);
-            self.ImportFilesButton.setEnabled(True);
+            #self.ImportFilesButton.setEnabled(True);
             self.ScanFolderButton.setEnabled(True);
         else:
             dlg = QMessageBox(self)
