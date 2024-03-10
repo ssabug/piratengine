@@ -268,7 +268,6 @@ def main():
 
     if len(inputArgs)>1:
         option=inputArgs[1];
-        print(option)
 
         if '--nogui' in inputArgs:
             useGui=False;
