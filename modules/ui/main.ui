@@ -7,7 +7,7 @@
     <x>0</x>
     <y>0</y>
     <width>1434</width>
-    <height>944</height>
+    <height>958</height>
    </rect>
   </property>
   <property name="minimumSize">
@@ -466,6 +466,7 @@ li.checked::marker { content: &quot;\2612&quot;; }
      <string>File</string>
     </property>
     <addaction name="actionLoad_database"/>
+    <addaction name="actionChoose_table_columns"/>
     <addaction name="actionExit"/>
    </widget>
    <addaction name="menuFile"/>
@@ -479,6 +480,11 @@ li.checked::marker { content: &quot;\2612&quot;; }
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
+   </property>
+  </action>
+  <action name="actionChoose_table_columns">
+   <property name="text">
+    <string>Choose table columns</string>
    </property>
   </action>
  </widget>

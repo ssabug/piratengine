@@ -6,7 +6,8 @@ from PySide6.QtUiTools import QUiLoader
 from PySide6 import QtWidgets
 
 from modules.utils import *
-from modules.mainGui import Ui_MainWindow
+from modules.ui.mainWindow import Ui_MainWindow
+from modules.ui.databaseColumnsSelection import Ui_Dialog
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
     QMetaObject, QObject, QPoint, QRect,QTimer,
@@ -96,12 +97,13 @@ class MainWindowCustomCode():
         self.stagelinqDataFilter.textChanged.connect(self.stagelinqUpdateData);
         self.BackupDBButton.clicked.connect(self.BackupDBButton_clicked);
         self.TrackFilter.textChanged.connect(self.TrackTableFilter_textChanged);
-        self.PlaylistFilter.textChanged.connect(self.PlaylistTableFilter_textChanged);7
+        self.PlaylistFilter.textChanged.connect(self.PlaylistTableFilter_textChanged);
         self.FilesFilter.textChanged.connect(self.FilesFilter_textChanged);
         self.PlaylistContentFilter.textChanged.connect(self.PlaylistContentFilter_textChanged);
         self.TrackTable.itemSelectionChanged.connect(self.TrackTable_selectionChanged);
         self.FilesTable.itemSelectionChanged.connect(self.FilesTable_selectionChanged);
         self.actionLoad_database.triggered.connect(self.DBLoadButton_click);
+        self.actionChoose_table_columns.triggered.connect(self.ChooseTableDisplayedColumns);
 
         self.BackupDBButton.setEnabled(False);
         self.CreatePlaylistButton.setEnabled(False);
@@ -139,6 +141,15 @@ class MainWindowCustomCode():
         else:
             self.ImportFilesButton.setEnabled(False);
 
+
+    def ChooseTableDisplayedColumns(self):
+        #setConfigParameter('gui','TrackTableDisplayedKeys',[]);
+        #self.loadTracks();
+        #setConfigParameter('gui','PlaylistTableDisplayedKeys',[]);
+        #self.loadPlaylists();
+        dlg = Ui_Dialog();
+        dlg.setupUi(dlg,QDialog);
+        button = dlg.show();
 
     def nonBlockingPopup(self,title,text):
         msgBox=QMessageBox(self);

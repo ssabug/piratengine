@@ -1,5 +1,6 @@
 __pycache__/
 modules/__pycache__/
+modules/ui/__pycache__/
 venv/
 utils/git_update.sh
 pcap/
