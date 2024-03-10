@@ -44,6 +44,14 @@ class database():
             msg='Database path not found : ' + self.path;
             self.log(msg);
             return msg
+
+    def getColumnNames(self,tableName):
+    #this works beautifully given that you know the table name
+        self.cursor
+        c = self.cursor;
+        requestString="select * from " + tableName
+        c.execute(requestString):
+        return [member[0] for member in c.description]
         
     def readAll(self,silent=False):
         tables=self.tables;

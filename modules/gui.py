@@ -143,11 +143,17 @@ class MainWindowCustomCode():
 
 
     def ChooseTableDisplayedColumns(self):
+        #self.section0.addWidget(self.label0)
         #setConfigParameter('gui','TrackTableDisplayedKeys',[]);
         #self.loadTracks();
+
+        #self.section1.addWidget(self.label1)
         #setConfigParameter('gui','PlaylistTableDisplayedKeys',[]);
         #self.loadPlaylists();
+        self.log(self.piratengine.db.getColumnNames('Track'))
         dlg = Ui_Dialog();
+        
+        
         dlg.setupUi(dlg,QDialog);
         button = dlg.show();
 
