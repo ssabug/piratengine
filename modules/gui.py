@@ -98,6 +98,7 @@ class MainWindowCustomCode():
         self.PlaylistFilter.textChanged.connect(self.PlaylistTableFilter_textChanged);7
         self.FilesFilter.textChanged.connect(self.FilesFilter_textChanged);
         self.PlaylistContentFilter.textChanged.connect(self.PlaylistContentFilter_textChanged);
+        self.TrackTable.itemSelectionChanged.connect(self.TrackTable_selectionChanged);
 
         self.BackupDBButton.setEnabled(False);
         self.CreatePlaylistButton.setEnabled(False);
@@ -113,6 +114,15 @@ class MainWindowCustomCode():
         
         self.stagelinqTable.setColumnWidth(0,1000/len(keys))#self.stagelinqTable.width()
         self.stagelinqTable.setColumnWidth(1,1000/len(keys))#self.stagelinqTable.width()
+
+    def TrackTable_selectionChanged(self):
+        selectedPlaylist=self.PlaylistTable.selectedIndexes();
+        selectedTracks=self.TrackTable.selectedIndexes();
+
+        if selectedPlaylist != [] and selectedTracks != []:
+            self.AddTrackToPlaylistButton.setEnabled(True);
+        else:
+            self.AddTrackToPlaylistButton.setEnabled(False);
 
     def nonBlockingPopup(self,title,text):
         msgBox=QMessageBox(self);
@@ -180,9 +190,9 @@ class MainWindowCustomCode():
 
             self.BackupDBButton.setEnabled(True);
             self.CreatePlaylistButton.setEnabled(True);
-            self.AddTrackToPlaylistButton.setEnabled(True);
-            self.ImportToPlaylistButton.setEnabled(True)
-            self.ExportPlaylistButton.setEnabled(True);
+            #self.AddTrackToPlaylistButton.setEnabled(True);
+            #self.ImportToPlaylistButton.setEnabled(True)
+            #self.ExportPlaylistButton.setEnabled(True);
             self.ImportFilesButton.setEnabled(True);
             self.ScanFolderButton.setEnabled(True);
         else:
@@ -254,12 +264,25 @@ class MainWindowCustomCode():
 
                     #self.log(key + ' : ' + str(track[key]))
     def loadPlaylistContents(self):
-        tracks,trackObjectArray=self.piratengine.db.printPlaylist(self.piratengine.db.Playlist.data[self.PlaylistTable.selectedIndexes()[0].row()]['title']);
-        self.PlaylistContentTable.setRowCount(len(tracks));
-        self.PlaylistContentTable.setColumnCount(2);
-        self.PlaylistContentTable.setColumnWidth(0,self.PlaylistContentTable.width()*2)
-        for i,track in enumerate(tracks):
-            self.PlaylistContentTable.setItem(i,0,QTableWidgetItem(track));
+        selectedPlaylists=self.PlaylistTable.selectedIndexes()
+        if len(selectedPlaylists) == 1 :
+            self.ImportToPlaylistButton.setEnabled(True);
+            self.ExportPlaylistButton.setEnabled(True);
+            tracks,trackObjectArray=self.piratengine.db.printPlaylist(self.piratengine.db.Playlist.data[selectedPlaylists[0].row()]['title']);
+            self.PlaylistContentTable.setRowCount(len(tracks));
+            self.PlaylistContentTable.setColumnCount(2);
+            self.PlaylistContentTable.setColumnWidth(0,self.PlaylistContentTable.width()*2)
+            for i,track in enumerate(tracks):
+                self.PlaylistContentTable.setItem(i,0,QTableWidgetItem(track));  
+        elif len(selectedPlaylists)>1:
+            self.ExportPlaylistButton.setEnabled(True);
+            self.ImportToPlaylistButton.setEnabled(False);
+            self.AddTrackToPlaylistButton.setEnabled(False);
+        else:
+            self.AddTrackToPlaylistButton.setEnabled(False);
+            self.ExportPlaylistButton.setEnabled(False);
+            self.ImportToPlaylistButton.setEnabled(False);
+
 
     def ScanFolderButton_click(self):
         path = str(QFileDialog.getExistingDirectory(self, "Select folder to be scanned"));
@@ -340,7 +363,7 @@ class MainWindowCustomCode():
             dlg.setWindowTitle("Error");
             dlg.setText("Select one playlist in the table");
             button = dlg.exec();
-
+            
         else:
             playlist=self.piratengine.db.Playlist.data[self.PlaylistTable.selectedIndexes()[0].row()]['title']
             self.log('Playlist ' + playlist )
