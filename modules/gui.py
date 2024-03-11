@@ -22,7 +22,7 @@ from PySide6.QtWidgets import (QApplication, QComboBox, QGridLayout, QHBoxLayout
     QMenuBar, QPushButton, QSizePolicy, QSpacerItem,
     QStatusBar, QTabWidget, QTableWidget, QTableWidgetItem,
     QWidget,QFileDialog,QMessageBox,QInputDialog,QTabWidget,QSpacerItem,
-    QLineEdit,
+    QLineEdit,QRadioButton,QCheckBox,
     QTextEdit, QVBoxLayout, QWidget)
 
 class GUI():
@@ -73,7 +73,10 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):#(QtWidgets.QMainWindow, 
            
             self.initCallbacks();
             
-                   
+class DatabaseColumnsSelection(QtWidgets.QDialog, Ui_Dialog):#(QtWidgets.QMainWindow, Ui_MainWindow):
+        def __init__(self):
+            super(DatabaseColumnsSelection, self).__init__()
+            self.setupUi(self);                  
 
 class MainWindowCustomCode():
     def __init__(self):
@@ -143,19 +146,42 @@ class MainWindowCustomCode():
 
 
     def ChooseTableDisplayedColumns(self):
-        #self.section0.addWidget(self.label0)
-        #setConfigParameter('gui','TrackTableDisplayedKeys',[]);
-        #self.loadTracks();
+        tables=["Track","Playlist"];
 
-        #self.section1.addWidget(self.label1)
-        #setConfigParameter('gui','PlaylistTableDisplayedKeys',[]);
-        #self.loadPlaylists();
-        self.log(self.piratengine.db.getColumnNames('Track'))
-        dlg = Ui_Dialog();
+        if self.piratengine.db != None:
+
+            dlg = DatabaseColumnsSelection()#Ui_Dialog();
+
+            for i,table in enumerate(tables):
+                section=getattr(dlg,'section'+str(i));
+                #self.log('//// ' + table)
+                for field in self.piratengine.db.getColumnNames(table):
+                    #self.log(field)
+                    widget=QCheckBox(field,self);
+                    if field in getConfigParameter('gui',table+'TableDisplayedKeys'):
+                        widget.setChecked(True);
+                    section.addWidget(widget);       
         
-        
-        dlg.setupUi(dlg,QDialog);
-        button = dlg.show();
+            button = dlg.exec();
+
+            if button == 1:
+                
+                for i,table in enumerate(tables):
+                    columns=[];
+                    section=getattr(dlg,'section'+str(i));
+                    for index,field in enumerate(self.piratengine.db.getColumnNames(table)):
+                        widget=section.itemAt(index+2);
+                        
+                        if hasattr(widget,'widget') and hasattr(widget,'isChecked'):
+                            widget=widget.widget();
+                            if widget.isChecked():
+                                self.log(table + ' : ' + field)
+                                columns.append(field);
+                    if columns != []:
+                        setConfigParameter('gui',table+'TableDisplayedKeys',columns);
+                        self.log('Displayed columns updated : '+ table);
+                    else:
+                        self.log('No displayed columns changes : ' + table);
 
     def nonBlockingPopup(self,title,text):
         msgBox=QMessageBox(self);

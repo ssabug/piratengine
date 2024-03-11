@@ -23,15 +23,15 @@ class Ui_Dialog(object):
     def setupUi(self, Dialog):
         if not Dialog.objectName():
             Dialog.setObjectName(u"Dialog")
-        Dialog.resize(428, 326)
+        Dialog.resize(428, 959)
         self.buttonBox = QDialogButtonBox(Dialog)
         self.buttonBox.setObjectName(u"buttonBox")
-        self.buttonBox.setGeometry(QRect(40, 280, 341, 32))
+        self.buttonBox.setGeometry(QRect(70, 920, 341, 32))
         self.buttonBox.setOrientation(Qt.Horizontal)
         self.buttonBox.setStandardButtons(QDialogButtonBox.Cancel|QDialogButtonBox.Ok)
         self.horizontalLayoutWidget = QWidget(Dialog)
         self.horizontalLayoutWidget.setObjectName(u"horizontalLayoutWidget")
-        self.horizontalLayoutWidget.setGeometry(QRect(9, 9, 401, 251))
+        self.horizontalLayoutWidget.setGeometry(QRect(9, 9, 401, 901))
         self.horizontalLayout = QHBoxLayout(self.horizontalLayoutWidget)
         self.horizontalLayout.setObjectName(u"horizontalLayout")
         self.horizontalLayout.setContentsMargins(0, 0, 0, 0)
@@ -86,6 +86,6 @@ class Ui_Dialog(object):
     def retranslateUi(self, Dialog):
         Dialog.setWindowTitle(QCoreApplication.translate("Dialog", u"Dialog", None))
         self.label0.setText(QCoreApplication.translate("Dialog", u"Track", None))
-        self.label1.setText(QCoreApplication.translate("Dialog", u"Playlists", None))
+        self.label1.setText(QCoreApplication.translate("Dialog", u"Playlist", None))
     # retranslateUi
 

@@ -19,7 +19,7 @@
 - [ ] gui : clean GUI code structure
 - [x] gui : add filter to tables
 - [ ] gui : run long task as threads / async 
-- [ ] gui : add menu to select columns to display
+- [ ] gui : add menu to select columns to display [IN_PROGRESS] : isChecked() always return false
 - [x] gui : disable push buttons when prior conditions not met (trigger when table element selection changed)
 - [x] database : fordib to add files from a different root location as loaded database
 - [ ] database : find a way to copy scan folder not database-referenced files to database root folder 
