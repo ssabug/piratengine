@@ -154,9 +154,7 @@ class MainWindowCustomCode():
 
             for i,table in enumerate(tables):
                 section=getattr(dlg,'section'+str(i));
-                #self.log('//// ' + table)
                 for field in self.piratengine.db.getColumnNames(table):
-                    #self.log(field)
                     widget=QCheckBox(field,self);
                     if field in getConfigParameter('gui',table+'TableDisplayedKeys'):
                         widget.setChecked(True);
