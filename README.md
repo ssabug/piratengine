@@ -14,7 +14,8 @@ Some features about StageLinQ will also be explored.
  - [x] Qt GUI
  - [x] make a backup of the currently edited database
  - [x] read track, playlist info, ...
- - [ ] test database modified with all GUI features (v2 & v3)
+ - [x] test database modified with 2.20 schema 
+ - [ ] test database modified with >=3 schema
  - [ ] track edit
  - [x] track add
  - [ ] track IDV3 fill

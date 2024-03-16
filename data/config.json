@@ -1,1 +1,1 @@
-{"general": {"debug": true, "fileLogging": true, "logFile": "data/log.txt", "backupDbOnLoad": false}, "gui": {"lastSelectedDBPath": "/home/pwner/zikmu/EngineLibraryDebug/Database2", "TrackTableDisplayedKeys": ["path", "filename"], "PlaylistTableDisplayedKeys": ["title", "lastEditTime"]}}
+{"general": {"debug": true, "fileLogging": true, "logFile": "data/log.txt", "backupDbOnLoad": false}, "gui": {"lastSelectedDBPath": "/run/media/pwner/ZIKMU/Engine Library/Database2", "TrackTableDisplayedKeys": ["path", "filename"], "PlaylistTableDisplayedKeys": ["title", "lastEditTime"]}}
