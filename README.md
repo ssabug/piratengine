@@ -52,8 +52,6 @@ Some features about StageLinQ will also be explored.
  </details>
  
  - `pip install -r install/requirements.txt`
- - in your installed library **PyStageLinQ.py** file, change the variable this way : `ANNOUNCE_IP = "224.0.0.251" `
-`
 
 ## Running
  - (optional) if you created a virtual environnement, run `source venv/bin/activate` (some IDEs can do this automatically)

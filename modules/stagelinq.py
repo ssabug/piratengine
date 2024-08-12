@@ -14,7 +14,7 @@ class stagelinq():
         self.receiveFilter=""
 
         self.session=PyStageLinQ.PyStageLinQ(self.new_device_found_callback, name="piratengine StagelinQ")
-        self.thread = threading.Thread(target=self.session.start, args=());
+        self.thread = threading.Thread(target=self.session.start_standalone, args=());
         self.thread.start();
 
     def log(self,text,source='STLQ',severity='INFO',sameline=False):
