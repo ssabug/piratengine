@@ -49,13 +49,15 @@ Some features about StageLinQ will also be explored.
  - you can edit some options in `data/config.json`
 
 ## Running
- - double click on `piratengine`. You can run it into a terminal to have debug messages display.
+ - double click on `piratengine`. 
+ - You can run it into a terminal to have debug messages display
+ - Runnng `piratengine --nogui` will run the program in interactive terminal mode (no Qt Gui)
 
 ## Build
  - `git clone` the repo
  - `cd piratengine`
   <details>
-    <summary>Linux </summary>
+    <summary>Linux</summary>
 
  - run `./utils/build_linux.sh`</details>
   <details>
