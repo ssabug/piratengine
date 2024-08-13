@@ -1,4 +1,3 @@
-pysqlite3
 mutagen
 PySide6
 python-tr

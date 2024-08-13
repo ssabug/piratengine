@@ -1,37 +1,44 @@
-@ECHO OFF
 
-$programName=piratengine
+$programName="piratengine"
 $system="windows"
-$version=0.1.1
-$buildDir="build"
-$distDir="dist"
-$venvDir="venv"
+$workingDir="$(Get-Location)"
+$version="0.1.1"
+$buildDir="${workingDir}\build"
+$distDir="${workingDir}\dist"
+$venvDir="${workingDir}\venv"
 $buildZip="y"
 $deleteBuildFiles="y"
 $pr="////////////////////////// "
-echo "${pr} ensure python has the permission to run scripts, by running in an admin powershell window : Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser"
+
+echo "${pr}Troubleshooting :"
+echo "  - ensure git command is available on the system in powershell terminal "
+echo "  - ensure python command is availabe in powershell - prefer Microsoft store install for this"
+echo "  - ensure python has the permission to run scripts, by running in an admin powershell window : Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser"
+echo " "
+
+echo "${pr}Working dir $(Get-Location)"
 
 function install {
-    if exist $venvDir (
+    if (Test-Path -Path "$venvDir") {
     echo "${pr}VENV directory already created, no librairies will be installed"
-    ) else (
+    } else {
     echo "${pr}Creating VENV"
         python -m venv venv
         .\venv\Scripts\Activate.ps1 
         echo "${pr}Installing libraries"
         pip install -r utils\requirements.txt       
-    )
+    }
 }
 
 function cleanDirs {
-    Remove-Item "$buildDir"
-    Remove-Item "$distDir"
+    Remove-Item "$buildDir" -Recurse -Force
+    Remove-Item "$distDir"	-Recurse -Force
 }
 
 function deleteFiles {
-    if "${deleteBuildFiles}"=="y" (
+    if ("${deleteBuildFiles}" -eq "y") {
         cleanDirs
-    )
+    }
 }
 
 function prepareBinary {
@@ -41,29 +48,30 @@ function prepareBinary {
     echo "${pr}Copying program data"
 
     $dataDestDir="${distDir}\${programName}\data"
-    New-Item -Name "${dataDestDir}" -ItemType "directory"
+    New-Item -Path "${dataDestDir}" -ItemType "directory"
     Copy-Item -Path "data/config.json" -Destination "${dataDestDir}"
 
     $docDestDir="${distDir}\${programName}\doc"
-    New-Item -Name "${docDestDir}" -ItemType "directory"
+    New-Item -Path "${docDestDir}" -ItemType "directory"
     Copy-Item -Path "doc\*" -Destination "${docDestDir}" -Recurse
     Copy-Item -Path "README.md" -Destination "${docDestDir}"
     Move-Item -Path "${programName}.spec" -Destination "${docDestDir}\${programName}.spec"
 
-    if "${buildZip}"=="y" (
+    if ("${buildZip}" -eq "y") {
         $zipfile="${programName}_${version}_${system}.zip"
         echo "${pr}Creating ZIP release package ${zipfile}"
         cd "${distDir}"
         $compress = @{
-            Path = "${distDi}\${programName}"
+            Path = "${distDir}\${programName}"
             CompressionLevel = "Fastest"
-            DestinationPath = "${zipfile}"
+            DestinationPath = "${workingDir}\${zipfile}"
         }
         Compress-Archive @compress
-        Move-Item -Path "${zipfile}" -Destination "${docDestDir}\${zipfile}"
         cd ..
-    )
-    deleteFiles
+    }
+    #deleteFiles
+	
+	echo "${pr}Build terminated, if zip file not created, check errors in terminal"
 }
 
 install

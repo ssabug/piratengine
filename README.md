@@ -63,7 +63,7 @@ Some features about StageLinQ will also be explored.
   <details>
     <summary>Windows </summary>
 
- - **WARNING SCRIPT NOT TESTED** . In a powershell, run `.\utils\build_windows.ps1`
+ - In a powershell, run `.\utils\build_windows.ps1`
 
   </details>
 
@@ -84,7 +84,7 @@ Some useful ressources:
 Linux, Mac, Windows (as in python)
 
 Tested systems:
-Fedora Linux
+Fedora Linux, Windows 11
 
 ## Licensing
 WTFPL.
