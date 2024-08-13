@@ -61,7 +61,7 @@ Some features about StageLinQ will also be explored.
   <details>
     <summary>Windows </summary>
 
- - run `./utils/build_windows.bat`
+ - **WARNING SCRIPT NOT TESTED** . In a powershell, run `.\utils\build_windows.ps1`
 
   </details>
 

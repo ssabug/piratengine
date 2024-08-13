@@ -10,14 +10,14 @@ pr="////////////////////////// "
 
 install() {
 
-    if [ ! -d "${venvDir}" ]; then
+    if [ -d "${venvDir}" ]; then
+        echo "${pr}VENV directory already created, no librairies will be installed"
+    else
         echo "${pr}Creating VENV"
         python -m venv venv
         source venv/bin/activate
         echo "${pr}Installing libraries"
-        pip install -r utils/requirements.txt
-    else
-        echo "${pr}VENV directory already created, no librairies will be installed"
+        pip install -r utils/requirements.txt        
     fi
 }
 
