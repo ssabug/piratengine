@@ -3,7 +3,7 @@
 ################################################################################
 ## Form generated from reading UI file 'main.ui'
 ##
-## Created by: Qt User Interface Compiler version 6.6.2
+## Created by: Qt User Interface Compiler version 6.7.2
 ##
 ## WARNING! All changes made in this file will be lost when recompiling UI file!
 ################################################################################
@@ -26,7 +26,7 @@ class Ui_MainWindow(object):
     def setupUi(self, MainWindow):
         if not MainWindow.objectName():
             MainWindow.setObjectName(u"MainWindow")
-        MainWindow.resize(1434, 944)
+        MainWindow.resize(1434, 958)
         MainWindow.setMinimumSize(QSize(0, 0))
         self.actionLoad_database = QAction(MainWindow)
         self.actionLoad_database.setObjectName(u"actionLoad_database")
@@ -289,10 +289,37 @@ class Ui_MainWindow(object):
         self.gridLayout_2.setContentsMargins(0, 0, 0, 0)
         self.verticalLayout_4 = QVBoxLayout()
         self.verticalLayout_4.setObjectName(u"verticalLayout_4")
+        self.horizontalLayout_9 = QHBoxLayout()
+        self.horizontalLayout_9.setObjectName(u"horizontalLayout_9")
         self.stagelinqStartButton = QPushButton(self.gridLayoutWidget_2)
         self.stagelinqStartButton.setObjectName(u"stagelinqStartButton")
 
-        self.verticalLayout_4.addWidget(self.stagelinqStartButton)
+        self.horizontalLayout_9.addWidget(self.stagelinqStartButton)
+
+        self.stagelinqIPFilterLabel = QLabel(self.gridLayoutWidget_2)
+        self.stagelinqIPFilterLabel.setObjectName(u"stagelinqIPFilterLabel")
+        sizePolicy2 = QSizePolicy(QSizePolicy.Policy.Fixed, QSizePolicy.Policy.Preferred)
+        sizePolicy2.setHorizontalStretch(0)
+        sizePolicy2.setVerticalStretch(0)
+        sizePolicy2.setHeightForWidth(self.stagelinqIPFilterLabel.sizePolicy().hasHeightForWidth())
+        self.stagelinqIPFilterLabel.setSizePolicy(sizePolicy2)
+        self.stagelinqIPFilterLabel.setMinimumSize(QSize(34, 0))
+
+        self.horizontalLayout_9.addWidget(self.stagelinqIPFilterLabel)
+
+        self.stagelinqIP = QLineEdit(self.gridLayoutWidget_2)
+        self.stagelinqIP.setObjectName(u"stagelinqIP")
+        sizePolicy3 = QSizePolicy(QSizePolicy.Policy.Minimum, QSizePolicy.Policy.Fixed)
+        sizePolicy3.setHorizontalStretch(0)
+        sizePolicy3.setVerticalStretch(0)
+        sizePolicy3.setHeightForWidth(self.stagelinqIP.sizePolicy().hasHeightForWidth())
+        self.stagelinqIP.setSizePolicy(sizePolicy3)
+        self.stagelinqIP.setMinimumSize(QSize(460, 0))
+
+        self.horizontalLayout_9.addWidget(self.stagelinqIP)
+
+
+        self.verticalLayout_4.addLayout(self.horizontalLayout_9)
 
         self.horizontalLayout_5 = QHBoxLayout()
         self.horizontalLayout_5.setObjectName(u"horizontalLayout_5")
@@ -336,7 +363,7 @@ class Ui_MainWindow(object):
 
         self.retranslateUi(MainWindow)
 
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
 
 
         QMetaObject.connectSlotsByName(MainWindow)
@@ -374,6 +401,7 @@ class Ui_MainWindow(object):
         self.PlaylistContentFilterLable.setText(QCoreApplication.translate("MainWindow", u"Filter", None))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), QCoreApplication.translate("MainWindow", u"Database", None))
         self.stagelinqStartButton.setText(QCoreApplication.translate("MainWindow", u"Start StageLinQ monitor", None))
+        self.stagelinqIPFilterLabel.setText(QCoreApplication.translate("MainWindow", u"IP", None))
         self.stagelinqDataFilterLabel.setText(QCoreApplication.translate("MainWindow", u"Filter", None))
 #if QT_CONFIG(tooltip)
         self.stagelinqDataFilter.setToolTip("")

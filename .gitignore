@@ -6,3 +6,6 @@ utils/git_update.sh
 pcap/
 data/log.txt
 data/*.backup
+dist/
+build/
+*.zip

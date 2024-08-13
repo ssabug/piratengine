@@ -1,6 +1,5 @@
 import os
 import sys
-import pathlib
 
 from modules.database import *
 from modules.stagelinq import *
@@ -141,8 +140,7 @@ class piratengine():
         path=input('Enter your database path ( .../Engine Library/Database2/ ) \n');
         trackDataBase=self.loadDb(path);
         return trackDataBase;
-
-    
+   
     def loadDb(self,path):
         trackDataBase=database(os.path.join(path,'m.db'));
         return trackDataBase;
@@ -161,7 +159,9 @@ class piratengine():
         playlistArray,trackObjectArray=db.printPlaylist(playlistName);
         excludedKeys=['trackData','overviewWaveFormData','beatData','quickCues','loops']
                                
-        extension = pathlib.Path(outfilePath).suffix[1:];
+        #extension = pathlib.Path(outfilePath).suffix[1:];
+        filename,extension = os.path.splitext(outfilePath);
+        extension=extension[1:]
                                
         f = open(outfilePath, "w");
                                
@@ -199,7 +199,9 @@ class piratengine():
         self.log('Importing playlist file ' + path);
 
         if os.path.exists(path):
-            extension = pathlib.Path(path).suffix[1:];
+            #extension = pathlib.Path(path).suffix[1:];
+            filename,extension = os.path.splitext(outfilePath);
+            extension=extension[1:]
                                
             f = open(path, "r");
 
@@ -223,8 +225,7 @@ class piratengine():
             self.log('Importing file to playlist ended :' + path)
         else:
             self.log('File does not exist :' + path)
-        
-    
+         
     def trackInPlaylist(self,track,playlist):
         if self.db != None:
             for track in trackDataBase:
@@ -232,12 +233,12 @@ class piratengine():
                     return True;
         return False
 
-    def startStagelinq(self):
+    def startStagelinq(self,ip=None):
         if self.stagelinq != None:
             del self.stagelinq;
         
         self.log('Starting stagelinq');
-        self.stagelinq=stagelinq(self);
+        self.stagelinq=stagelinq(self,ip);
 
     def stagelinqNewData(self):
         self.gui.stagelinqUpdateData();
@@ -250,7 +251,7 @@ class piratengine():
         if self.stagelinq != None:
             self.log('Stopping StageLinQ')
             #self.stagelinq.thread.close();
-            #self.stagelinq.thread.join(1);
+            self.stagelinq.thread.join(1);
             del self.stagelinq;
 
         self.log('Program terminated');
@@ -258,7 +259,7 @@ class piratengine():
 
 def printHelp():
     print('Usage :');
-    print('python piratengine.py --option');
+    print('python piratengine.py option');
     print('option :');
     print('--nogui  : Disables Qt GUI');
     print('--help   : Prints this text');

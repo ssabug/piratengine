@@ -8,6 +8,8 @@ The first objective is to have simple tools to interact with m.db database.
 
 Some features about StageLinQ will also be explored.
 
+**WARNING** StagelinQ part of v0.1.1 is not functional, only uploaded for test purposes.
+
 ## Features
 
 ### Database2/m.db
@@ -42,22 +44,28 @@ Some features about StageLinQ will also be explored.
  - Qt 6
 
 ## Installation
- - `git clone` the repo
- - `cd piratengine`
-<details>
-  <summary> (optional) you can create a python virtual environnement to avoid the project python libraries to interfere with the ones already present on your system </summary>
-
- - run `python -m venv venv`
- - then `source venv/bin/activate` (some IDEs can do this automatically) 
- </details>
- 
- - `pip install -r install/requirements.txt`
- - in your installed library **PyStageLinQ.py** file, change the variable this way : `ANNOUNCE_IP = "224.0.0.251" `
-`
+ - download release or build binary
+ - extract files in the desired folder (binary and data files must stay in the same directory)
+ - you can edit some options in `data/config.json`
 
 ## Running
- - (optional) if you created a virtual environnement, run `source venv/bin/activate` (some IDEs can do this automatically)
- - `python piratengine.py` 
+ - double click on `piratengine`. You can run it into a terminal to have debug messages display.
+
+## Build
+ - `git clone` the repo
+ - `cd piratengine`
+  <details>
+    <summary>Linux </summary>
+
+ - run `./utils/build_linux.sh`</details>
+  <details>
+    <summary>Windows </summary>
+
+ - run `./utils/build_windows.bat`
+
+  </details>
+
+ - A zip file will be created with all needed application files.
 
 ## Utilities
 

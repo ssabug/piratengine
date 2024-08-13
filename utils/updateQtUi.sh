@@ -1,0 +1,1 @@
+pyside6-uic modules/ui/main.ui -o modules/ui/mainWindow.py

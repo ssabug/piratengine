@@ -5,7 +5,7 @@ from pprint import pprint
 
 
 class stagelinq():
-    def __init__(self,piratengine):
+    def __init__(self,piratengine,ip=None):
         self.log('Init StagelinQ');
         self.log('Using https://github.com/Jaxc/PyStageLinQ');
         self.data={};
@@ -13,9 +13,13 @@ class stagelinq():
 
         self.receiveFilter=""
 
-        self.session=PyStageLinQ.PyStageLinQ(self.new_device_found_callback, name="piratengine StagelinQ")
-        self.thread = threading.Thread(target=self.session.start, args=());
+        self.session=PyStageLinQ.PyStageLinQ(self.new_device_found_callback, name="piratengine StagelinQ",ip=ip)
+        #self.session=PyStageLinQ.PyStageLinQ(self.new_device_found_callback, name="piratengine StagelinQ")
+        self.thread = threading.Thread(target=self.session.start_standalone, args=());
+        #self.thread = threading.Thread(target=self.session.start, args=());
         self.thread.start();
+
+        self.log("StageLinq started, waiting for devices")
 
     def log(self,text,source='STLQ',severity='INFO',sameline=False):
         log(text,source=source,severity=severity,sameline=sameline);

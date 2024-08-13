@@ -28,10 +28,10 @@ def setConfigParameter(section,parameter,value):
 
     data[section][parameter]=newValue;
 
-    jsonOutput = json.dumps(data);
+    jsonOutput = json.dumps(data,indent=4);
  
     f=open(configFilePath, "w");
-    f.write(jsonOutput);
+    f.write(jsonOutput, );
 
 
     

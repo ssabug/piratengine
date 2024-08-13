@@ -1,6 +1,6 @@
 pysqlite3
 mutagen
-pathlib
 PySide6
 python-tr
 PyStageLinQ
+pyinstaller

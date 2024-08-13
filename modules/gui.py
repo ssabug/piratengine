@@ -144,7 +144,6 @@ class MainWindowCustomCode():
         else:
             self.ImportFilesButton.setEnabled(False);
 
-
     def ChooseTableDisplayedColumns(self):
         tables=["Track","Playlist"];
 
@@ -215,7 +214,6 @@ class MainWindowCustomCode():
         databasePath=self.DBChooseDirPopup();
 
         self.DBLoadButton_click();
-
 
     def DBLoadButton_click(self):
         #print(str(type(self)))
@@ -304,8 +302,6 @@ class MainWindowCustomCode():
 
                     #self.log(key + ' : ' + str(track[key]))
 
-        
-
     def loadPlaylists(self):
         displayedKeys=getConfigParameter('gui','PlaylistTableDisplayedKeys');
         #displayedKeys=['title', 'lastEditTime'];
@@ -324,6 +320,7 @@ class MainWindowCustomCode():
                     self.PlaylistTable.setItem(row,displayedKeys.index(key),QTableWidgetItem(str(playlist[key])))
 
                     #self.log(key + ' : ' + str(track[key]))
+
     def loadPlaylistContents(self):
         selectedPlaylists=self.PlaylistTable.selectedIndexes()
         if len(selectedPlaylists) == 1 :
@@ -349,7 +346,6 @@ class MainWindowCustomCode():
             self.ExportPlaylistButton.setEnabled(False);
             self.ImportToPlaylistButton.setEnabled(False);
 
-
     def ScanFolderButton_click(self):
         #path = str(QFileDialog.getExistingDirectory(self, "Select folder to be scanned"));
         path=str(pathlib.Path(self.piratengine.db.path).parents[2])
@@ -374,7 +370,6 @@ class MainWindowCustomCode():
             dlg.setText("Folder does not exist : " + path);
             button = dlg.exec();      
                 
-
     def loadScannedFiles(self,files,popup=None):
         fileCount=len(files)
         self.FilesTable.setRowCount(fileCount);
@@ -528,7 +523,6 @@ class MainWindowCustomCode():
 
         #self.AddTrackToPlaylistButton.setEnabled(status);
 
-
     def PlaylistTableFilter_textChanged(self):
         displayedKeys=getConfigParameter('gui','PlaylistTableDisplayedKeys');
         defaultField='title';
@@ -561,7 +555,6 @@ class MainWindowCustomCode():
         data,trackObjectArray=self.piratengine.db.printPlaylist(self.piratengine.db.Playlist.data[self.PlaylistTable.selectedIndexes()[0].row()]['title']);
         if not self.filterTable(filterWidget=self.PlaylistContentFilter,tableWidget=self.PlaylistContentTable,data=data,displayedKeys=[],defaultField=''):
           self.loadPlaylistContents();
-
 
     def filterTable(self,filterWidget="",tableWidget="",data=[],displayedKeys=[],defaultField=''):
 
@@ -641,10 +634,16 @@ class MainWindowCustomCode():
         dlg.setText(message);
         button = dlg.exec();
 
-
     def stagelinqStartButton_click(self):
         try:
-            self.piratengine.startStagelinq();
+            if self.stagelinqIP.text() == "":
+                ip=None;
+            else:
+                ip=self.stagelinqIP.text()
+
+            self.log("IP used is " + str(ip))
+
+            self.piratengine.startStagelinq(ip);
             setattr(self,'timer',QTimer(self));
             self.timer.timeout.connect(self.stagelinqUpdateData)
             self.timer.start(2000);

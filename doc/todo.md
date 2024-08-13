@@ -6,6 +6,8 @@
 - [x] check if track not already in database before adding to  track /playlist 
 - [x] add "loading..." popup while doing stuff
 - [x] update lastEditTime playlist table each time operation done on playlist [TO_BE_TESTED]
+- [x] implement proper EXE file generation [WINDOWS_TO_BE_DONE]
+- [x] stagelinq : implement stagelink 0.2.1 changes [TO_BE_TESTED] [KO]
 - [ ] stagelinq : data from one player overwrites some previously sent by another
 - [ ] stagelinq : crashes program if one player is disconnected
 - [ ] stagelinq : clean way of start/stop service (close connections,...)
