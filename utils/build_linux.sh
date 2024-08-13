@@ -64,6 +64,7 @@ prepareBinary() {
 
     deleteFiles
 
+    echo "${pr}Build terminated, if zip file not created, check errors in terminal"
 }
 
 install

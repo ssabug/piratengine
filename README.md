@@ -67,7 +67,7 @@ Some features about StageLinQ will also be explored.
 
   </details>
 
- - A zip file will be created with all needed application files.
+ - A zip file will be created with all needed application files. You can destroy all other files/folder.
 
 ## Utilities
 
@@ -84,7 +84,8 @@ Some useful ressources:
 Linux, Mac, Windows (as in python)
 
 Tested systems:
-Fedora Linux, Windows 11
+
+Fedora Linux, Archlinux, Windows 11
 
 ## Licensing
 WTFPL.
