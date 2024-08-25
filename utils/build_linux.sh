@@ -1,12 +1,17 @@
 programName="piratengine"
 system="linux"
-version=0.1.1
+version=0.1.2
 buildDir="build"
 distDir="dist"
 venvDir="venv"
 buildZip="y"
 deleteBuildFiles="y"
 pr="////////////////////////// "
+
+patch() {
+    echo "Patching announce IP in PyStageLinQ 0.1.2"
+    sed -i 's/169\.254\.255\.255/224\.0\.0\.251/g' "$(find * | grep PyStageLinQ.py)"  
+}
 
 install() {
 
@@ -17,7 +22,9 @@ install() {
         python -m venv venv
         source venv/bin/activate
         echo "${pr}Installing libraries"
-        pip install -r utils/requirements.txt        
+        pip install -r utils/requirements.txt
+        #use the line below if PyStageLinQ version is 0.1.2
+        patch
     fi
 }
 

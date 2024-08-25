@@ -1,6 +1,7 @@
 # TODO
 
-## v0.1.1
+## v0.1.2
+- [x] stagelinq : regression to 0.1.2 (announce IP patch automated)
 - [ ] test build & run powershell scripts
 - [ ] stagelinq : data from one player overwrites some previously sent by another
 - [ ] stagelinq : crashes program if one player is disconnected
@@ -13,6 +14,9 @@
 - [ ] gui : add menu to select columns to display [IN_PROGRESS] : isChecked() always return false
 - [ ] database : find a way to copy scan folder not database-referenced files to database root folder 
 - [ ] database : shitty html characters in JSON exported playlists (for é,à,.. and so on)
+
+## v0.1.1
+- [x] stagelinq : add ip filter
 - [x] implement proper EXE file generation [WINDOWS_TO_BE_TESTED]
 - [x] stagelinq : implement stagelink 0.2.1 changes [TO_BE_TESTED] [KO]
 

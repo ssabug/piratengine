@@ -2,7 +2,7 @@
 $programName="piratengine"
 $system="windows"
 $workingDir="$(Get-Location)"
-$version="0.1.1"
+$version="0.1.2"
 $buildDir="${workingDir}\build"
 $distDir="${workingDir}\dist"
 $venvDir="${workingDir}\venv"
@@ -18,6 +18,13 @@ echo " "
 
 echo "${pr}Working dir $(Get-Location)"
 
+function patch {
+    echo "Patching announce IP in PyStageLinQ 0.1.2"  
+    $file = Get-ChildItem venv\lib -Recurse -Include PyStageLinQ.py
+    $regex = '169.254.255.255'
+    (Get-Content $file) -replace $regex, '224.0.0.251' | Set-Content $file
+}
+
 function install {
     if (Test-Path -Path "$venvDir") {
     echo "${pr}VENV directory already created, no librairies will be installed"
@@ -26,7 +33,9 @@ function install {
         python -m venv venv
         .\venv\Scripts\Activate.ps1 
         echo "${pr}Installing libraries"
-        pip install -r utils\requirements.txt       
+        pip install -r utils\requirements.txt    
+        #use the line below if PyStageLinQ version is 0.1.2
+        patch
     }
 }
 

@@ -238,7 +238,7 @@ class piratengine():
             del self.stagelinq;
         
         self.log('Starting stagelinq');
-        self.stagelinq=stagelinq(self,ip);
+        self.stagelinq=stagelinq(self,ip=ip);
 
     def stagelinqNewData(self):
         self.gui.stagelinqUpdateData();

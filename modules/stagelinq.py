@@ -10,13 +10,17 @@ class stagelinq():
         self.log('Using https://github.com/Jaxc/PyStageLinQ');
         self.data={};
         self.piratengine=piratengine;
-
+        
         self.receiveFilter=""
-
-        self.session=PyStageLinQ.PyStageLinQ(self.new_device_found_callback, name="piratengine StagelinQ",ip=ip)
-        #self.session=PyStageLinQ.PyStageLinQ(self.new_device_found_callback, name="piratengine StagelinQ")
-        self.thread = threading.Thread(target=self.session.start_standalone, args=());
-        #self.thread = threading.Thread(target=self.session.start, args=());
+        version="0.1.2"
+        #stagelinq 0.2.1
+        if version == "0.2.1":
+            self.session=PyStageLinQ.PyStageLinQ(self.new_device_found_callback, name="piratengine StagelinQ",ip=ip)
+            self.thread = threading.Thread(target=self.session.start_standalone, args=());
+        else:    
+            #stagelinq 0.1.2
+            self.session=PyStageLinQ.PyStageLinQ(self.new_device_found_callback, name="piratengine StagelinQ")
+            self.thread = threading.Thread(target=self.session.start, args=());
         self.thread.start();
 
         self.log("StageLinq started, waiting for devices")
