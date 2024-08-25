@@ -50,7 +50,6 @@ Some features about StageLinQ will also be explored.
 
 ## Running
  - double click on `piratengine`. 
- - You can run it into a terminal to have debug messages display
  - Runnng `piratengine --nogui` will run the program in interactive terminal mode (no Qt Gui)
 
 ## Build
