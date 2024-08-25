@@ -8,8 +8,6 @@ The first objective is to have simple tools to interact with m.db database.
 
 Some features about StageLinQ will also be explored.
 
-**WARNING** StagelinQ part of v0.1.1 is not functional, only uploaded for test purposes.
-
 ## Features
 
 ### Database2/m.db
