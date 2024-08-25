@@ -1,6 +1,7 @@
 import sys
 import inspect
 import pathlib
+import shutil
 #from PySide6 import QtCore, QtGui, QtWidgets
 from PySide6.QtUiTools import QUiLoader
 from PySide6 import QtWidgets
@@ -10,7 +11,7 @@ from modules.ui.mainWindow import Ui_MainWindow
 from modules.ui.databaseColumnsSelection import Ui_Dialog
 
 from PySide6.QtCore import (QCoreApplication, QDate, QDateTime, QLocale,
-    QMetaObject, QObject, QPoint, QRect,QTimer,
+    QMetaObject, QObject, QPoint, QRect,QTimer,QFileSystemWatcher,SIGNAL,
     QSize, QTime, QUrl, Qt)
 from PySide6.QtGui import (QAction, QBrush, QColor, QConicalGradient,
     QCursor, QFont, QFontDatabase, QGradient,
@@ -44,7 +45,6 @@ class GUI():
     def log(self,text,source='GUID',severity='INFO',sameline=False):
         log(text,source=source,severity=severity,sameline=sameline);
 
-    
 class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):#(QtWidgets.QMainWindow, Ui_MainWindow):
         def __init__(self,piratengine):
             '''
@@ -72,6 +72,7 @@ class MainWindow(QtWidgets.QMainWindow, Ui_MainWindow):#(QtWidgets.QMainWindow, 
             self.piratengine.gui=self;        
            
             self.initCallbacks();
+            self.watcher=self.initFileSystemWatcher();
             
 class DatabaseColumnsSelection(QtWidgets.QDialog, Ui_Dialog):#(QtWidgets.QMainWindow, Ui_MainWindow):
         def __init__(self):
@@ -653,6 +654,70 @@ class MainWindowCustomCode():
             dlg.setWindowTitle("Error")
             dlg.setText(str(type(error).__name__) + " " + str(error))
             button = dlg.exec();
+
+    def initFileSystemWatcher(self):
+        logFile=getConfigParameter("general","logFile");
+        watcher=None
+
+        def file_changed(path):
+            if getConfigParameter('general','enableConsole') :
+                #self.logTextBrowser.append("tutu")
+                '''
+                file = open(logFile, "r")
+                content = file.read()
+                file.close()
+                '''
+                with open(logFile) as f:
+                    content=f.read()
+                    #totaLength=len(content);
+                    currentLength=len(str(self.logTextBrowser.toPlainText()));
+
+                    last_line=content[currentLength-2:]
+                    print("textBrowser "  + str(self.logTextBrowser.toPlainText()) )
+                    '''
+                    for line in f:
+                        pass
+                    last_line = line.strip().replace("\n","").replace('\r',"");
+                    '''
+
+                if last_line != "":
+                    self.logTextBrowser.append(last_line.strip());
+                    #print(str(self.logTextBrowser.blockCount()))
+
+                #self.logTextBrowser.verticalScrollBar().setValue(self.logTextBrowser.verticalScrollBar().maximum())
+
+        if os.path.exists(logFile) and getConfigParameter("general","fileLogging"):
+            self.log("logfile is " + logFile)
+            try:
+
+                self.logTextBrowser.setText("console init");
+                logBackup=logFile+".backup";
+            
+                if os.path.exists(logBackup):
+                    file = open(logFile, "r")
+                    content = file.read()
+                    file.close();
+
+                    #self.logTextBrowser.setText(content);
+
+                    with open(logBackup, "a") as myfile:
+                        myfile.write(content);
+                else:
+                    shutil.copyfile( logFile,logBackup );
+
+                os.remove(logFile);
+
+                self.log("logfile has been backed up")
+
+                fs_watcher = QFileSystemWatcher([logFile])
+                fs_watcher.connect(fs_watcher, SIGNAL('fileChanged(QString)'), file_changed);
+                watcher=fs_watcher;
+
+            except Exception as error:
+                handleErrors(error);    
+                self.log("log file watcher init error")
+
+        return watcher;     
 
     def stagelinqUpdateData(self):
         #self.log('Refresh stagelinq data');

@@ -3,6 +3,9 @@
 ## v0.1.2
 - [x] stagelinq : regression to 0.1.2 (announce IP patch automated)
 - [ ] test build & run powershell scripts
+- [ ] gui : No "Please Wait" menu while importing tracks to db and playlist
+- [x] gui : add a console log output
+- [x] gui : clean log undesired \r\n at first load and find a way to sanitize log files count
 - [ ] stagelinq : data from one player overwrites some previously sent by another
 - [ ] stagelinq : crashes program if one player is disconnected
 - [ ] stagelinq : clean way of start/stop service (close connections,...)

@@ -61,6 +61,8 @@ def log(msg,source='NONE',severity='INFO',sameline=False):
             f.write(message + "\n")
             f.close()
 
+    return msg
+
 def handleErrors(error,module="MAIN"):
     log("EXCEPTION " + str(type(error).__name__) + " " + str(error) ,module);
     stack = traceback.extract_stack()[:-3] + traceback.extract_tb(error.__traceback__);  # add limit=?? 

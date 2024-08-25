@@ -4,8 +4,9 @@ modules/ui/__pycache__/
 venv/
 utils/git_update.sh
 pcap/
-data/log.txt
+data/log*
 data/*.backup
 dist/
 build/
+piratengine/
 *.zip

@@ -3,7 +3,8 @@
         "debug": true,
         "fileLogging": true,
         "logFile": "data/log.txt",
-        "backupDbOnLoad": false
+        "backupDbOnLoad": false,
+        "enableConsole": true
     },
     "gui": {
         "lastSelectedDBPath": "/home/pwner/zikmu/EngineLibraryDebug/Database2",

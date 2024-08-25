@@ -8,12 +8,14 @@ from modules.gui import *
 
 class piratengine():
     def __init__(self):
-        self.log('###### WELCOME TO PIRATENGINE');
         self.db=None;
         self.gui=None;
         self.stagelinq=None;
+
+        self.log('###### WELCOME TO PIRATENGINE');      
                
     def log(self,text,source='PRTE',severity='INFO',sameline=False):
+
         log(text,source=source,severity=severity,sameline=sameline);
 
     def menu(self):
