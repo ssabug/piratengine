@@ -2,19 +2,19 @@
 
 ## v0.1.2
 - [x] stagelinq : regression to 0.1.2 (announce IP patch automated)
-- [ ] test build & run powershell scripts
-- [ ] gui : No "Please Wait" menu while importing tracks to db and playlist
+- [x] test build & run powershell scripts
 - [x] gui : add a console log output
 - [x] gui : clean log undesired \r\n at first load and find a way to sanitize log files count
+- [x] gui : clean GUI code structure
+- [ ] gui : improve "Please wait" widget display refresh
+- [ ] gui : No "Please Wait" menu while importing tracks to db and playlist
+- [ ] gui : create icon & add it to Qt task icon
+- [ ] gui : avoid multiple selections on same table lines to be considered
+- [ ] gui : run long task as threads / async 
+- [ ] gui : add menu to select columns to display [IN_PROGRESS] : isChecked() always return false
 - [ ] stagelinq : data from one player overwrites some previously sent by another
 - [ ] stagelinq : crashes program if one player is disconnected
 - [ ] stagelinq : clean way of start/stop service (close connections,...)
-- [ ] gui : create icon & add it to Qt task icon
-- [ ] gui : avoid multiple selections on same table lines to be considered
-- [ ] gui : improve "Please wait" widget display refresh
-- [ ] gui : clean GUI code structure
-- [ ] gui : run long task as threads / async 
-- [ ] gui : add menu to select columns to display [IN_PROGRESS] : isChecked() always return false
 - [ ] database : find a way to copy scan folder not database-referenced files to database root folder 
 - [ ] database : shitty html characters in JSON exported playlists (for é,à,.. and so on)
 
