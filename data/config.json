@@ -7,7 +7,7 @@
         "enableConsole": true
     },
     "gui": {
-        "lastSelectedDBPath": "/home/pwner/zikmu/EngineLibraryDebug/Database2",
+        "lastSelectedDBPath": "/run/media/pwner/ZIKMU/Engine Library/Database2",
         "TrackTableDisplayedKeys": [
             "path",
             "filename"

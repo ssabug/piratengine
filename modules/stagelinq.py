@@ -12,7 +12,7 @@ class stagelinq():
         self.piratengine=piratengine;
         
         self.receiveFilter=""
-        version="0.1.2"
+        version="0.2.1"
         #stagelinq 0.2.1
         if version == "0.2.1":
             self.session=PyStageLinQ.PyStageLinQ(self.new_device_found_callback, name="piratengine StagelinQ",ip=ip)

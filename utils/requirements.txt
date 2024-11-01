@@ -1,5 +1,5 @@
 mutagen
 PySide6
 python-tr
-PyStageLinQ==0.1.2
+PyStageLinQ==0.2.2.dev2
 pyinstaller

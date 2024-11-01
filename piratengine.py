@@ -1,5 +1,7 @@
 import os
 import sys
+import shutil
+import pathlib
 
 from modules.database import *
 from modules.stagelinq import *
@@ -157,18 +159,42 @@ class piratengine():
                 f.write(item+'\n');
             f.close()
                                
-    def exportPlaylist(self,db,playlistName,outfilePath):
+    def exportPlaylist(self,db,playlistName,outfilePath,copyTracks=False,relativeFilenames=True,numberedFilenames=False):
         playlistArray,trackObjectArray=db.printPlaylist(playlistName);
         excludedKeys=['trackData','overviewWaveFormData','beatData','quickCues','loops']
                                
         #extension = pathlib.Path(outfilePath).suffix[1:];
         filename,extension = os.path.splitext(outfilePath);
         extension=extension[1:]
+
+        if copyTracks:
+            head,tail=os.path.split(outfilePath);
+            tracksDestination = os.path.join(head,filename);
+            if not os.path.exists(tracksDestination):
+                self.log("Exporting playlist track to folder : " + tracksDestination);
+                os.makedirs(tracksDestination);
                                
         f = open(outfilePath, "w");
                                
         for i,item in enumerate(trackObjectArray):
-            path=item['path']                  
+
+            path=item['path'];
+
+            if copyTracks:
+                path=path.replace('../',str(pathlib.Path(self.db.path).parents[2])+'/')
+                if os.path.exists(path):
+                    
+                    head,tail=os.path.split(path);
+                    if not numberedFilenames:
+                        trackDestinationName=tail
+                    else:
+                        trackDestinationName = str(i+1) + " - " + tail
+                    shutil.copyfile(path, os.path.join(tracksDestination,trackDestinationName));
+                    if relativeFilenames:
+                        head,tail=os.path.split(trackDestinationName);
+                        trackDestinationName=os.path.join(tracksDestination,tail)
+                    path=trackDestinationName;
+
             if extension == 'txt':
                 f.write(path+'\n');
             
@@ -191,6 +217,7 @@ class piratengine():
                     f.write('\n');
                 f.write('#EXTINF:-1 ' + os.path.basename(path) +'\n');
                 f.write(item+'\n');
+
                                
         if extension == 'json':           
             f.write(json.dumps(jsonDict));

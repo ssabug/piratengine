@@ -29,13 +29,14 @@ function install {
     if (Test-Path -Path "$venvDir") {
     echo "${pr}VENV directory already created, no librairies will be installed"
     } else {
-    echo "${pr}Creating VENV"
+        echo "${pr}Creating VENV"
         python -m venv venv
+        echo "${pr}Activating VENV"
         .\venv\Scripts\Activate.ps1 
         echo "${pr}Installing libraries"
         pip install -r utils\requirements.txt    
         #use the line below if PyStageLinQ version is 0.1.2
-        patch
+        #patch
     }
 }
 

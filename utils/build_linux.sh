@@ -24,7 +24,7 @@ install() {
         echo "${pr}Installing libraries"
         pip install -r utils/requirements.txt
         #use the line below if PyStageLinQ version is 0.1.2
-        patch
+        #patch
     fi
 }
 

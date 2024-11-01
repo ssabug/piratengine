@@ -1,11 +1,8 @@
 # TODO
 
-## v0.1.2
-- [x] stagelinq : regression to 0.1.2 (announce IP patch automated)
-- [x] test build & run powershell scripts
-- [x] gui : add a console log output
-- [x] gui : clean log undesired \r\n at first load and find a way to sanitize log files count
-- [x] gui : clean GUI code structure
+## v0.1.3
+- [x] gui : add function to export all music files from one/several playlist files in a directory [TO_BE_TESTED]
+- [ ] stagelinq : test new pyStageLinQ code
 - [ ] gui : improve "Please wait" widget display refresh
 - [ ] gui : No "Please Wait" menu while importing tracks to db and playlist
 - [ ] gui : create icon & add it to Qt task icon
@@ -17,6 +14,13 @@
 - [ ] stagelinq : clean way of start/stop service (close connections,...)
 - [ ] database : find a way to copy scan folder not database-referenced files to database root folder 
 - [ ] database : shitty html characters in JSON exported playlists (for é,à,.. and so on)
+
+## v0.1.2
+- [x] stagelinq : regression to 0.1.2 (announce IP patch automated)
+- [x] test build & run powershell scripts
+- [x] gui : add a console log output
+- [x] gui : clean log undesired \r\n at first load and find a way to sanitize log files count
+- [x] gui : clean GUI code structure
 
 ## v0.1.1
 - [x] stagelinq : add ip filter
