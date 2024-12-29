@@ -1,11 +1,37 @@
 import datetime
 import os
+import sys
+import shutil
 import traceback
 import json
 import mutagen
 from math import floor
 
-configFilePath='data/config.json';
+def getHomeDir():
+    detectedOS=sys.platform.lower();
+    homeDirectory=os.path.expanduser("~");
+    programConfigDirectory="piratengine";
+    configSubDir="";
+
+    if "linux" in detectedOS:
+        configSubDir=os.path.join(".config",programConfigDirectory);
+    elif detectedOS == "darwin":
+        configSubDir=os.path.join("Documents",programConfigDirectory);
+    elif "win" in detectedOS :
+        configSubDir=os.path.join(".config",programConfigDirectory);
+
+    if configSubDir != "":
+        configDirectory=os.path.abspath(os.path.join(homeDirectory,configSubDir));
+        return configDirectory;
+        
+    return None;
+
+if getHomeDir() != None:
+    configFilePath=os.path.join(getHomeDir(),"config.json");
+    if not os.path.exists(configFilePath):
+        configFilePath=os.path.join("data","config.json");
+else:
+    configFilePath=os.path.join("data","config.json");
 
 def getConfigParameter(section,parameter): 
     f=open(configFilePath);
@@ -33,8 +59,45 @@ def setConfigParameter(section,parameter,value):
     f=open(configFilePath, "w");
     f.write(jsonOutput, );
 
+def getConfigDirectory():
+    global configFilePath;
+    detectedOS=sys.platform.lower();
+    homeDirectory=os.path.expanduser("~");
+    programConfigDirectory="piratengine";
+    configSubDir="";
 
-    
+    if "linux" in detectedOS:
+        configSubDir=os.path.join(".config",programConfigDirectory);
+    elif detectedOS == "darwin":
+        configSubDir=os.path.join("Documents",programConfigDirectory);
+    elif "win" in detectedOS :
+        configSubDir=os.path.join(".config",programConfigDirectory);
+
+    if configSubDir != "":
+        configDirectory=os.path.abspath(os.path.join(homeDirectory,configSubDir));
+        
+        if not os.path.exists(configDirectory):
+            print("creating folder : " + configDirectory);
+            os.makedirs(configDirectory);
+        if not os.path.exists(configDirectory):
+            print("error configuration directory not found : " + configDirectory);
+            return None;
+
+        homeConfigFilePath=os.path.join(configDirectory,"config.json")
+        if not os.path.exists(homeConfigFilePath):
+            shutil.copyfile(configFilePath,homeConfigFilePath);
+            configFilePath=homeConfigFilePath;
+            logFilePathNew=os.path.join(configDirectory,"log.txt");
+            setConfigParameter('general','logFile',logFilePathNew);
+            setConfigParameter('gui','lastSelectedDBPath',"");
+            if "logFile" in globals():
+                global logFile;
+                logFile=getConfigParameter('general','logFile');
+
+        configFilePath=homeConfigFilePath;
+        return configDirectory;
+    else:
+        return None
 
 debug=getConfigParameter('general','debug');
 fileLogging=getConfigParameter('general','fileLogging');

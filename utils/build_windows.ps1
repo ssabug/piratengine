@@ -2,12 +2,14 @@
 $programName="piratengine"
 $system="windows"
 $workingDir="$(Get-Location)"
-$version="0.1.2"
+$version = [IO.File]::ReadAllText(".\VERSION")
 $buildDir="${workingDir}\build"
 $distDir="${workingDir}\dist"
 $venvDir="${workingDir}\venv"
+$requirementsFilePath="${workingDir}\utils\requirements.txt"
 $buildZip="y"
 $deleteBuildFiles="y"
+
 $pr="////////////////////////// "
 
 echo "${pr}Troubleshooting :"
@@ -27,17 +29,18 @@ function patch {
 
 function install {
     if (Test-Path -Path "$venvDir") {
-    echo "${pr}VENV directory already created, no librairies will be installed"
+    echo "${pr}VENV directory already created"
     } else {
         echo "${pr}Creating VENV"
         python -m venv venv
-        echo "${pr}Activating VENV"
-        .\venv\Scripts\Activate.ps1 
-        echo "${pr}Installing libraries"
-        pip install -r utils\requirements.txt    
-        #use the line below if PyStageLinQ version is 0.1.2
-        #patch
+        
     }
+    echo "${pr}Activating VENV"
+    .\venv\Scripts\Activate.ps1 
+    echo "${pr}Installing libraries"
+    pip install -r "${requirementsFilePath}"   
+    #use the line below if PyStageLinQ version is 0.1.2
+    #patch
 }
 
 function cleanDirs {

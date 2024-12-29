@@ -35,11 +35,17 @@ class database():
             dateStr=dateStr.replace('-','');
             dateStr=dateStr.replace(' ','_');
 
-            destPath=os.path.join('data',os.path.basename(self.path)+'_'+ dateStr + '.backup')
-
-            self.log('Making DB backup copy to ' + destPath)
-            shutil.copyfile(self.path,destPath);
-            return destPath;
+            configPath=getConfigDirectory();
+            if configPath != None:
+                destPath=os.path.join(configPath,os.path.basename(self.path)+'_'+ dateStr + '.backup');
+                self.log('Making DB backup copy to ' + destPath)
+                shutil.copyfile(self.path,destPath);
+                return destPath;
+            else:
+                msg='Config path not found ';
+                self.log(msg);
+                return msg;
+            
         else:
             msg='Database path not found : ' + self.path;
             self.log(msg);

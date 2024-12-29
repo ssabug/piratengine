@@ -308,6 +308,10 @@ def main():
             printHelp();
             exit();
 
+    if getConfigDirectory() == None:
+        print("error while getting config directory");
+        exit();
+
     p=piratengine();
 
     if useGui:

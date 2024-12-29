@@ -1,11 +1,13 @@
 programName="piratengine"
 system="linux"
-version=0.1.2
+version=$(cat VERSION)
 buildDir="build"
 distDir="dist"
 venvDir="venv"
+requirementsFilePath="utils/requirements.txt"
 buildZip="y"
 deleteBuildFiles="y"
+
 pr="////////////////////////// "
 
 patch() {
@@ -16,16 +18,17 @@ patch() {
 install() {
 
     if [ -d "${venvDir}" ]; then
-        echo "${pr}VENV directory already created, no librairies will be installed"
+        echo "${pr}VENV directory already created"
     else
         echo "${pr}Creating VENV"
-        python -m venv venv
-        source venv/bin/activate
-        echo "${pr}Installing libraries"
-        pip install -r utils/requirements.txt
-        #use the line below if PyStageLinQ version is 0.1.2
-        #patch
+        python -m venv venv 
     fi
+    echo "${pr}Activating VENV"
+    source venv/bin/activate
+    echo "${pr}Installing libraries"
+    pip install -r "${requirementsFilePath}"
+    #use the line below if PyStageLinQ version is 0.1.2
+    #patch
 }
 
 cleanDirs() {
@@ -44,11 +47,10 @@ deleteFiles() {
 prepareBinary() {
 
     echo "${pr}Creating binary"
-    source venv/bin/activate
-
+    
     python -O -m PyInstaller piratengine.py
 
-    echo "${pr}Installing libraries"
+    echo "${pr}Copying program data & doc"
 
     dataDestDir="${distDir}/${programName}/data"
     mkdir -p "${dataDestDir}"

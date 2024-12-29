@@ -44,7 +44,7 @@ Some features about StageLinQ will also be explored.
 ## Installation
  - download release or build binary
  - extract files in the desired folder (binary and data files must stay in the same directory)
- - you can edit some options in `data/config.json`
+ - user files (config file,log,backups) are in `~/.config/piratengine` (unix) or `$HOME\Documents\piratengine` (windows)
 
 ## Running
  - double click on `piratengine`. 

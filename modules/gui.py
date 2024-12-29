@@ -472,6 +472,18 @@ class MainWindowCustomCode():
             button = dlg.exec();
 
         else:
+            msgBox = QMessageBox()
+            msgBox.setText("Export tracks")
+            msgBox.setInformativeText("Do you want to copy tracks with the playlist file(s)")
+            msgBox.setStandardButtons(QMessageBox.Yes | QMessageBox.No )
+            msgBox.setDefaultButton(QMessageBox.No )
+            ret = msgBox.exec()
+
+            if ret == QMessageBox.Yes:
+                exportTracks=True;
+            else:
+                exportTracks=False;
+
             for i,sel in enumerate(selected):
                 playlist=self.piratengine.db.Playlist.data[sel.row()]['title']
                 self.log('Playlist ' + playlist )
@@ -488,7 +500,7 @@ class MainWindowCustomCode():
                     extension=dialog[1][dialog[1].index('*.')+2:-1];
                     outfilePath=dialog[0]+'.'+extension;
                     self.log('Exported file : ' + outfilePath)
-                    self.piratengine.exportPlaylist(self.piratengine.db,playlist,outfilePath);
+                    self.piratengine.exportPlaylist(self.piratengine.db,playlist,outfilePath,copyTracks=exportTracks,relativeFilenames=exportTracks);
 
     def ImportToPlaylistButton_click(self):
 
